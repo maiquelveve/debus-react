@@ -2,9 +2,11 @@ import React from 'react';
 
 function Footer() {
     return (
-        <div>
-            <h1>FOOTER</h1>
-        </div>
+        <footer class="py-5">
+            <div class="container">
+            <p class="m-0 text-center text-black-50">Copyright &copy; DeBus 2020</p>
+            </div>
+        </footer>
     );
 }
 
