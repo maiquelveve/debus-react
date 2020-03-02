@@ -15,10 +15,10 @@ function Header() {
                             <Link className="nav-link active" to="/viagens">Viagens</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link active" to="usuarios/cadastrar">Cadastre-se</Link>
+                            <Link className="nav-link active" to="cadastrarUsuarios">Cadastre-se</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link active" to="/usuarios/login">Login</Link>
+                            <Link className="nav-link active"  to="/login">Login</Link>
                         </li>
                     </ul>
                 </div>
