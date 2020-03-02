@@ -12,13 +12,13 @@ function Header() {
                 <div className="collapse navbar-collapse" id="navbarResponsive">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <Link className="nav-link active" to="/viagens">Viagens</Link>
+                            <Link className="nav-link active" to="/viagens/minhasViagens">Viagens</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link active" to="cadastrarUsuarios">Cadastre-se</Link>
+                            <Link className="nav-link active" to="/usuarios/cadastrar">Cadastre-se</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link active"  to="/login">Login</Link>
+                            <Link className="nav-link active"  to="/usuarios/login">Login</Link>
                         </li>
                     </ul>
                 </div>
