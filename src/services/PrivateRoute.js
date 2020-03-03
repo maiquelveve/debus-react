@@ -3,12 +3,12 @@ import {Redirect, Route} from 'react-router-dom'
 
 import { autenticado } from './auth'
 
-const PrivateRoute = ( {component: Componente,  userLogado: userLogado,...rest}) => (
+const PrivateRoute = ( {component: Componente,...rest}) => (
     <Route 
         {...rest} 
             render = { 
                 props => (
-                    autenticado(userLogado) ? (
+                    autenticado() ? (
                         <Componente {...props} /> 
                     ) : (
                         <Redirect to={{pathname:"/", state: {from: props.location } }} />

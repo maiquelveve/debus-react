@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { autenticado } from '../../services/auth';
 
-function Cadastrar() {
+function Cadastrar(props) {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
     const [nome, setNome] = useState('')
+
+    //Para não permitir que usuarios logados acessem essa página, só lembrando que isso funciona com o method ComponentDidMount()
+    useEffect(
+        () => {
+            if(autenticado()) {
+                props.history.replace('/')
+            }
+        },
+        []
+    )
 
     function cadastrar(e){
         e.preventDefault()

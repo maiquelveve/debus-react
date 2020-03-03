@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
+import Menus from '../Menus';
+
 function Header() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
@@ -10,17 +12,7 @@ function Header() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarResponsive">
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <Link className="nav-link active" to="/viagens/minhasViagens">Viagens</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link active" to="/usuarios/cadastrar">Cadastre-se</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link active"  to="/usuarios/login">Login</Link>
-                        </li>
-                    </ul>
+                    <Menus />
                 </div>
             </div>
         </nav>
