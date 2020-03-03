@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { autenticado } from '../../services/auth';
 import api from '../../services/api';
+import AlertasResultados from '../../components/AlertasResultados';
+import { $CombinedState } from 'redux';
 
 function Cadastrar(props) {
     const [email, setEmail] = useState('')
@@ -8,7 +10,7 @@ function Cadastrar(props) {
     const [nome, setNome] = useState('')
     const [erros, setErros] = useState([])
     const [success, setSuccess] = useState([])
-
+    const [statusResultado, setStatusResultado] = useState('');
     //Para não permitir que usuarios logados acessem essa página, só lembrando que isso funciona com o method ComponentDidMount()
     useEffect(
         () => {
@@ -21,17 +23,28 @@ function Cadastrar(props) {
 
     async function cadastrar(e){
         e.preventDefault()
+
         let usuario = {
             st_nome: nome,
             st_email: email,
             st_senha: senha
         }
 
+        //Zerando as States para não ficar aparecendo as duas mensagens
+        setErros([])
+        setSuccess([])
+        setStatusResultado('')
+        
         try {
             let resultado = await api.post('/usuarios/cadastrar', usuario)
+            setStatusResultado(resultado.data[0].success >= 1 ?  'success' : 'error') 
             
             if(resultado.data[0].success >= 1) {
                 setSuccess(['Usuário Cadastrado com sucesso!'])
+                setNome('')
+                setEmail('')
+                setSenha('')
+
             } else {
                 resultado.data.shift()
                 setErros(resultado.data)
@@ -42,25 +55,24 @@ function Cadastrar(props) {
         }
     }
 
+    function fecharMsg() {
+        setErros([])
+        setSuccess([])
+    }
+
     return (
         <div className="container-fluid h-100 mt-5">
-            {erros.length !== 0 &&
-                
-                <div className="alert alert-danger">
-                    <ul>
-                        <li>ERROS</li>
-                    </ul>
-                </div>
-                   
+            
+            {(erros.length !== 0 || success.length !== 0)  &&
+                <div className="row justify-content-center align-items-center h-100" onClick={fecharMsg} id="alert-msg">
+                    <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                        <AlertasResultados statusResultado={statusResultado} msg={erros} />                   
+                    </div>
+                </div>    
             }
-             
-            {success.length !== 0 &&
-                <div className="alert alert-success">
-                    <ul>
-                        <li>SUCESSO</li>
-                    </ul>
-                </div>
-            }
+ 
+            
+
             <div className="row justify-content-center align-items-center h-100">
                 <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <form onSubmit={cadastrar}>
