@@ -20,6 +20,14 @@ function Cadastrar(props) {
         []
     )
 
+    //Só tem isso para quando o cara começar a digitar sumir o alert
+    useEffect(
+        () => {
+            setResultado([])
+        },
+        [nome, email, senha]
+    )
+
     async function cadastrar(e){
         e.preventDefault()
 
@@ -33,7 +41,13 @@ function Cadastrar(props) {
         setResultado([])
 
         try {
+            let emailIndisponivel = await api.post('/usuarios/verficarEmailJaCadastrado', usuario)
             let retornoApi = await api.post('/usuarios/cadastrar', usuario)
+
+            if(emailIndisponivel.data.length >= 2) {
+                retornoApi.data.push(emailIndisponivel.data[1])
+            }
+
             setResultado(retornoApi.data)
             
             //Resultado teve sucesso apaga os inputs
@@ -42,8 +56,7 @@ function Cadastrar(props) {
                 setEmail('')
                 setSenha('')
             }
-            
-            
+
         } catch (error) {
             alert('Hovem algum problema tente novamente mais tarde')
         }
