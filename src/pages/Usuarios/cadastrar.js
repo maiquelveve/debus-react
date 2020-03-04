@@ -8,9 +8,8 @@ function Cadastrar(props) {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
     const [nome, setNome] = useState('')
-    const [erros, setErros] = useState([])
-    const [success, setSuccess] = useState([])
-    const [statusResultado, setStatusResultado] = useState('');
+    const [resultado, setResultado] = useState([]);
+
     //Para não permitir que usuarios logados acessem essa página, só lembrando que isso funciona com o method ComponentDidMount()
     useEffect(
         () => {
@@ -31,48 +30,40 @@ function Cadastrar(props) {
         }
 
         //Zerando as States para não ficar aparecendo as duas mensagens
-        setErros([])
-        setSuccess([])
-        setStatusResultado('')
-        
+        setResultado([])
+
         try {
-            let resultado = await api.post('/usuarios/cadastrar', usuario)
-            setStatusResultado(resultado.data[0].success >= 1 ?  'success' : 'error') 
+            let retornoApi = await api.post('/usuarios/cadastrar', usuario)
+            setResultado(retornoApi.data)
             
-            if(resultado.data[0].success >= 1) {
-                setSuccess(['Usuário Cadastrado com sucesso!'])
+            //Resultado teve sucesso apaga os inputs
+            if(retornoApi.data[0].success === 1) {
                 setNome('')
                 setEmail('')
                 setSenha('')
-
-            } else {
-                resultado.data.shift()
-                setErros(resultado.data)
             }
-
+            
+            
         } catch (error) {
             alert('Hovem algum problema tente novamente mais tarde')
         }
     }
 
     function fecharMsg() {
-        setErros([])
-        setSuccess([])
+        setResultado([])
     }
 
     return (
         <div className="container-fluid h-100 mt-5">
             
-            {(erros.length !== 0 || success.length !== 0)  &&
+            {resultado.length !== 0  &&
                 <div className="row justify-content-center align-items-center h-100" onClick={fecharMsg} id="alert-msg">
                     <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <AlertasResultados statusResultado={statusResultado} msg={erros} />                   
+                        <AlertasResultados resultado={resultado} objeto="Usuários" acao="Cadastrado" />                   
                     </div>
                 </div>    
             }
  
-            
-
             <div className="row justify-content-center align-items-center h-100">
                 <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <form onSubmit={cadastrar}>
