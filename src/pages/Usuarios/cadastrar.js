@@ -40,21 +40,8 @@ function Cadastrar(props) {
         setResultado([])
 
         try {
-            let emailIndisponivel = await api.post('/usuarios/verficarEmailJaCadastrado', usuario)
             let retornoApi = await api.post('/usuarios/cadastrar', usuario)
-
-            if(emailIndisponivel.data.length >= 2) {
-                retornoApi.data.push(emailIndisponivel.data[1])
-            }
-
             setResultado(retornoApi.data)
-            
-            //Resultado teve sucesso apaga os inputs
-            if(retornoApi.data[0].success === 1) {
-                setNome('')
-                setEmail('')
-                setSenha('')
-            }
 
         } catch (error) {
             alert('Hovem algum problema tente novamente mais tarde')
@@ -67,14 +54,15 @@ function Cadastrar(props) {
 
     return (
         <div className="container-fluid h-100 mt-5">
-            
+            {/*             
             {resultado.length !== 0  &&
                 <div className="row justify-content-center align-items-center h-100" onClick={fecharMsg} id="alert-msg">
                     <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
                         <AlertasResultados resultado={resultado} objeto="Usuários" acao="Cadastrado" />                   
                     </div>
                 </div>    
-            }
+            } 
+            */}
  
             <div className="row justify-content-center align-items-center h-100">
                 <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
