@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { autenticado } from '../../services/auth';
 import api from '../../services/api';
 import AlertasResultados from '../../components/AlertasResultados';
-import { $CombinedState } from 'redux';
 
 function Cadastrar(props) {
     const [email, setEmail] = useState('')
