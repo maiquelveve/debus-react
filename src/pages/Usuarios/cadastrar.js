@@ -26,14 +26,15 @@ function Cadastrar(props) {
         (e) => {
             e.preventDefault()
             setFormErrors([])
+            
             async function cadastrar(){
+                //Validando os dados INICIO
                 let usuarioParaValidacao = {
                     Nome: nome,
                     Email: email,
                     Senha: senha
                 }
         
-                //validando os dados
                 yup.setLocale(validacaoDefinicao);
                 const addressSchema = yup.object().shape({
                     Nome: yup
@@ -62,7 +63,8 @@ function Cadastrar(props) {
                         })
                         
                         return errosValidados;
-                    })
+                })
+                //Validando os dados FINAL
 
                 try {
                     let usuario = {
