@@ -73,8 +73,9 @@ function Cadastrar(props) {
                         st_senha: senha
                     }
 
-                    if(errosValidados[0].success !== 0){
-                        const retornoApi = await api.post('/usuarios/cadastrar', usuario)
+                    if(errosValidados[0].success !== 0) {
+                        //Sem a function validateStatus se a requisição não for status 200 cai no catch, agora só cai no catch se for status 500
+                        const retornoApi = await api.post('/usuarios/cadastrar', usuario, {validateStatus: status => status < 500})
                         
                         if(retornoApi.data[0].success !== 0) {
                             setNome('')
@@ -89,7 +90,7 @@ function Cadastrar(props) {
                     setFormErrors(errosValidados)
 
                 } catch (error) {
-                    alert('Hovem algum problema tente novamente mais tarde. '+ error)
+                    alert('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
                 }
             }
 
