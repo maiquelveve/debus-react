@@ -17,12 +17,19 @@ function AlertasResultados(props) {
             );
 
         case 'error': 
-            props.resultado.shift()                
+            //Tem isso para nao dar pau. Não sei o que acontece...só da pau e da ruim ai mesmo com erro cai no isso do sucesso da pagina que chama    
+            let erros = []
+            props.resultado.map( err => {
+                if(err.msg !== 'formError') {
+                    erros = [...erros, err]
+                }
+            });
+            
             return(                
                 <div className="alert alert-danger">
                     <h6>{`${props.objeto} não pode ser ${props.acao}!`}</h6>
                     <ul>
-                        { props.resultado.map( erro => (
+                        { erros.map( erro =>  (
                             <li key={erro.msg}>{erro.msg}</li>
                         ))}
                     </ul>
