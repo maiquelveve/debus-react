@@ -65,7 +65,6 @@ function Cadastrar(props) {
                     })
 
                 try {
-                    
                     let usuario = {
                         st_nome: nome,
                         st_email: email,
@@ -73,19 +72,22 @@ function Cadastrar(props) {
                     }
 
                     if(errosValidados[0].success !== 0){
-                        let retornoApi = await api.post('/usuarios/cadastrar', usuario)
-            
-                        if(retornoApi.data[0].success >= 1) {
+                        const retornoApi = await api.post('/usuarios/cadastrar', usuario)
+                        
+                        if(retornoApi.data[0].success !== 0) {
                             setNome('')
                             setEmail('')
                             setSenha('')
+                        } else {
+                            errosValidados[0].success = 0;
+                            errosValidados[0].msg = retornoApi.data[0].msg
                         }
                     }
-
+                    
                     setFormErrors(errosValidados)
 
                 } catch (error) {
-                    alert('Hovem algum problema tente novamente mais tarde')
+                    alert('Hovem algum problema tente novamente mais tarde. '+ error)
                 }
             }
 
