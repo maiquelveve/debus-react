@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {Link} from 'react-router-dom'
 
 import { autenticado } from '../../services/auth';
 
 function Menus() {
-    function sair() {
-        localStorage.removeItem('userToken'); 
-        window.location.reload('/')
-    }
+    
+    const handleSair = useCallback(
+        () => {
+            function sair() {
+                localStorage.removeItem('userToken'); 
+                localStorage.removeItem('userActive'); 
+                window.location.reload('/')
+            }
+
+            sair()
+        },
+        []
+    )
 
     return (
         <ul className="navbar-nav ml-auto">
@@ -18,7 +27,7 @@ function Menus() {
                         <Link className="nav-link active" to="/viagens/minhasViagens">Viagens</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link active" onClick={ sair } to="" >Sair</Link>
+                        <Link className="nav-link active" onClick={ handleSair } to="" >Sair</Link>
                     </li>
                 </>    
             }
