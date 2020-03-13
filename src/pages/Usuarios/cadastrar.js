@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { autenticado } from '../../services/auth';
+import {autenticado, validaToken } from '../../services/auth';
 import * as yup from 'yup';
 import api from '../../services/api';
 
@@ -15,12 +15,18 @@ function Cadastrar(props) {
     //Para não permitir que usuarios logados acessem essa página, só lembrando que isso funciona com o method ComponentDidMount()
     useEffect(
         () => {
-            if(autenticado()) {
-                props.history.replace('/')
+            async function fetchData() {
+                const userAuth = await autenticado()
+                const token = await validaToken()
+
+                if( userAuth || token) {
+                    token === true ? props.history.replace('/') : window.location.reload()
+                }
             }
+            fetchData()
         },
         []
-    )
+    )    
 
     const handleCadastrar = useCallback(
         (e) => {

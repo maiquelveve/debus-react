@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {withRouter} from 'react-router-dom';
 
 import api from '../../services/api';
-import {autenticado}  from '../../services/auth';
+import {validaToken, autenticado}  from '../../services/auth';
 
 function Login({history}) {
     const [email, setEmail] = useState('')
@@ -12,12 +12,18 @@ function Login({history}) {
     //Para não permitir que usuarios logados acessem essa página, só lembrando que isso funciona com o method ComponentDidMount()
     useEffect(
         () => {
-            if(autenticado()) {
-                history.replace('/')
+            async function fetchData() {
+                const userAuth = await autenticado()
+                const token = await validaToken()
+
+                if( userAuth || token) {
+                    token === true ? history.replace('/') : window.location.reload()
+                }
             }
+            fetchData()
         },
         []
-    )
+    ) 
 
     useEffect(
         () => {

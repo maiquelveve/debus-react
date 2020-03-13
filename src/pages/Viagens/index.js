@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
+import {withRouter} from 'react-router-dom';
+
+import {validaTokenApi, autenticado}  from '../../services/auth';
 
 function Viagens() {
     return (
@@ -8,4 +11,4 @@ function Viagens() {
     );
 }
 
-export default Viagens;
+export default withRouter(Viagens);
