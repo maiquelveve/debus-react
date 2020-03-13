@@ -19,6 +19,7 @@ export const validaToken = async () => {
             return false;
         } 
 
+        api.defaults.headers.common['auth'] = localStorage.userToken;  
         const result = await api.post('/config/validaToken', {}, {validateStatus: status => status < 500});
         
         if(!result.data.success) {

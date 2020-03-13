@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom'
+import { validaToken } from '../../services/auth';
 
 function Home() {
+    useEffect(
+        () => {
+            async function fetchData() {
+                if( localStorage.userToken ) {
+                    const token = await validaToken()
+                    if(!token) {
+                        window.location.reload('/')
+                    }
+                }
+            }
+            fetchData()
+        },
+        []
+    )  
+
     return (
         <div className="container">
             <header className="jumbotron my-4">
