@@ -25,7 +25,7 @@ function Cadastrar(props) {
             }
             fetchData()
         },
-        []
+        [props.history]//inicialmente era [], não sei se não vai estragar algo, coloquei o history para tirar os warning do console
     )    
 
     const handleCadastrar = useCallback(
@@ -102,7 +102,7 @@ function Cadastrar(props) {
 
             cadastrar()
         },
-        [nome,email, senha, formErrors]
+        [nome,email, senha]
     )    
 
     const handleLimparFormErrosKeyPress = useCallback(

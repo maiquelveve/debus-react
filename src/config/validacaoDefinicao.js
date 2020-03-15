@@ -1,7 +1,7 @@
 const validacaoDefinicao = 
 {
     mixed: {
-        default: '${path} Não é válido',
+        default: "${path} Não é válido",
         required: "${path} é um campo obrigatório"
     },
     string: {

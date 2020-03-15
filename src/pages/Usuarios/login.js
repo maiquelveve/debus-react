@@ -22,7 +22,7 @@ function Login({history}) {
             }
             fetchData()
         },
-        []
+        [history]//inicialmente era [], não sei se não vai estragar algo, coloquei o history para tirar os warning do console
     ) 
 
     useEffect(
@@ -59,7 +59,7 @@ function Login({history}) {
 
             login()
         },
-        [erros, email, senha]
+        [email, senha]
     )    
 
     return (
@@ -67,6 +67,7 @@ function Login({history}) {
             { erros.length !== 0 &&
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="alert alert-danger col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                        <h6>Falha no Login!</h6>
                         <ul>
                             { 
                                 erros.map( 

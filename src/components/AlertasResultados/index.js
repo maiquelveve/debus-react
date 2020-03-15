@@ -35,6 +35,16 @@ function AlertasResultados(props) {
                     </ul>
                 </div>
             );
+        
+        default:
+            return(                
+                <div className="alert alert-danger">
+                    <h6>{`${props.objeto} não pode ser ${props.acao}!`}</h6>
+                    <ul>
+                        <li>Ocorreu um erro. Tente novamente mais tarde!</li>
+                    </ul>
+                </div>
+            );
     }
     
 }
