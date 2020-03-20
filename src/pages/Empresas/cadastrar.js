@@ -1,14 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import {withRouter} from 'react-router-dom';
+import * as yup from 'yup';
 
 import {validaToken} from '../../services/auth';
 import api from '../../services/api';
+import AlertasResultados from '../../components/AlertasResultados';
+import validacaoDefinicao from '../../config/validacaoDefinicao';
 
 function Cadastrar() {
 
     const [nome, setNome] = useState('')
     const [recefi, setRecefi] = useState('')
     const [celular, setCelular] = useState('')
+    const [resultado, setResultado] = useState([])
 
 
     useEffect(
@@ -28,22 +32,71 @@ function Cadastrar() {
     const handleSubmitCadastrar = useCallback(
         e => {
             e.preventDefault()
+            setResultado([])
 
             async function cadastrar() {
-                const empresa = {
-                    st_nome: nome,
-                    st_recefi: recefi,
-                    st_cel: celular
+
+                //Validando os dados INICIO
+                let EmpresaParaValidacao = {
+                    Nome: nome,
+                    Recefi: recefi,
+                    Celular: celular
                 }
+        
+                yup.setLocale(validacaoDefinicao);
+                const addressSchema = yup.object().shape({
+                    Nome: yup
+                        .string()
+                        .max(50)
+                        .required(),
+                        
+                    Recefi: yup
+                        .string()
+                        .max(50)
+                        .required(),
+                        
+                    Celular: yup    
+                        .string()
+                        .max(50)
+                        .required()
+                })
+
+                const errosValidados = await addressSchema.validate(EmpresaParaValidacao, { abortEarly: false })
+                    .then( () =>  [{ success: 1, msg:"formOk"}] )                    
+                    .catch( err => {
+                        let errosValidados =  [{success: 0, msg: 'formError'}]
+                        err.errors.map( err => {
+                            errosValidados = [...errosValidados, { msg: err}];
+                        })
+                        
+                        return errosValidados;
+                })
+                //Validando os dados FINAL
 
                 try {
-                    //Cadastra na API
-                    api.defaults.headers.common['auth'] = localStorage.userToken; 
-                    const retornoApi = await api.post('/empresas', empresa, {validateStatus: status => status < 500});
-                    console.log(retornoApi);
-                    //Continuar depois que ajustar a API para o toque ver validado
+                    if(errosValidados[0].success === 1) {
+                        const empresa = {
+                            st_nome: nome,
+                            st_recefi: recefi,
+                            st_cel: celular
+                        }
 
+                        //Cadastra na API
+                        api.defaults.headers.common['auth'] = localStorage.userToken; 
+                        const retornoApi = await api.post('/empresas', empresa, {validateStatus: status => status < 500});
 
+                        if(retornoApi.data[0].success === 1) {
+                            setNome('')
+                            setRecefi('')
+                            setCelular('')
+                        }
+                        
+                        setResultado(retornoApi.data)
+
+                    } else {
+                        setResultado(errosValidados)
+                    }    
+                    
                 } catch (error) {
                     alert('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
                 }
@@ -54,16 +107,23 @@ function Cadastrar() {
         [nome, recefi, celular]
     )
 
+    const handleLimparResultado = useCallback(
+        () => {
+            setResultado([])
+        },
+        [resultado]
+    )
+
     return (
         <div className="container-fluid h-100 mt-5">
                          
-            {/* {formErrors.length !== 0  &&
+            {resultado.length !== 0  &&
                 <div className="row justify-content-center align-items-center h-100" id="alert-msg">
                     <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <AlertasResultados resultado={formErrors} objeto="Usuários" acao="Cadastrado" />                   
+                        <AlertasResultados resultado={resultado} objeto="Empresa" acao="Cadastrada" />                   
                     </div>
                 </div>    
-            }  */}
+            } 
  
             <div className="row justify-content-center align-items-center h-100">
                 <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
@@ -75,7 +135,7 @@ function Cadastrar() {
                                 className="form-control form-control-lg" 
                                 value={nome}
                                 onChange={e => setNome(e.target.value)} 
-                                onKeyPress ={() => {}} 
+                                onKeyPress ={handleLimparResultado} 
                                 placeholder="Informe o Nome da Empresa" 
                             />
                         </div>
@@ -86,7 +146,7 @@ function Cadastrar() {
                                 className="form-control form-control-lg" 
                                 value={recefi}
                                 onChange={e => setRecefi(e.target.value)} 
-                                onKeyPress ={() => {}} 
+                                onKeyPress ={handleLimparResultado} 
                                 placeholder="Informe o RECEFI" 
                             />
                         </div>
@@ -97,7 +157,7 @@ function Cadastrar() {
                                 className="form-control form-control-lg" 
                                 value={celular} 
                                 onChange={e => setCelular(e.target.value)} 
-                                onKeyPress ={() => {}} 
+                                onKeyPress ={handleLimparResultado} 
                                 placeholder="Informe o Celular"
                             />
                         </div>
