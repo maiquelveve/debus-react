@@ -38,6 +38,7 @@ function Cadastrar() {
 
                 try {
                     //Cadastra na API
+                    api.defaults.headers.common['auth'] = localStorage.userToken; 
                     const retornoApi = await api.post('/empresas', empresa, {validateStatus: status => status < 500});
                     console.log(retornoApi);
                     //Continuar depois que ajustar a API para o toque ver validado
