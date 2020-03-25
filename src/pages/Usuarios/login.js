@@ -64,37 +64,43 @@ function Login({history}) {
 
     return (
         <div className="container-fluid h-100 mt-5">   
-            { erros.length !== 0 &&
-                <div className="row justify-content-center align-items-center h-100">
-                    <div className="alert alert-danger col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <h6>Falha no Login!</h6>
-                        <ul>
-                            { 
-                                erros.map( 
-                                    erro => (
-                                        <li key={erro}>{erro}</li>
-                                    )
-                                ) 
-                            }
-                        </ul>
+            <div className="justify-content-center align-items-center h-100">
+                <div className="col-lg-4 col-md-6 col-sm-6 offset-lg-4 offset-md-3 offset-sm-3">
+                    <span className="anchor" id="formLogin"></span>
+                    <div className="card card-outline-secondary">
+                        <div className="card-header">
+                            <h3 className="mb-0">Login</h3>
+                        </div>
+                        <div className="card-body">
+                            { erros.length !== 0 &&
+                                <div className="alert alert-danger p-2 pb-3">
+                                    <h6>Falha no Login!</h6>
+                                    <ul>
+                                        { 
+                                            erros.map( 
+                                                erro => (
+                                                    <li key={erro}>{erro}</li>
+                                                )
+                                            ) 
+                                        }
+                                    </ul>
+                                </div>
+                            }     
+                            <form onSubmit={handleLogin}>
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <input className="form-control form-control-lg" value={email} onChange={e => setEmail(e.target.value)} placeholder="Informe Email" type="text" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Senha</label>
+                                    <input className="form-control form-control-lg" value={senha} onChange={e => setSenha(e.target.value)} placeholder="Informe a Senha" type="password" />
+                                </div>
+                                <div className="form-group">
+                                    <button type="submit" className="btn btn-success btn-lg btn-block">Entrar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            }     
-            <div className="row justify-content-center align-items-center h-100">
-                <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                    <form onSubmit={handleLogin}>
-                        <div className="form-group">
-                            <label>Email</label>
-                            <input className="form-control form-control-lg" value={email} onChange={e => setEmail(e.target.value)} placeholder="Informe Email" type="text" />
-                        </div>
-                        <div className="form-group">
-                            <label>Senha</label>
-                            <input className="form-control form-control-lg" value={senha} onChange={e => setSenha(e.target.value)} placeholder="Informe a Senha" type="password" />
-                        </div>
-                        <div className="form-group">
-                            <button type="submit" className="btn btn-dark btn-lg btn-block">Entrar</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
