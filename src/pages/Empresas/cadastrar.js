@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -163,6 +164,7 @@ function Cadastrar() {
                         </div>
                         <div className="form-group">
                             <button type="submit" className="btn btn-dark btn-lg btn-block">Cadastrar</button>
+                            <Link className="btn btn-primary btn-lg btn-block" to="listar">Voltar</Link>
                         </div>
                     </form>
                 </div>
