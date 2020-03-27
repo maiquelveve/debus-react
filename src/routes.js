@@ -6,6 +6,7 @@ import Login from './pages/Usuarios/login';
 import CadastrarUsuarios from './pages/Usuarios/cadastrar';
 import MinhasViagens from './pages/Viagens';
 import CadastrarEmpresas from './pages/Empresas/cadastrar';
+import EditarEmpresas from './pages/Empresas/editar';
 import ListarEmpresas from './pages/Empresas/listar';
 
 import Erro from './pages/Erro';
@@ -17,6 +18,7 @@ function Routes() {
         <Switch>
             <Route exact path="/" component={Home} />
             <PrivateRoute exact path="/viagens/minhasViagens" component={MinhasViagens} />
+            <PrivateRoute exact path="/empresas/editar/:id" component={EditarEmpresas} />
             <PrivateRoute exact path="/empresas/cadastrar" component={CadastrarEmpresas} />
             <PrivateRoute exact path="/empresas/listar" component={ListarEmpresas} />
             <Route exact path="/usuarios/login" component={Login} />

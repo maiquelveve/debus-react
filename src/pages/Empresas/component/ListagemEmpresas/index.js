@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { MdModeEdit } from 'react-icons/md'; 
 
 function ListagemEmpresas({empresas}) {
     return(
@@ -17,6 +19,7 @@ function ListagemEmpresas({empresas}) {
                                         <th>Razão Social</th>
                                         <th>Recefi</th>
                                         <th>Celular</th>
+                                        <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -27,6 +30,13 @@ function ListagemEmpresas({empresas}) {
                                             <td>{empresa.st_nome}</td>
                                             <td>{empresa.st_recefi}</td>
                                             <td>{empresa.st_cel}</td>
+                                            <td>
+                                                <Link to={`editar/${empresa.id}`} className="btn btn-success">
+                                                    <span>
+                                                        <MdModeEdit size={20} />
+                                                    </span>
+                                                </Link>
+                                            </td>
                                         </tr>
                                     ) )
                                 }
