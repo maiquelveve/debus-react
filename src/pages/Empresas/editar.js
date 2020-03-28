@@ -8,8 +8,7 @@ import api from '../../services/api';
 import AlertasResultados from '../../components/AlertasResultados';
 import validacaoDefinicao from '../../config/validacaoDefinicao';
 
-function Editar() {
-
+function Editar(props) {
     const [nome, setNome] = useState('')
     const [recefi, setRecefi] = useState('')
     const [celular, setCelular] = useState('')
@@ -23,6 +22,17 @@ function Editar() {
                 if(!token) {
                     window.location.reload('/')
                 } 
+
+                try { 
+                    const id_empresa = props.match.params.id;
+                    const retornoApi = await api.get(`empresas/${id_empresa}`, { headers: { 'auth': localStorage.userToken}}, {validateStatus: status => status < 500})
+                    setNome(retornoApi.data.st_nome)
+                    setRecefi(retornoApi.data.st_recefi)
+                    setCelular(retornoApi.data.st_cel)
+
+                } catch (error) {
+                    alert('Hovem algum problema ao buscar a empresa tente novamente mais tarde. Servidor com Erro 500')
+                }
             }
             fetchData()
         },
@@ -83,15 +93,8 @@ function Editar() {
                         }
 
                         //Cadastra na API
-                        api.defaults.headers.common['auth'] = localStorage.userToken; 
-                        const retornoApi = await api.post('/empresas', empresa, {validateStatus: status => status < 500});
-
-                        if(retornoApi.data[0].success === 1) {
-                            setNome('')
-                            setRecefi('')
-                            setCelular('')
-                        }
-                        
+                        const id_empresa = props.match.params.id;
+                        const retornoApi = await api.put(`/empresas/${id_empresa}`, empresa, { headers: {'auth': localStorage.userToken } }, {validateStatus: status => status < 500});
                         setResultado(retornoApi.data)
 
                     } else {
@@ -163,7 +166,7 @@ function Editar() {
                             />
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-dark btn-lg btn-block">Cadastrar</button>
+                            <button type="submit" className="btn btn-dark btn-lg btn-block">Salvar</button>
                             <Link className="btn btn-primary btn-lg btn-block" to="../listar">Voltar</Link>
                         </div>
                     </form>
