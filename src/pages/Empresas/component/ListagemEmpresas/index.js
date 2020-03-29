@@ -1,8 +1,94 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MdModeEdit } from 'react-icons/md'; 
+import { MdModeEdit, MdCancel, MdCached } from 'react-icons/md'; 
+import swal from 'sweetalert';
 
 function ListagemEmpresas({empresas}) {
+
+    const handleDesativar = useCallback(
+        empresa => {
+            function desativarEmpresa(empresa) {
+                swal(
+                    {   title: "Desativar Empresa?", 
+                        text: `Deseja realmente DESATIVAR a empresa ${empresa.st_nome}`,
+                        buttons: {
+                            cancel: {
+                                text: "NÃO",
+                                value: null,
+                                visible: true,
+                                className: "",
+                                closeModal: true,
+                              },
+                              confirm: {
+                                text: "SIM",
+                                value: true,
+                                visible: true,
+                                className: "",
+                                closeModal: true
+                              }
+                        },
+                        icon: "warning",
+                        dangerMode: true,
+                        className: "red-bg",
+                        closeOnClickOutside: false,
+                        closeOnEsc: false,
+                    }
+                ).then( value => {
+                    if(value) {
+                        alert(empresa.id)
+                        swal("Empresa Desativada com Sucesso", {
+                            icon: "success",
+                        })
+                    }        
+                });
+            }
+            desativarEmpresa(empresa)
+        },
+        []
+    )
+
+    const handleAtivar = useCallback(
+        empresa => {
+            function ativarEmpresa(empresa) {
+                swal(
+                    {   title: "Ativar Empresa?", 
+                        text: `Deseja realmente ATIVAR a empresa ${empresa.st_nome}`,
+                        buttons: {
+                            cancel: {
+                                text: "NÃO",
+                                value: null,
+                                visible: true,
+                                className: "",
+                                closeModal: true,
+                              },
+                              confirm: {
+                                text: "SIM",
+                                value: true,
+                                visible: true,
+                                className: "",
+                                closeModal: true
+                              }
+                        },
+                        icon: "warning",
+                        dangerMode: true,
+                        className: "red-bg",
+                        closeOnClickOutside: false,
+                        closeOnEsc: false,
+                    }
+                ).then( value => {
+                    if(value) {
+                        alert(empresa.id)
+                        swal("Empresa Ativada com Sucesso", {
+                            icon: "success",
+                        });
+                    }        
+                });
+            }
+            ativarEmpresa(empresa)
+        },
+        []
+    )
+
     return(
         <div className="row mt-4">
             <div className="col-lg-12">
@@ -14,7 +100,7 @@ function ListagemEmpresas({empresas}) {
                         <div className="table-responsive">
                             <table className="table table-striped">
                                 <thead>
-                                    <tr>
+                                    <tr align="center">
                                         <th>#</th>
                                         <th>Razão Social</th>
                                         <th>Recefi</th>
@@ -25,17 +111,31 @@ function ListagemEmpresas({empresas}) {
                                 <tbody>
                                 {
                                     empresas.map( empresa => (
-                                        <tr key={empresa.id}>
+                                        <tr key={empresa.id}  align="center">
                                             <th scope="row">{empresa.id}</th>
                                             <td>{empresa.st_nome}</td>
                                             <td>{empresa.st_recefi}</td>
                                             <td>{empresa.st_cel}</td>
                                             <td>
-                                                <Link to={`editar/${empresa.id}`} className="btn btn-success">
+                                                <Link to={`editar/${empresa.id}`} className="btn btn-success ml-1 mx-1">
                                                     <span>
                                                         <MdModeEdit size={20} />
                                                     </span>
-                                                </Link>
+                                                </Link> 
+                                                {empresa.ch_ativo === 'S' &&
+                                                <button type="button" className="btn btn-danger mx-1" value={empresa.id} onClick={() => handleDesativar(empresa)} >
+                                                    <span>
+                                                        <MdCancel size={20} />
+                                                    </span>
+                                                </button>   
+                                                } 
+                                                {empresa.ch_ativo === 'N' &&
+                                                <button type="button" className="btn btn-info mx-1" value={empresa.id} onClick={() => handleAtivar(empresa) }>
+                                                    <span>
+                                                        <MdCached size={20} />
+                                                    </span>
+                                                </button>       
+                                                }
                                             </td>
                                         </tr>
                                     ) )
