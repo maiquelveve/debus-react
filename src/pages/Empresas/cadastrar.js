@@ -5,8 +5,10 @@ import * as yup from 'yup';
 
 import {validaToken} from '../../services/auth';
 import api from '../../services/api';
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import AlertasResultados from '../../components/AlertasResultados';
 import validacaoDefinicao from '../../config/validacaoDefinicao';
+
 
 function Cadastrar() {
 
@@ -81,7 +83,6 @@ function Cadastrar() {
                             st_recefi: recefi,
                             st_cel: celular
                         }
-
                         //Cadastra na API
                         api.defaults.headers.common['auth'] = localStorage.userToken; 
                         const retornoApi = await api.post('/empresas', empresa, {validateStatus: status => status < 500});
@@ -99,10 +100,9 @@ function Cadastrar() {
                     }    
                     
                 } catch (error) {
-                    alert('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
+                    AlertCatch('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
                 }
             }
-
             cadastrar()
         }, 
         [nome, recefi, celular]

@@ -1,5 +1,6 @@
 import swal from 'sweetalert';
 import './styleAlerts.css'
+import { AlertCatch } from '../../../../components/AlertasDefaultSistema';
 
 export const AlertDesativarEmpresa = empresa => {
     swal({   
@@ -50,7 +51,7 @@ export const AlertDesativarEmpresa = empresa => {
             }
         }        
     }).catch(err => {
-        alert('Ocorreu um erro ao Desativar a Empresa. Tente novamente mais tarde!')
+        AlertCatch('Ocorreu um erro ao Desativar a Empresa. Tente novamente mais tarde!')
     }); 
 }
 
@@ -102,7 +103,7 @@ export const AlertAtivarEmpresa = empresa => {
             }
         }        
     }).catch(err => {
-        alert('Ocorreu um erro ao Ativar a Empresa. Tente novamente mais tarde!')
+        AlertCatch('Ocorreu um erro ao Ativar a Empresa. Tente novamente mais tarde!')
     });
 }
 

@@ -3,6 +3,7 @@ import {withRouter, Link} from 'react-router-dom';
 
 import {validaToken} from '../../services/auth';
 import api from '../../services/api';
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 import ListagemEmpresas from './component/ListagemEmpresas';
 
@@ -37,7 +38,7 @@ function Listar() {
                     setEmpresas(retornoApi.data)    
     
                 } catch (error) {
-                    alert('Erro na consulta. Tente novamente!')
+                    AlertCatch('Erro na consulta. Tente novamente!')
                 }
             }
             listarEmpresas()

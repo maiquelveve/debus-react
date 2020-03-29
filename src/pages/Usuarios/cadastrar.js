@@ -3,6 +3,7 @@ import {autenticado, validaToken } from '../../services/auth';
 import * as yup from 'yup';
 import api from '../../services/api';
 
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import AlertasResultados from '../../components/AlertasResultados';
 import validacaoDefinicao from '../../config/validacaoDefinicao';
 
@@ -78,7 +79,7 @@ function Cadastrar(props) {
                         st_email: email,
                         st_senha: senha
                     }
-
+                    
                     if(errosValidados[0].success !== 0) {
                         //Sem a function validateStatus se a requisição não for status 200 cai no catch, agora só cai no catch se for status 500
                         const retornoApi = await api.post('/usuarios/cadastrar', usuario, {validateStatus: status => status < 500})
@@ -96,7 +97,7 @@ function Cadastrar(props) {
                     setFormErrors(errosValidados)
 
                 } catch (error) {
-                    alert('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
+                    AlertCatch('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
                 }
             }
 

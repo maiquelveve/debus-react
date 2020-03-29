@@ -4,6 +4,8 @@ import {withRouter} from 'react-router-dom';
 import api from '../../services/api';
 import {validaToken, autenticado}  from '../../services/auth';
 
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
+
 function Login({history}) {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
@@ -37,24 +39,28 @@ function Login({history}) {
             e.preventDefault()
 
             async function login(e){
-    
-                const dados = {
-                    st_email: email,
-                    st_senha: senha
-                }
-
-                //Verficar na API se o email e senha estão corretos
-                const retornoApi = await api.post('/usuarios/login', dados, {validateStatus: status => status < 500});
-                const validacao = retornoApi.data
-                
-                if(validacao.success !== 0) {
-                    localStorage.userToken = validacao.token
-                    localStorage.userActive = JSON.stringify(validacao.usuario)
-                    window.location.href ='/';
+                try {
+                    const dados = {
+                        st_email: email,
+                        st_senha: senha
+                    }
                     
-                } else {
-                    setErros([validacao.msg])
-                }   
+                    //Verficar na API se o email e senha estão corretos
+                    const retornoApi = await api.post('/usuarios/login', dados, {validateStatus: status => status < 500});
+                    const validacao = retornoApi.data
+                    
+                    if(validacao.success !== 0) {
+                        localStorage.userToken = validacao.token
+                        localStorage.userActive = JSON.stringify(validacao.usuario)
+                        window.location.href ='/';
+                        
+                    } else {
+                        setErros([validacao.msg])
+                    }  
+
+                } catch (error) {
+                    AlertCatch('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
+                }
             }
 
             login()

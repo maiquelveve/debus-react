@@ -5,6 +5,7 @@ import * as yup from 'yup';
 
 import {validaToken} from '../../services/auth';
 import api from '../../services/api';
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import AlertasResultados from '../../components/AlertasResultados';
 import validacaoDefinicao from '../../config/validacaoDefinicao';
 
@@ -31,7 +32,7 @@ function Editar(props) {
                     setCelular(retornoApi.data.st_cel)
 
                 } catch (error) {
-                    alert('Hovem algum problema ao buscar a empresa tente novamente mais tarde. Servidor com Erro 500')
+                    AlertCatch('Hovem algum problema ao buscar a empresa tente novamente mais tarde. Servidor com Erro 500')
                 }
             }
             fetchData()
@@ -102,7 +103,7 @@ function Editar(props) {
                     }    
                     
                 } catch (error) {
-                    alert('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
+                    AlertCatch('Hovem algum problema tente novamente mais tarde. Servidor com Erro 500')
                 }
             }
 
