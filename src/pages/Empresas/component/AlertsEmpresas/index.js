@@ -26,23 +26,31 @@ export const AlertDesativarEmpresa = empresa => {
         className: "",
         closeOnClickOutside: false,
         closeOnEsc: false,
-    }).then( value => {
+
+    }).then( async value => {
         if(value) {
-            swal({
-                title: "Empresa Desativada!", 
-                text: `A Empresa ${empresa.st_nome} foi desativada com sucesso`, 
-                icon: "success",
-                buttons: {
-                            confirm: {
-                            text: "OK",
-                            value: true,
-                            visible: true,
-                            className: "btnConfirmAtivarEmpresa",
-                            closeModal: true
-                        }
-                },
-            });
+            try {
+                //Mandar para a API
+                swal({
+                    title: "Empresa Desativada!", 
+                    text: `A Empresa ${empresa.st_nome} foi desativada com sucesso`, 
+                    icon: "success",
+                    buttons: {
+                                confirm: {
+                                text: "OK",
+                                value: true,
+                                visible: true,
+                                className: "btnConfirmAtivarEmpresa",
+                                closeModal: true
+                            }
+                    },
+                });
+            } catch (error) {
+                throw('Erro API')    
+            }
         }        
+    }).catch(err => {
+        alert('Ocorreu um erro ao Desativar a Empresa. Tente novamente mais tarde!')
     }); 
 }
 
@@ -71,9 +79,11 @@ export const AlertAtivarEmpresa = empresa => {
             closeOnClickOutside: false,
             closeOnEsc: false,
         }
-    ).then( value => {
+    ).then( async value => {
         if(value) {
-            swal({
+            try {
+                //Mandar para a API
+                swal({
                     title: "Empresa Ativada!", 
                     text: `A Empresa ${empresa.st_nome} foi ativada com sucesso`, 
                     icon: "success",
@@ -86,8 +96,13 @@ export const AlertAtivarEmpresa = empresa => {
                                 closeModal: true
                             }
                     },
-            });
+                });
+            } catch (error) {
+                throw('Erro API')  
+            }
         }        
+    }).catch(err => {
+        alert('Ocorreu um erro ao Ativar a Empresa. Tente novamente mais tarde!')
     });
 }
 

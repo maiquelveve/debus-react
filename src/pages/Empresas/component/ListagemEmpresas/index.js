@@ -8,12 +8,7 @@ function ListagemEmpresas({empresas}) {
     const handleDesativar = useCallback(
         empresa => {
             function desativarEmpresa(empresa) {
-                try {
-                    AlertDesativarEmpresa(empresa)
-
-                } catch (error) {
-                    alert('Ocorreu um erro ao Desativar a Empresa. Tente novamente mais tarde!')
-                }
+                AlertDesativarEmpresa(empresa)
             }
             desativarEmpresa(empresa)
         },
@@ -23,12 +18,7 @@ function ListagemEmpresas({empresas}) {
     const handleAtivar = useCallback(
         empresa => {
             function ativarEmpresa(empresa) {
-                try {
-                    AlertAtivarEmpresa(empresa)
-
-                } catch (error) {
-                    alert('Ocorreu um erro ao Ativar a Empresa. Tente novamente mais tarde!')
-                }
+                AlertAtivarEmpresa(empresa)
             }
             ativarEmpresa(empresa)
         },
