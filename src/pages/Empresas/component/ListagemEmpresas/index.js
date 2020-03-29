@@ -1,46 +1,19 @@
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdModeEdit, MdCancel, MdCached } from 'react-icons/md'; 
-import swal from 'sweetalert';
+import {AlertDesativarEmpresa, AlertAtivarEmpresa} from '../AlertsEmpresas';
 
 function ListagemEmpresas({empresas}) {
 
     const handleDesativar = useCallback(
         empresa => {
             function desativarEmpresa(empresa) {
-                swal(
-                    {   title: "Desativar Empresa?", 
-                        text: `Deseja realmente DESATIVAR a empresa ${empresa.st_nome}`,
-                        buttons: {
-                            cancel: {
-                                text: "NÃO",
-                                value: null,
-                                visible: true,
-                                className: "",
-                                closeModal: true,
-                              },
-                              confirm: {
-                                text: "SIM",
-                                value: true,
-                                visible: true,
-                                className: "",
-                                closeModal: true
-                              }
-                        },
-                        icon: "warning",
-                        dangerMode: true,
-                        className: "red-bg",
-                        closeOnClickOutside: false,
-                        closeOnEsc: false,
-                    }
-                ).then( value => {
-                    if(value) {
-                        alert(empresa.id)
-                        swal("Empresa Desativada com Sucesso", {
-                            icon: "success",
-                        })
-                    }        
-                });
+                try {
+                    AlertDesativarEmpresa(empresa)
+
+                } catch (error) {
+                    alert('Ocorreu um erro ao Desativar a Empresa. Tente novamente mais tarde!')
+                }
             }
             desativarEmpresa(empresa)
         },
@@ -50,39 +23,12 @@ function ListagemEmpresas({empresas}) {
     const handleAtivar = useCallback(
         empresa => {
             function ativarEmpresa(empresa) {
-                swal(
-                    {   title: "Ativar Empresa?", 
-                        text: `Deseja realmente ATIVAR a empresa ${empresa.st_nome}`,
-                        buttons: {
-                            cancel: {
-                                text: "NÃO",
-                                value: null,
-                                visible: true,
-                                className: "",
-                                closeModal: true,
-                              },
-                              confirm: {
-                                text: "SIM",
-                                value: true,
-                                visible: true,
-                                className: "",
-                                closeModal: true
-                              }
-                        },
-                        icon: "warning",
-                        dangerMode: true,
-                        className: "red-bg",
-                        closeOnClickOutside: false,
-                        closeOnEsc: false,
-                    }
-                ).then( value => {
-                    if(value) {
-                        alert(empresa.id)
-                        swal("Empresa Ativada com Sucesso", {
-                            icon: "success",
-                        });
-                    }        
-                });
+                try {
+                    AlertAtivarEmpresa(empresa)
+
+                } catch (error) {
+                    alert('Ocorreu um erro ao Ativar a Empresa. Tente novamente mais tarde!')
+                }
             }
             ativarEmpresa(empresa)
         },
