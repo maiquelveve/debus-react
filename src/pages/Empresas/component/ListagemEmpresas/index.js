@@ -53,17 +53,19 @@ function ListagemEmpresas({empresas}) {
                                             <td>{empresa.st_recefi}</td>
                                             <td>{empresa.st_cel}</td>
                                             <td>
-                                                <Link to={`editar/${empresa.id}`} className="btn btn-success ml-1 mx-1">
-                                                    <span>
-                                                        <MdModeEdit size={20} />
-                                                    </span>
-                                                </Link> 
                                                 {empresa.ch_ativo === 'S' &&
-                                                <button type="button" className="btn btn-danger mx-1" value={empresa.id} onClick={() => handleDesativar(empresa)} >
-                                                    <span>
-                                                        <MdCancel size={20} />
-                                                    </span>
-                                                </button>   
+                                                <>
+                                                    <Link to={`editar/${empresa.id}`} className="btn btn-success ml-1 mx-1">
+                                                        <span>
+                                                            <MdModeEdit size={20} />
+                                                        </span>
+                                                    </Link> 
+                                                    <button type="button" className="btn btn-danger mx-1" value={empresa.id} onClick={() => handleDesativar(empresa)} >
+                                                        <span>
+                                                            <MdCancel size={20} />
+                                                        </span>
+                                                    </button>   
+                                                </>    
                                                 } 
                                                 {empresa.ch_ativo === 'N' &&
                                                 <button type="button" className="btn btn-info mx-1" value={empresa.id} onClick={() => handleAtivar(empresa) }>

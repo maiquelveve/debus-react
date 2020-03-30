@@ -1,3 +1,4 @@
+import api from '../../../../services/api';
 import swal from 'sweetalert';
 import './styleAlerts.css'
 import { AlertCatch } from '../../../../components/AlertasDefaultSistema';
@@ -32,6 +33,8 @@ export const AlertDesativarEmpresa = empresa => {
         if(value) {
             try {
                 //Mandar para a API
+                const retornoApi = await api.put(`/empresas/desativar/${empresa.id}`)
+                
                 swal({
                     title: "Empresa Desativada!", 
                     text: `A Empresa ${empresa.st_nome} foi desativada com sucesso`, 
@@ -84,6 +87,8 @@ export const AlertAtivarEmpresa = empresa => {
         if(value) {
             try {
                 //Mandar para a API
+                const retornoApi = await api.put(`/empresas/ativar/${empresa.id}`)
+                
                 swal({
                     title: "Empresa Ativada!", 
                     text: `A Empresa ${empresa.st_nome} foi ativada com sucesso`, 
