@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { MdModeEdit, MdCancel, MdCached } from 'react-icons/md'; 
 import {AlertDesativarEmpresa, AlertAtivarEmpresa} from '../AlertsEmpresas';
 
-function ListagemEmpresas({empresas}) {
+function ListagemEmpresas({empresas, retornoAtivacaoOuDesativacao}) {
 
     const handleDesativar = useCallback(
         empresa => {
             function desativarEmpresa(empresa) {
-                AlertDesativarEmpresa(empresa)
+                AlertDesativarEmpresa(empresa, retornoAtivacaoOuDesativacao)
             }
             desativarEmpresa(empresa)
         },
@@ -18,7 +18,7 @@ function ListagemEmpresas({empresas}) {
     const handleAtivar = useCallback(
         empresa => {
             function ativarEmpresa(empresa) {
-                AlertAtivarEmpresa(empresa)
+                AlertAtivarEmpresa(empresa, retornoAtivacaoOuDesativacao)
             }
             ativarEmpresa(empresa)
         },

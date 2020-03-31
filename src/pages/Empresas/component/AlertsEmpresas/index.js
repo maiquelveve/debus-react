@@ -3,7 +3,7 @@ import swal from 'sweetalert';
 import './styleAlerts.css'
 import { AlertCatch } from '../../../../components/AlertasDefaultSistema';
 
-export const AlertDesativarEmpresa = empresa => {
+export const AlertDesativarEmpresa = (empresa, callbackAtivacaoOuDesativacao) => {
     swal({   
         title: "Desativar Empresa?", 
         text: `Deseja realmente DESATIVAR a empresa ${empresa.st_nome}`,
@@ -48,7 +48,7 @@ export const AlertDesativarEmpresa = empresa => {
                                 closeModal: true
                             }
                     },
-                });
+                }).then( () => { callbackAtivacaoOuDesativacao() });
             } catch (error) {
                 throw('Erro API')    
             }
@@ -58,7 +58,7 @@ export const AlertDesativarEmpresa = empresa => {
     }); 
 }
 
-export const AlertAtivarEmpresa = empresa => {
+export const AlertAtivarEmpresa = (empresa, callbackAtivacaoOuDesativacao) => {
     swal({   title: "Ativar Empresa?", 
             text: `Deseja realmente ATIVAR a empresa ${empresa.st_nome}`,
             buttons: {
@@ -102,7 +102,8 @@ export const AlertAtivarEmpresa = empresa => {
                                 closeModal: true
                             }
                     },
-                });
+                }).then( () => { callbackAtivacaoOuDesativacao() });
+
             } catch (error) {
                 throw('Erro API')  
             }

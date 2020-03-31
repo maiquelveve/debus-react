@@ -8,11 +8,36 @@ import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import ListagemEmpresas from './component/ListagemEmpresas';
 
 function Listar() {
-
     const[nome, setNome] = useState('')
     const[recefi, setRecefi] = useState('')
     const[empresas, setEmpresas] = useState([])
+    const[retornoAtivaDesativacao, setRetornoAtivaDesativacao] = useState(0);
 
+    //Isso só serve para refazer a pesquisa depois que ativar ou desativar uma empresa
+    const retornoAtivacaoOuDesativacao = () =>  setRetornoAtivaDesativacao(retornoAtivaDesativacao + 1)
+
+    //Tem esse useEffect para refazer a pesquisa cada fez que retornar de uma Ativação ou Desativação
+    useEffect(
+        () => { 
+            if(retornoAtivaDesativacao !== 0) {
+                async function renovarPesquisar() {
+                    try {
+                        const params = {st_nome: nome, st_recefi: recefi}
+                        const retornoApi = await api.get('/empresas', { params, headers:{'auth': localStorage.userToken}},{validateStatus: status => status < 500});    
+                        setEmpresas(retornoApi.data)    
+        
+                    } catch (error) {
+                        AlertCatch('Erro na consulta. Tente novamente!')
+                    }
+                }
+                renovarPesquisar()
+            }
+            setRetornoAtivaDesativacao(0)
+        },
+        [retornoAtivaDesativacao]
+    )
+
+    //Simple, faz a validação do token
     useEffect(
         () => {
             async function fetchData() {
@@ -94,7 +119,7 @@ function Listar() {
                 </div> 
             </div> 
             {empresas.length !== 0 &&
-                <ListagemEmpresas empresas={empresas} />
+                <ListagemEmpresas empresas={empresas} retornoAtivacaoOuDesativacao = {retornoAtivacaoOuDesativacao} />
             }        
         </div> 
     );
