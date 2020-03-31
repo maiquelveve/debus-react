@@ -4,12 +4,14 @@ import {withRouter, Link} from 'react-router-dom';
 import {validaToken} from '../../services/auth';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
+//import {mask_cpf} from '../../services/mask';
 
 import ListagemEmpresas from './component/ListagemEmpresas';
 
 function Listar() {
     const[nome, setNome] = useState('')
     const[recefi, setRecefi] = useState('')
+    const[ativa, setAtiva] = useState('')
     const[empresas, setEmpresas] = useState([])
     const[retornoAtivaDesativacao, setRetornoAtivaDesativacao] = useState(0);
 
@@ -22,7 +24,7 @@ function Listar() {
             if(retornoAtivaDesativacao !== 0) {
                 async function renovarPesquisar() {
                     try {
-                        const params = {st_nome: nome, st_recefi: recefi}
+                        const params = {st_nome: nome, st_recefi: recefi, ch_ativo: ativa}
                         const retornoApi = await api.get('/empresas', { params, headers:{'auth': localStorage.userToken}},{validateStatus: status => status < 500});    
                         setEmpresas(retornoApi.data)    
         
@@ -58,7 +60,7 @@ function Listar() {
             
             async function listarEmpresas() {
                 try {
-                    const params = {st_nome: nome, st_recefi: recefi}
+                    const params = {st_nome: nome, st_recefi: recefi, ch_ativo: ativa}
                     const retornoApi = await api.get('/empresas', { params, headers:{'auth': localStorage.userToken}},{validateStatus: status => status < 500});    
                     setEmpresas(retornoApi.data)    
     
@@ -68,7 +70,7 @@ function Listar() {
             }
             listarEmpresas()
         },
-        [nome, recefi]
+        [nome, recefi, ativa]
     )
 
     return (
@@ -82,7 +84,7 @@ function Listar() {
                         <div className="card-body">
                             <form className="form" onSubmit={handleListar}>
                                 <div className="form-row">
-                                    <div className="form-group col-lg-6 col-md-4 col-sm-5">
+                                    <div className="form-group col-lg-4 col-md-4 col-sm-4">
                                         <label className="mr-sm-3">Razão Social</label>
                                         <input 
                                             type="text" 
@@ -90,10 +92,19 @@ function Listar() {
                                             placeholder="Nome de Empresa" 
                                             id="nome" 
                                             value={nome}
+                                            //onChange={e => setNome(mask_cpf(e.target.value))}
                                             onChange={e => setNome(e.target.value)}
                                         />
                                     </div>
-                                    <div className="form-group col-lg-2 col-md-4 col-sm-3">
+                                    <div className="form-group col-lg-2 col-md-3 col-sm-3">
+                                        <label className="mr-sm-3">Situação</label>
+                                        <select className="form-control mr-sm-4" value={ativa} onChange={ e => setAtiva(e.target.value) }>
+                                            <option value="">Selecione</option>
+                                            <option value="S">Ativa</option>
+                                            <option value="N">Desativada</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group col-lg-2 col-md-3 col-sm-3">
                                         <label className="mr-sm-3">RECEFI</label>
                                         <input 
                                             type="text" 
