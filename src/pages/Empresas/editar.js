@@ -33,6 +33,7 @@ function Editar(props) {
 
                 } catch (error) {
                     AlertCatch('Hovem algum problema ao buscar a empresa tente novamente mais tarde. Servidor com Erro 500')
+                    props.history.push('/empresas/listar')
                 }
             }
             fetchData()
@@ -120,8 +121,7 @@ function Editar(props) {
     )
 
     return (
-        <div className="container-fluid h-100 mt-5">
-                         
+        <div className="container-fluid h-100 mt-5">        
             {resultado.length !== 0  &&
                 <div className="row justify-content-center align-items-center h-100" id="alert-msg">
                     <div className="col col-sm-6 col-md-6 col-lg-4 col-xl-3">

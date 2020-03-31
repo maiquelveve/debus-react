@@ -118,8 +118,10 @@ function Listar() {
                     </div>
                 </div> 
             </div> 
-            {empresas.length !== 0 &&
+            {empresas.length !== 0 ?
                 <ListagemEmpresas empresas={empresas} retornoAtivacaoOuDesativacao = {retornoAtivacaoOuDesativacao} />
+            :
+                <p className="mt-5" align="center">Não encotramos nenhuma empresa.</p>
             }        
         </div> 
     );

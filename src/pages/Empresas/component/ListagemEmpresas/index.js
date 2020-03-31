@@ -4,7 +4,6 @@ import { MdModeEdit, MdCancel, MdCached } from 'react-icons/md';
 import {AlertDesativarEmpresa, AlertAtivarEmpresa} from '../AlertsEmpresas';
 
 function ListagemEmpresas({empresas, retornoAtivacaoOuDesativacao}) {
-
     const handleDesativar = useCallback(
         empresa => {
             function desativarEmpresa(empresa) {
