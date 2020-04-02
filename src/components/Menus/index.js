@@ -24,6 +24,9 @@ function Menus() {
             { autenticado() &&
                 <>
                     <li className="nav-item">
+                        <Link className="nav-link active" to="/veiculos/listar">Veículos</Link>
+                    </li>
+                    <li className="nav-item">
                         <Link className="nav-link active" to="/empresas/listar">Empresas</Link>
                     </li>
                     <li className="nav-item">
