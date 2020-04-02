@@ -5,12 +5,36 @@ import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import api from '../../services/api';
 import { validaToken } from '../../services/auth';
 
+import ListagemVeiculos from './component/ListagemVeiculos';
+
 function Listar() {
     const [ativo, setAtivo] = useState('')
     const [id_empresa, setIdEmpresa] = useState('')
     const [placa, setPlaca] = useState('')
     const [empresasUsuario, setEmpresasUsuario] = useState([])
     const [veiculos, setVeiculos] = useState([])
+    const [retornoAtivaDesativacao, setRetornoAtivaDesativacao] = useState(0)
+
+    const retornoAtivacaoOuDesativacao = () =>  setRetornoAtivaDesativacao(retornoAtivaDesativacao + 1)
+    useEffect(
+        () => {
+            if(retornoAtivaDesativacao !== 0) {
+                async function renovarPesquisar() {
+                    try {
+                        const params = {st_placa: placa, ch_ativo: ativo, id_empresa: id_empresa}
+                        const retornoApi = await api.get('/veiculos', {params, headers:{'auth': localStorage.userToken}}, {validateStatus: status => status < 500});    
+                        setVeiculos(retornoApi.data)    
+        
+                    } catch (error) {
+                        AlertCatch('Erro na consulta. Tente novamente!')
+                    }
+                }
+                renovarPesquisar()
+            }
+            setRetornoAtivaDesativacao(0)
+        },
+        [retornoAtivaDesativacao]
+    )
 
     //Simple, faz a validação do token
     useEffect(
@@ -43,7 +67,6 @@ function Listar() {
                 try {
                     const params = {st_placa: placa, ch_ativo: ativo, id_empresa: id_empresa}
                     const retornoApi = await api.get('/veiculos', {params, headers:{'auth': localStorage.userToken}}, {validateStatus: status => status < 500});    
-                    console.log(retornoApi.data)
                     setVeiculos(retornoApi.data)
 
                 } catch (error) {
@@ -116,7 +139,7 @@ function Listar() {
             </div> 
             {
                 veiculos.length !== 0 ?
-                    <p className="mt-5" align="center">Lista dos veículos.</p>
+                    <ListagemVeiculos veiculos={veiculos} retornoAtivacaoOuDesativacao={retornoAtivacaoOuDesativacao} />
                 :   
                     <p className="mt-5" align="center">Não encotramos nenhum veículo.</p>
             }
