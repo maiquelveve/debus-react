@@ -8,6 +8,7 @@ import MinhasViagens from './pages/Viagens';
 import CadastrarEmpresas from './pages/Empresas/cadastrar';
 import EditarEmpresas from './pages/Empresas/editar';
 import ListarEmpresas from './pages/Empresas/listar';
+import CadastrarVeiculos from './pages/Veiculos/cadastrar';
 import ListarVeiculos from './pages/Veiculos/listar';
 
 import Erro from './pages/Erro';
@@ -22,6 +23,7 @@ function Routes() {
             <PrivateRoute exact path="/empresas/editar/:id" component={EditarEmpresas} />
             <PrivateRoute exact path="/empresas/cadastrar" component={CadastrarEmpresas} />
             <PrivateRoute exact path="/empresas/listar" component={ListarEmpresas} />
+            <PrivateRoute exact path="/veiculos/cadastrar" component={CadastrarVeiculos} />
             <PrivateRoute exact path="/veiculos/listar" component={ListarVeiculos} />
             <Route exact path="/usuarios/login" component={Login} />
             <Route exact path="/usuarios/cadastrar" component={CadastrarUsuarios} />
