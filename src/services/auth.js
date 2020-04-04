@@ -1,4 +1,5 @@
 import api from './api';
+import { AlertCatch } from '../components/AlertasDefaultSistema';
 
 export const autenticado = () => {
 
@@ -30,6 +31,6 @@ export const validaToken = async () => {
         return result.data.success;        
 
     } catch (error) {
-        alert('errors')
+        AlertCatch('Ocorreu um erro na autenticação.')
     }
 }

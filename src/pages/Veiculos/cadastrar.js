@@ -12,7 +12,7 @@ function Cadastrar() {
     const [resultado, setResultado] = useState([])
     const [placa, setPlaca] = useState('')
     const [id_empresa, setIdEmpresa] = useState()
-    const [lugares, setLugares] = useState()
+    const [lugares, setLugares] = useState()//deixando assim a primeira vez que eh setado um valor no campo lugares da um erro no console pq o javascript se perde no trocar dos valores pq eh usado o onChange, e não tem valor inicial
     const [empresasUsuario, setEmpresasUsuario] = useState([])
 
     //Simple, faz a validação do token
@@ -47,6 +47,8 @@ function Cadastrar() {
     const handleCadastrar = useCallback(
         e => {
             e.preventDefault()
+            setResultado([])
+
             async function cadastrar() {
                 const veiculoParaValidacao = {
                     Placa: placa,
@@ -86,7 +88,14 @@ function Cadastrar() {
                 try {
                     if(errosValidados[0].success === 1) {
                         //Vai acessar a API e cadastrar o veiculo
-                        setResultado([{success: 1, msg: 'ok'}])
+                        const veiculo = {
+                            st_placa: placa,
+                            nr_lugares: lugares,
+                            id_empresa: id_empresa
+                        }
+                        
+                        const retornoApi = await api.post('/veiculos', veiculo, { headers: { auth: localStorage.userToken }, validateStatus: status => status < 500} )
+                        setResultado(retornoApi.data)
 
                     } else {
                         setResultado(errosValidados)
@@ -122,7 +131,7 @@ function Cadastrar() {
                                     <select className="form-control form-control-lg" value={id_empresa} onChange={e => {setIdEmpresa(e.target.value); handleLimparMsg()}}>
                                         <option value="">Selecine Empresa</option>
                                         {empresasUsuario.map( empresa => (
-                                            <option value={empresa.id}>{empresa.st_nome}</option>       
+                                            <option key={empresa.id} value={empresa.id}>{empresa.st_nome}</option>       
                                         ))}
                                     </select>    
                                 </div>
