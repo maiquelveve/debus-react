@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { MdModeEdit, MdCancel, MdCached } from 'react-icons/md';
+import InputMask from 'react-input-mask';
 import { AlertDesativarVeiculo, AlertAtivarVeiculo } from '../AlertsVeiculos';
 
 function ListagemVeiculos({veiculos, retornoAtivacaoOuDesativacao}) {
@@ -51,7 +52,18 @@ function ListagemVeiculos({veiculos, retornoAtivacaoOuDesativacao}) {
                                         <tr key={veiculo.id}  align="center">
                                             <th scope="row">{veiculo.id}</th>
                                             <td>{veiculo.st_nome}</td>
-                                            <td>{veiculo.st_placa}</td>
+                                            <td>
+                                                {   /*Foi colocado para ter a mascara na listagem, 
+                                                      foi add class e disabed para ter o mesmo efeito 
+                                                      que se fosse so o valor dentro da TD*/
+                                                    <InputMask 
+                                                        value={veiculo.st_placa} 
+                                                        mask="aaa-9*99" 
+                                                        className="form-control-plaintext text-center" 
+                                                        disabled
+                                                    />
+                                                }
+                                            </td>
                                             <td>{veiculo.nr_lugares}</td>
                                             <td>{veiculo.ch_ativo === 'S' ? 'Ativo' : 'Desativado'}</td>
                                             <td>
