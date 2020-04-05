@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter, Link } from 'react-router-dom';
+import InputMask from 'react-input-mask';
 
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import api from '../../services/api';
@@ -114,13 +115,14 @@ function Listar() {
                                     </div>
                                     <div className="form-group col-lg-2 col-md-3 col-sm-3">
                                         <label className="mr-sm-3">Placa</label>
-                                        <input 
-                                            type="text" 
+                                        <InputMask 
                                             className="form-control mr-sm-4" 
-                                            placeholder="Placa" 
-                                            id="placa" 
-                                            value={placa}
-                                            onChange={e => setPlaca(e.target.value)}
+                                            value={placa} 
+                                            placeholder="Informe Placa"
+                                            onChange={e => setPlaca(e.target.value.toUpperCase())}
+                                            mask="aaa-9*99"
+                                            maskChar= '_' // define o caracter da mask - esse já eh assim mesmo sem colocar isso
+                                            alwaysShowMask={false} //se true fica aparendo a mask se não apararece placeholder
                                         />
                                     </div>
                                     <div className="form-group col-sm-2">

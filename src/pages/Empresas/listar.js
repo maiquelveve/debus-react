@@ -4,7 +4,6 @@ import {withRouter, Link} from 'react-router-dom';
 import {validaToken} from '../../services/auth';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
-//import {mask_cpf} from '../../services/mask';
 
 import ListagemEmpresas from './component/ListagemEmpresas';
 
@@ -92,7 +91,6 @@ function Listar() {
                                             placeholder="Nome de Empresa" 
                                             id="nome" 
                                             value={nome}
-                                            //onChange={e => setNome(mask_cpf(e.target.value))}
                                             onChange={e => setNome(e.target.value)}
                                         />
                                     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import InputMask from 'react-input-mask';
 import * as yup from 'yup';
 
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
@@ -137,7 +138,15 @@ function Cadastrar() {
                                 </div>
                                 <div className="form-group">
                                     <label>Placa</label>
-                                    <input className="form-control form-control-lg" value={placa} onChange={e => {setPlaca(e.target.value); handleLimparMsg()}} placeholder="Informe Placa" type="text" />
+                                    <InputMask 
+                                            className="form-control mr-sm-4" 
+                                            value={placa} 
+                                            placeholder="Informe Placa"
+                                            onChange={e => {setPlaca(e.target.value.toUpperCase()); handleLimparMsg()}}
+                                            mask="aaa-9*99"
+                                            maskChar= '_' // define o caracter da mask - esse já eh assim mesmo sem colocar isso
+                                            alwaysShowMask={false} //se true fica aparendo a mask se não apararece placeholder
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label>Lugares</label>
