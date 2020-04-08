@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Usuarios/login';
 import CadastrarUsuarios from './pages/Usuarios/cadastrar';
 import MinhasViagens from './pages/Viagens';
+import CadastrarViagens from './pages/Viagens/cadastrar';
 import CadastrarEmpresas from './pages/Empresas/cadastrar';
 import EditarEmpresas from './pages/Empresas/editar';
 import ListarEmpresas from './pages/Empresas/listar';
@@ -21,6 +22,7 @@ function Routes() {
         <Switch>
             <Route exact path="/" component={Home} />
             <PrivateRoute exact path="/viagens/minhasViagens" component={MinhasViagens} />
+            <PrivateRoute exact path="/viagens/cadastrar" component={CadastrarViagens} />
             <PrivateRoute exact path="/empresas/editar/:id" component={EditarEmpresas} />
             <PrivateRoute exact path="/empresas/cadastrar" component={CadastrarEmpresas} />
             <PrivateRoute exact path="/empresas/listar" component={ListarEmpresas} />
