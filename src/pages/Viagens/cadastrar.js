@@ -2,10 +2,20 @@ import React, { useEffect, useState, useCallback } from 'react';
 import {withRouter, Link} from 'react-router-dom';
 
 import AlertasResultados from '../../components/AlertasResultados';
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import { validaToken }  from '../../services/auth';
+import api from '../../services/api';
 
 function Cadastrar() {
+    const[idPaisOrigem, setIdPaisOrigem] = useState(0)
+    const[idEstadoOrigem, setIdEstadoOrigem] = useState(0)
+    const[idCidadeOrigem, setIdCidadeOrigem] = useState(0)
+    const[idReferenciaOrigem, setIdReferenciaOrigem] = useState(0)
     const[resultado, setResultado] = useState([])
+    const[paisOrigem, setPaisOrigem] = useState([])
+    const[estadoOrigem, setEstadoOrigem] = useState([])
+    const[cidadeOrigem, setCidadeOrigem] = useState([])
+    const[referenciaOrigem, setReferenciaOrigem] = useState([])
 
     useEffect(
         () => {
@@ -14,12 +24,95 @@ function Cadastrar() {
                 if(!token) {
                     window.location.reload('/')
                 } 
+
+                //Carregando o combo de da tela
+                try {
+                    const retornoApi = await api.get(`/paises`)
+                    setPaisOrigem(retornoApi.data)
+                    
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar os Paises. Tente novamente mais tarde.')
+                }
             }
             fetchData();
         },
         []
     )
     
+    //UseEffects refernete ao local de ORIGEM DA VIAGEM INICIO
+    useEffect(
+        () => {
+            setEstadoOrigem([])
+            setCidadeOrigem([])
+            setReferenciaOrigem([])
+            setIdEstadoOrigem(0)
+            setIdCidadeOrigem(0)
+            setIdReferenciaOrigem(0)
+
+            async function atualizarCombosOrigem() {
+                try {
+                    const retornoApi = await api.get(`/estados?id_pais=${idPaisOrigem}`)
+                    setEstadoOrigem(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar os estados do país selecionado. Tente novamente mais tarde.')
+                }
+            }
+
+            if(idPaisOrigem !== 0) {
+                atualizarCombosOrigem()
+            }
+        },
+        [idPaisOrigem]
+    )    
+
+    useEffect(
+        () => {
+            setCidadeOrigem([])
+            setReferenciaOrigem([])
+            setIdCidadeOrigem(0)
+            setIdReferenciaOrigem(0)
+
+            async function atualizarCombosOrigem() {
+                try {
+                    const retornoApi = await api.get(`/cidades?id_estado=${idEstadoOrigem}`)
+                    setCidadeOrigem(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar as cidades do estado selecionado. Tente novamente mais tarde.')
+                }
+            }
+
+            if(idEstadoOrigem !== 0) {
+                atualizarCombosOrigem()
+            }
+        },
+        [idEstadoOrigem]
+    )
+
+    useEffect(
+        () => {
+            setReferenciaOrigem([])
+            setIdReferenciaOrigem(0)
+
+            async function atualizarCombosOrigem() {
+                try {
+                    const retornoApi = await api.get(`/locaisReferencias?id_cidade=${idCidadeOrigem}`)
+                    setReferenciaOrigem(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar as referencias da cidade selecionada. Tente novamente mais tarde.')
+                }
+            }
+            
+            if(idCidadeOrigem !== 0) {
+                atualizarCombosOrigem()
+            } 
+        },
+        [idCidadeOrigem]
+    )
+    //UseEffects refernete ao local de ORIGEM DA VIAGEM FINAL
+
 
     const handleLimparMsg = useCallback(
         () => {
@@ -29,8 +122,15 @@ function Cadastrar() {
     )
 
     const handleCadastrar = useCallback(
-        () => {
+        e => {
+            e.preventDefault()
+            setResultado([])
 
+            async function cadastrar() {
+                alert('cadastrar viagem')
+            }
+
+            cadastrar()
         },
         []
     )
@@ -84,26 +184,70 @@ function Cadastrar() {
                                                 <div className="form-row">
                                                     <div className="form-group col-lg-3 col-md-4">
                                                         <label>País</label>
-                                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                                            <option value="">Selecine País</option>
+                                                        <select 
+                                                            className="form-control" 
+                                                            value={idPaisOrigem} 
+                                                            onChange={e => {setIdPaisOrigem(parseInt(e.target.value)); handleLimparMsg()}}
+                                                        >
+                                                            <option value={0}>Selecine País</option>
+                                                            {
+                                                                paisOrigem.map( pais => (
+                                                                    <option key={pais.id} value={pais.id}>
+                                                                        {pais.st_nome}
+                                                                    </option>
+                                                                ))
+                                                            }
                                                         </select>    
                                                     </div>                                  
                                                     <div className="form-group col-lg-3 col-md-4">
                                                         <label>Estado</label>
-                                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                                            <option value="">Selecine Estado</option>
+                                                        <select 
+                                                            className="form-control" 
+                                                            value={idEstadoOrigem} 
+                                                            onChange={e => {setIdEstadoOrigem(parseInt(e.target.value)); handleLimparMsg()}}
+                                                        >
+                                                            <option value={0}>Selecine Estado</option>
+                                                            {
+                                                                estadoOrigem.map( estado => (
+                                                                    <option key={estado.id} value={estado.id}>
+                                                                        {estado.st_nome}
+                                                                    </option>
+                                                                ))
+                                                            }
                                                         </select>    
                                                     </div>
                                                     <div className="form-group col-lg-3 col-md-4">
                                                         <label>Cidade</label>
-                                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                                            <option value="">Selecine Cidade</option>
+                                                        <select 
+                                                            className="form-control" 
+                                                            value={idCidadeOrigem} 
+                                                            onChange={e => {setIdCidadeOrigem(parseInt(e.target.value)); handleLimparMsg()}}
+                                                        >
+                                                            <option value={0}>Selecine Cidade</option>
+                                                            {
+                                                                cidadeOrigem.map( cidade => (
+                                                                    <option key={cidade.id} value={cidade.id}>
+                                                                        {cidade.st_nome}
+                                                                    </option>
+                                                                ))
+                                                            }
                                                         </select>    
                                                     </div>
                                                     <div className="form-group col-lg-3 col-md-12">
                                                         <label>Referencia</label>
-                                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                                            <option value="">Selecine Referencia</option>
+                                                        <select 
+                                                            className="form-control" 
+                                                            value={idReferenciaOrigem} 
+                                                            onChange={e => {setIdReferenciaOrigem(parseInt(e.target.value)); handleLimparMsg()}}
+                                                        >
+                                                            <option value={0}>Selecine Referencia</option>
+                                                            {
+                                                                referenciaOrigem.map( referencia => (
+                                                                    <option key={referencia.id} value={referencia.id}>
+                                                                        {referencia.st_dsc}
+                                                                    </option>
+                                                                ))
+                                                            }
                                                         </select>    
                                                     </div>
                                                 </div>    
