@@ -7,15 +7,34 @@ import { validaToken }  from '../../services/auth';
 import api from '../../services/api';
 
 function Cadastrar() {
+    //States para serem gravadas no banco
     const[idPaisOrigem, setIdPaisOrigem] = useState(0)
     const[idEstadoOrigem, setIdEstadoOrigem] = useState(0)
     const[idCidadeOrigem, setIdCidadeOrigem] = useState(0)
     const[idReferenciaOrigem, setIdReferenciaOrigem] = useState(0)
-    const[resultado, setResultado] = useState([])
+    const[vagas, setVagas] = useState('')
+    const[horario, setHorario] = useState('')
+    const[id_empresa, setIdEmpresa] = useState(0)
+    const[id_veiculo, setIdVeiculo] = useState(0)
+
+    //States dos combos
+    const[veiculosEmpresa, setVeiculosEmpresa] =useState([])
+    const[empresasUsuario, setEmpresasUsuario] = useState([])
     const[paisOrigem, setPaisOrigem] = useState([])
     const[estadoOrigem, setEstadoOrigem] = useState([])
     const[cidadeOrigem, setCidadeOrigem] = useState([])
     const[referenciaOrigem, setReferenciaOrigem] = useState([])
+    const[idPaisDestino, setIdPaisDestino] = useState(0)
+    const[idEstadoDestino, setIdEstadoDestino] = useState(0)
+    const[idCidadeDestino, setIdCidadeDestino] = useState(0)
+    const[idReferenciaDestino, setIdReferenciaDestino] = useState(0)
+    const[paisDestino, setPaisDestino] = useState([])
+    const[estadoDestino, setEstadoDestino] = useState([])
+    const[cidadeDestino, setCidadeDestino] = useState([])
+    const[referenciaDestino, setReferenciaDestino] = useState([])
+
+    //States do resultado de erro ou sucesso
+    const[resultado, setResultado] = useState([])
 
     useEffect(
         () => {
@@ -28,10 +47,13 @@ function Cadastrar() {
                 //Carregando o combo de da tela
                 try {
                     const retornoApi = await api.get(`/paises`)
+                    const empresasUsuarioApi = await api.get(`/empresas/buscarDoUsuario`)
+                    setEmpresasUsuario(empresasUsuarioApi.data)
                     setPaisOrigem(retornoApi.data)
-                    
+                    setPaisDestino(retornoApi.data)
+
                 } catch (error) {
-                    AlertCatch('Ocorreu um erro ao buscar os Paises. Tente novamente mais tarde.')
+                    AlertCatch('Ocorreu um erro ao buscar os dados no banco. Tente novamente mais tarde.')
                 }
             }
             fetchData();
@@ -114,6 +136,103 @@ function Cadastrar() {
     //UseEffects refernete ao local de ORIGEM DA VIAGEM FINAL
 
 
+    //UseEffects refernete ao local de DESTINO DA VIAGEM INICIO
+    useEffect(
+        () => {
+            setEstadoDestino([])
+            setCidadeDestino([])
+            setReferenciaDestino([])
+            setIdEstadoDestino(0)
+            setIdCidadeDestino(0)
+            setIdReferenciaDestino(0)
+
+            async function atualizarCombosDestino() {
+                try {
+                    const retornoApi = await api.get(`/estados?id_pais=${idPaisDestino}`)
+                    setEstadoDestino(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar os estados do país selecionado. Tente novamente mais tarde.')
+                }
+            }
+
+            if(idPaisDestino !== 0) {
+                atualizarCombosDestino()
+            }
+        },
+        [idPaisDestino]
+    )    
+
+    useEffect(
+        () => {
+            setCidadeDestino([])
+            setReferenciaDestino([])
+            setIdCidadeDestino(0)
+            setIdReferenciaDestino(0)
+
+            async function atualizarCombosDestino() {
+                try {
+                    const retornoApi = await api.get(`/cidades?id_estado=${idEstadoDestino}`)
+                    setCidadeDestino(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar as cidades do estado selecionado. Tente novamente mais tarde.')
+                }
+            }
+
+            if(idEstadoDestino !== 0) {
+                atualizarCombosDestino()
+            }
+        },
+        [idEstadoDestino]
+    )
+
+    useEffect(
+        () => {
+            setReferenciaDestino([])
+            setIdReferenciaDestino(0)
+
+            async function atualizarCombosDestino() {
+                try {
+                    const retornoApi = await api.get(`/locaisReferencias?id_cidade=${idCidadeDestino}`)
+                    setReferenciaDestino(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar as referencias da cidade selecionada. Tente novamente mais tarde.')
+                }
+            }
+            
+            if(idCidadeDestino !== 0) {
+                atualizarCombosDestino()
+            } 
+        },
+        [idCidadeDestino]
+    )
+    //UseEffects refernete ao local de DESTINO DA VIAGEM FINAL
+
+    //UseEffect para buscar os veiculos conforme a empresa escolhida
+    useEffect(
+        () => {
+            setVeiculosEmpresa([])
+            
+            async function buscarVeiculosEmpresa() {
+                try {
+                    const retornoApi = await api.get(`/veiculos/buscarVeiculosPorEmpresa?id_empresa=${id_empresa}`)
+                    setVeiculosEmpresa(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar os veículos referente a empresa selecionada')
+                }
+            }
+
+            if(id_empresa !== 0) {
+                buscarVeiculosEmpresa()
+            }
+        },
+        [id_empresa]
+    )
+
+
     const handleLimparMsg = useCallback(
         () => {
             setResultado([])
@@ -154,25 +273,58 @@ function Cadastrar() {
                                 <div className="form-row">
                                     <div className="form-group col-12">
                                         <label>Empresa</label>
-                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                            <option value="">Selecine Empresa</option>
+                                        <select 
+                                            className="form-control" 
+                                            value={id_empresa} 
+                                            onChange={e => {setIdEmpresa(parseInt(e.target.value)); handleLimparMsg()}}
+                                        >
+                                            <option value={0}>Selecine Empresa</option>
+                                            {
+                                                empresasUsuario.map( empresa => (
+                                                    <option key={empresa.id} value={empresa.id}>
+                                                        {empresa.st_nome}
+                                                    </option>
+                                                ))
+                                            }
                                         </select>    
                                     </div>
                                 </div>
                                 <div className="form-row">    
                                     <div className="form-group col-lg-6 col-md-12">
                                         <label>Veículo</label>
-                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                            <option value="">Selecine Veículo</option>
+                                        <select 
+                                            className="form-control" 
+                                            value={id_veiculo} 
+                                            onChange={e => {setIdVeiculo(parseInt(e.target.value)); handleLimparMsg()}}
+                                        >
+                                            <option value={0}>Selecine Veículo</option>
+                                            {
+                                                veiculosEmpresa.map( veiculo => (
+                                                    <option key={veiculo.id} value={veiculo.id}>
+                                                        {veiculo.st_placa}
+                                                    </option>
+                                                ))
+                                            }
                                         </select>    
                                     </div>
                                     <div className="form-group col-lg-3 col-md-6">
                                         <label>Vagas</label>
-                                        <input className="form-control" value="" onChange={e => {handleLimparMsg()}} placeholder="Informe lugares" type="text" />
+                                        <input 
+                                            className="form-control" 
+                                            value={vagas} 
+                                            onChange={e => {setVagas(e.target.value); 
+                                            handleLimparMsg()}} 
+                                            placeholder="Informe lugares" type="text" 
+                                        />
                                     </div>
                                     <div className="form-group col-lg-3 col-md-6">
                                         <label>Horário</label>
-                                        <input className="form-control" value="" onChange={e => {handleLimparMsg()}} placeholder="Informe lugares" type="text" />
+                                        <input 
+                                            className="form-control" 
+                                            value={horario} 
+                                            onChange={e => {setHorario(e.target.value); handleLimparMsg()}} 
+                                            placeholder="Informe lugares" type="text" 
+                                        />
                                     </div>
                                 </div>
 
@@ -264,29 +416,73 @@ function Cadastrar() {
                                                 <div className="form-row">
                                                     <div className="form-group col-lg-3 col-md-4">
                                                         <label>País</label>
-                                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                                            <option value="">Selecine País</option>
+                                                        <select 
+                                                            className="form-control" 
+                                                            value={idPaisDestino} 
+                                                            onChange={e => {setIdPaisDestino(parseInt(e.target.value)); handleLimparMsg()}}
+                                                        >
+                                                            <option value={0}>Selecine País</option>
+                                                            {
+                                                                paisDestino.map( pais => (
+                                                                    <option key={pais.id} value={pais.id}>
+                                                                        {pais.st_nome}
+                                                                    </option>
+                                                                ))
+                                                            }
                                                         </select>    
                                                     </div>                                  
                                                     <div className="form-group col-lg-3 col-md-4">
                                                         <label>Estado</label>
-                                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                                            <option value="">Selecine Estado</option>
+                                                        <select 
+                                                            className="form-control" 
+                                                            value={idEstadoDestino} 
+                                                            onChange={e => {setIdEstadoDestino(parseInt(e.target.value)); handleLimparMsg()}}
+                                                        >
+                                                            <option value={0}>Selecine Estado</option>
+                                                            {
+                                                                estadoDestino.map( estado => (
+                                                                    <option key={estado.id} value={estado.id}>
+                                                                        {estado.st_nome}
+                                                                    </option>
+                                                                ))
+                                                            }
                                                         </select>    
                                                     </div>
                                                     <div className="form-group col-lg-3 col-md-4">
                                                         <label>Cidade</label>
-                                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                                            <option value="">Selecine Cidade</option>
+                                                        <select 
+                                                            className="form-control" 
+                                                            value={idCidadeDestino} 
+                                                            onChange={e => {setIdCidadeDestino(parseInt(e.target.value)); handleLimparMsg()}}
+                                                        >
+                                                            <option value={0}>Selecine Cidade</option>
+                                                            {
+                                                                cidadeDestino.map( cidade => (
+                                                                    <option key={cidade.id} value={cidade.id}>
+                                                                        {cidade.st_nome}
+                                                                    </option>
+                                                                ))
+                                                            }
                                                         </select>    
                                                     </div>
                                                     <div className="form-group col-lg-3 col-md-12">
                                                         <label>Referencia</label>
-                                                        <select className="form-control" value="" onChange={e => {handleLimparMsg()}}>
-                                                            <option value="">Selecine Referencia</option>
+                                                        <select 
+                                                            className="form-control" 
+                                                            value={idReferenciaDestino} 
+                                                            onChange={e => {setIdReferenciaDestino(parseInt(e.target.value)); handleLimparMsg()}}
+                                                        >
+                                                            <option value={0}>Selecine Referencia</option>
+                                                            {
+                                                                referenciaDestino.map( referencia => (
+                                                                    <option key={referencia.id} value={referencia.id}>
+                                                                        {referencia.st_dsc}
+                                                                    </option>
+                                                                ))
+                                                            }
                                                         </select>    
                                                     </div>
-                                                </div>
+                                                </div>    
                                             </div>
                                         </div>
                                     </div>
