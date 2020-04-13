@@ -7,32 +7,26 @@ import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import { validaToken }  from '../../services/auth';
 import api from '../../services/api';
 
+import DestinosViagens from './component/DestinosViagens/'
+
 function Cadastrar() {
     //States para serem gravadas no banco
+    const[id_empresa, setIdEmpresa] = useState(0)
+    const[id_veiculo, setIdVeiculo] = useState(0)
     const[idPaisOrigem, setIdPaisOrigem] = useState(0)
     const[idEstadoOrigem, setIdEstadoOrigem] = useState(0)
     const[idCidadeOrigem, setIdCidadeOrigem] = useState(0)
     const[idReferenciaOrigem, setIdReferenciaOrigem] = useState(0)
-    const[vagas, setVagas] = useState('')
-    const[horario, setHorario] = useState('')
-    const[id_empresa, setIdEmpresa] = useState(0)
-    const[id_veiculo, setIdVeiculo] = useState(0)
-
-    //States dos combos
-    const[veiculosEmpresa, setVeiculosEmpresa] =useState([])
-    const[empresasUsuario, setEmpresasUsuario] = useState([])
-    const[paisOrigem, setPaisOrigem] = useState([])
-    const[estadoOrigem, setEstadoOrigem] = useState([])
-    const[cidadeOrigem, setCidadeOrigem] = useState([])
-    const[referenciaOrigem, setReferenciaOrigem] = useState([])
     const[idPaisDestino, setIdPaisDestino] = useState(0)
     const[idEstadoDestino, setIdEstadoDestino] = useState(0)
     const[idCidadeDestino, setIdCidadeDestino] = useState(0)
     const[idReferenciaDestino, setIdReferenciaDestino] = useState(0)
-    const[paisDestino, setPaisDestino] = useState([])
-    const[estadoDestino, setEstadoDestino] = useState([])
-    const[cidadeDestino, setCidadeDestino] = useState([])
-    const[referenciaDestino, setReferenciaDestino] = useState([])
+    const[vagas, setVagas] = useState('')
+    const[horario, setHorario] = useState('')
+
+    //States dos combos
+    const[veiculosEmpresa, setVeiculosEmpresa] =useState([])
+    const[empresasUsuario, setEmpresasUsuario] = useState([])
 
     //States do resultado de erro ou sucesso
     const[resultado, setResultado] = useState([])
@@ -47,11 +41,8 @@ function Cadastrar() {
 
                 //Carregando o combo de da tela
                 try {
-                    const retornoApi = await api.get(`/paises`)
                     const empresasUsuarioApi = await api.get(`/empresas/buscarDoUsuario`)
                     setEmpresasUsuario(empresasUsuarioApi.data)
-                    setPaisOrigem(retornoApi.data)
-                    setPaisDestino(retornoApi.data)
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao buscar os dados no banco. Tente novamente mais tarde.')
@@ -62,155 +53,6 @@ function Cadastrar() {
         []
     )
     
-    //UseEffects refernete ao local de ORIGEM DA VIAGEM INICIO
-    useEffect(
-        () => {
-            setEstadoOrigem([])
-            setCidadeOrigem([])
-            setReferenciaOrigem([])
-            setIdEstadoOrigem(0)
-            setIdCidadeOrigem(0)
-            setIdReferenciaOrigem(0)
-
-            async function atualizarCombosOrigem() {
-                try {
-                    const retornoApi = await api.get(`/estados?id_pais=${idPaisOrigem}`)
-                    setEstadoOrigem(retornoApi.data)
-
-                } catch (error) {
-                    AlertCatch('Ocorreu um erro ao buscar os estados do país selecionado. Tente novamente mais tarde.')
-                }
-            }
-
-            if(idPaisOrigem !== 0) {
-                atualizarCombosOrigem()
-            }
-        },
-        [idPaisOrigem]
-    )    
-
-    useEffect(
-        () => {
-            setCidadeOrigem([])
-            setReferenciaOrigem([])
-            setIdCidadeOrigem(0)
-            setIdReferenciaOrigem(0)
-
-            async function atualizarCombosOrigem() {
-                try {
-                    const retornoApi = await api.get(`/cidades?id_estado=${idEstadoOrigem}`)
-                    setCidadeOrigem(retornoApi.data)
-
-                } catch (error) {
-                    AlertCatch('Ocorreu um erro ao buscar as cidades do estado selecionado. Tente novamente mais tarde.')
-                }
-            }
-
-            if(idEstadoOrigem !== 0) {
-                atualizarCombosOrigem()
-            }
-        },
-        [idEstadoOrigem]
-    )
-
-    useEffect(
-        () => {
-            setReferenciaOrigem([])
-            setIdReferenciaOrigem(0)
-
-            async function atualizarCombosOrigem() {
-                try {
-                    const retornoApi = await api.get(`/locaisReferencias?id_cidade=${idCidadeOrigem}`)
-                    setReferenciaOrigem(retornoApi.data)
-
-                } catch (error) {
-                    AlertCatch('Ocorreu um erro ao buscar as referencias da cidade selecionada. Tente novamente mais tarde.')
-                }
-            }
-            
-            if(idCidadeOrigem !== 0) {
-                atualizarCombosOrigem()
-            } 
-        },
-        [idCidadeOrigem]
-    )
-    //UseEffects refernete ao local de ORIGEM DA VIAGEM FINAL
-
-
-    //UseEffects refernete ao local de DESTINO DA VIAGEM INICIO
-    useEffect(
-        () => {
-            setEstadoDestino([])
-            setCidadeDestino([])
-            setReferenciaDestino([])
-            setIdEstadoDestino(0)
-            setIdCidadeDestino(0)
-            setIdReferenciaDestino(0)
-
-            async function atualizarCombosDestino() {
-                try {
-                    const retornoApi = await api.get(`/estados?id_pais=${idPaisDestino}`)
-                    setEstadoDestino(retornoApi.data)
-
-                } catch (error) {
-                    AlertCatch('Ocorreu um erro ao buscar os estados do país selecionado. Tente novamente mais tarde.')
-                }
-            }
-
-            if(idPaisDestino !== 0) {
-                atualizarCombosDestino()
-            }
-        },
-        [idPaisDestino]
-    )    
-
-    useEffect(
-        () => {
-            setCidadeDestino([])
-            setReferenciaDestino([])
-            setIdCidadeDestino(0)
-            setIdReferenciaDestino(0)
-
-            async function atualizarCombosDestino() {
-                try {
-                    const retornoApi = await api.get(`/cidades?id_estado=${idEstadoDestino}`)
-                    setCidadeDestino(retornoApi.data)
-
-                } catch (error) {
-                    AlertCatch('Ocorreu um erro ao buscar as cidades do estado selecionado. Tente novamente mais tarde.')
-                }
-            }
-
-            if(idEstadoDestino !== 0) {
-                atualizarCombosDestino()
-            }
-        },
-        [idEstadoDestino]
-    )
-
-    useEffect(
-        () => {
-            setReferenciaDestino([])
-            setIdReferenciaDestino(0)
-
-            async function atualizarCombosDestino() {
-                try {
-                    const retornoApi = await api.get(`/locaisReferencias?id_cidade=${idCidadeDestino}`)
-                    setReferenciaDestino(retornoApi.data)
-
-                } catch (error) {
-                    AlertCatch('Ocorreu um erro ao buscar as referencias da cidade selecionada. Tente novamente mais tarde.')
-                }
-            }
-            
-            if(idCidadeDestino !== 0) {
-                atualizarCombosDestino()
-            } 
-        },
-        [idCidadeDestino]
-    )
-    //UseEffects refernete ao local de DESTINO DA VIAGEM FINAL
-
     //UseEffect para buscar os veiculos conforme a empresa escolhida
     useEffect(
         () => {
@@ -247,7 +89,7 @@ function Cadastrar() {
             setResultado([])
 
             async function cadastrar() {
-                alert('cadastrar viagem')
+                
             }
 
             cadastrar()
@@ -330,166 +172,32 @@ function Cadastrar() {
                                         />
                                     </div>
                                 </div>
-
-                                <div className="form-row mt-2">
-                                    <div className="form-group col-12">
-                                        <div className="card border-light mb-3">
-                                            <div className="card-header text-center">Origem da Viagem</div>
-                                            <div className="card-body">
-                                                <div className="form-row">
-                                                    <div className="form-group col-lg-3 col-md-4">
-                                                        <label>País</label>
-                                                        <select 
-                                                            className="form-control" 
-                                                            value={idPaisOrigem} 
-                                                            onChange={e => {setIdPaisOrigem(parseInt(e.target.value)); handleLimparMsg()}}
-                                                        >
-                                                            <option value={0}>Selecine País</option>
-                                                            {
-                                                                paisOrigem.map( pais => (
-                                                                    <option key={pais.id} value={pais.id}>
-                                                                        {pais.st_nome}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>    
-                                                    </div>                                  
-                                                    <div className="form-group col-lg-3 col-md-4">
-                                                        <label>Estado</label>
-                                                        <select 
-                                                            className="form-control" 
-                                                            value={idEstadoOrigem} 
-                                                            onChange={e => {setIdEstadoOrigem(parseInt(e.target.value)); handleLimparMsg()}}
-                                                        >
-                                                            <option value={0}>Selecine Estado</option>
-                                                            {
-                                                                estadoOrigem.map( estado => (
-                                                                    <option key={estado.id} value={estado.id}>
-                                                                        {estado.st_nome}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>    
-                                                    </div>
-                                                    <div className="form-group col-lg-3 col-md-4">
-                                                        <label>Cidade</label>
-                                                        <select 
-                                                            className="form-control" 
-                                                            value={idCidadeOrigem} 
-                                                            onChange={e => {setIdCidadeOrigem(parseInt(e.target.value)); handleLimparMsg()}}
-                                                        >
-                                                            <option value={0}>Selecine Cidade</option>
-                                                            {
-                                                                cidadeOrigem.map( cidade => (
-                                                                    <option key={cidade.id} value={cidade.id}>
-                                                                        {cidade.st_nome}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>    
-                                                    </div>
-                                                    <div className="form-group col-lg-3 col-md-12">
-                                                        <label>Referencia</label>
-                                                        <select 
-                                                            className="form-control" 
-                                                            value={idReferenciaOrigem} 
-                                                            onChange={e => {setIdReferenciaOrigem(parseInt(e.target.value)); handleLimparMsg()}}
-                                                        >
-                                                            <option value={0}>Selecine Referencia</option>
-                                                            {
-                                                                referenciaOrigem.map( referencia => (
-                                                                    <option key={referencia.id} value={referencia.id}>
-                                                                        {referencia.st_dsc}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>    
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 
-                                <div className="form-row">
-                                    <div className="form-group col-12">
-                                        <div className="card border-light mb-3">
-                                            <div className="card-header text-center">Destino da Viagem</div>
-                                            <div className="card-body">
-                                                <div className="form-row">
-                                                    <div className="form-group col-lg-3 col-md-4">
-                                                        <label>País</label>
-                                                        <select 
-                                                            className="form-control" 
-                                                            value={idPaisDestino} 
-                                                            onChange={e => {setIdPaisDestino(parseInt(e.target.value)); handleLimparMsg()}}
-                                                        >
-                                                            <option value={0}>Selecine País</option>
-                                                            {
-                                                                paisDestino.map( pais => (
-                                                                    <option key={pais.id} value={pais.id}>
-                                                                        {pais.st_nome}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>    
-                                                    </div>                                  
-                                                    <div className="form-group col-lg-3 col-md-4">
-                                                        <label>Estado</label>
-                                                        <select 
-                                                            className="form-control" 
-                                                            value={idEstadoDestino} 
-                                                            onChange={e => {setIdEstadoDestino(parseInt(e.target.value)); handleLimparMsg()}}
-                                                        >
-                                                            <option value={0}>Selecine Estado</option>
-                                                            {
-                                                                estadoDestino.map( estado => (
-                                                                    <option key={estado.id} value={estado.id}>
-                                                                        {estado.st_nome}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>    
-                                                    </div>
-                                                    <div className="form-group col-lg-3 col-md-4">
-                                                        <label>Cidade</label>
-                                                        <select 
-                                                            className="form-control" 
-                                                            value={idCidadeDestino} 
-                                                            onChange={e => {setIdCidadeDestino(parseInt(e.target.value)); handleLimparMsg()}}
-                                                        >
-                                                            <option value={0}>Selecine Cidade</option>
-                                                            {
-                                                                cidadeDestino.map( cidade => (
-                                                                    <option key={cidade.id} value={cidade.id}>
-                                                                        {cidade.st_nome}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>    
-                                                    </div>
-                                                    <div className="form-group col-lg-3 col-md-12">
-                                                        <label>Referencia</label>
-                                                        <select 
-                                                            className="form-control" 
-                                                            value={idReferenciaDestino} 
-                                                            onChange={e => {setIdReferenciaDestino(parseInt(e.target.value)); handleLimparMsg()}}
-                                                        >
-                                                            <option value={0}>Selecine Referencia</option>
-                                                            {
-                                                                referenciaDestino.map( referencia => (
-                                                                    <option key={referencia.id} value={referencia.id}>
-                                                                        {referencia.st_dsc}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>    
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <DestinosViagens 
+                                    handleLimparMsg = {handleLimparMsg}
+                                    setIdPais = {setIdPaisOrigem}
+                                    idPais = {idPaisOrigem}
+                                    setIdEstado = {setIdEstadoOrigem}
+                                    idEstado = {idEstadoOrigem}
+                                    setIdCidade = {setIdCidadeOrigem}   
+                                    idCidade = {idCidadeOrigem} 
+                                    idReferencia = {idReferenciaOrigem}
+                                    setIdReferencia = {setIdReferenciaOrigem}     
+                                    deslocamento = "Origem"                                                  
+                                />
+
+                                <DestinosViagens 
+                                    handleLimparMsg = {handleLimparMsg}
+                                    setIdPais = {setIdPaisDestino}
+                                    idPais = {idPaisDestino}
+                                    setIdEstado = {setIdEstadoDestino}
+                                    idEstado = {idEstadoDestino}
+                                    setIdCidade = {setIdCidadeDestino}   
+                                    idCidade = {idCidadeDestino} 
+                                    idReferencia = {idReferenciaDestino}
+                                    setIdReferencia = {setIdReferenciaDestino}     
+                                    deslocamento = "Destino"                                                  
+                                />
 
                                 <div className="form-row mt-2">
                                     <div className="form-group col-sm-12">
