@@ -162,7 +162,7 @@ function Editar(props) {
                                     <input className="form-control form-control-lg" value={lugares} onChange={e => {setLugares(e.target.value); handleLimparMsg()}} placeholder="Informe lugares" type="text" />
                                 </div>
                                 <div className="form-group">
-                                    <button type="submit" className="btn btn-success btn-lg btn-block">Cadastrar</button>
+                                    <button type="submit" className="btn btn-success btn-lg btn-block">Salvar</button>
                                     <Link className="btn btn-primary btn-lg btn-block" to="listar">Voltar</Link>
                                 </div>
                             </form>

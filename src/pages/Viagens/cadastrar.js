@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import InputMask from 'react-input-mask';
 import {withRouter, Link} from 'react-router-dom';
 
 import AlertasResultados from '../../components/AlertasResultados';
@@ -309,21 +310,23 @@ function Cadastrar() {
                                     </div>
                                     <div className="form-group col-lg-3 col-md-6">
                                         <label>Vagas</label>
-                                        <input 
+                                        <InputMask 
                                             className="form-control" 
                                             value={vagas} 
-                                            onChange={e => {setVagas(e.target.value); 
-                                            handleLimparMsg()}} 
-                                            placeholder="Informe lugares" type="text" 
+                                            onChange={e => {setVagas(parseInt(e.target.value)); handleLimparMsg()}} 
+                                            placeholder="Informe lugares" type="text"
+                                            mask="99"
+                                            maskChar=''
                                         />
                                     </div>
                                     <div className="form-group col-lg-3 col-md-6">
                                         <label>Horário</label>
-                                        <input 
+                                        <InputMask 
                                             className="form-control" 
                                             value={horario} 
                                             onChange={e => {setHorario(e.target.value); handleLimparMsg()}} 
                                             placeholder="Informe lugares" type="text" 
+                                            mask="99:99"
                                         />
                                     </div>
                                 </div>
@@ -490,7 +493,7 @@ function Cadastrar() {
 
                                 <div className="form-row mt-2">
                                     <div className="form-group col-sm-12">
-                                        <button type="submit" className="btn btn-success btn-lg">Cadastrar</button>
+                                        <button type="submit" className="btn btn-success btn-lg">Salvar</button>
                                         <Link className="btn btn-primary btn-lg ml-1" to="listar">Voltar</Link>
                                     </div>
                                 </div>
