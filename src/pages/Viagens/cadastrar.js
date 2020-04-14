@@ -8,6 +8,7 @@ import { validaToken }  from '../../services/auth';
 import api from '../../services/api';
 
 import DestinosViagens from './component/DestinosViagens/'
+import { mockComponent } from 'react-dom/test-utils';
 
 function Cadastrar() {
     //States para serem gravadas no banco
@@ -60,7 +61,7 @@ function Cadastrar() {
             
             async function buscarVeiculosEmpresa() {
                 try {
-                    const retornoApi = await api.get(`/veiculos/buscarVeiculosPorEmpresa?id_empresa=${id_empresa}`)
+                    const retornoApi = await api.get(`/veiculos/buscarVeiculosPorEmpresa?id_empresa=${id_empresa}`, {headers:{auth: localStorage.userToken}})
                     setVeiculosEmpresa(retornoApi.data)
 
                 } catch (error) {
@@ -89,12 +90,26 @@ function Cadastrar() {
             setResultado([])
 
             async function cadastrar() {
+                const dadosViagem = {
+                    en_situacao: 'aguardando confirmação',
+                    vagas,
+                    hh_horario: horario,
+                    nr_id_local_referencia_origem: idReferenciaOrigem,
+                    nr_id_local_referencia_destino: idReferenciaDestino,
+                    id_veiculo
+                }
                 
-            }
+                try {
+                    const retornoApi = await api.post('/viagens', dadosViagem, {headers:{auth: localStorage.userToken}})
+                    console.log(retornoApi)
 
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao cadastrar a viagem, tente novamente mais tarde.')                    
+                }
+            }
             cadastrar()
         },
-        []
+        [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo]
     )
 
     return (  
