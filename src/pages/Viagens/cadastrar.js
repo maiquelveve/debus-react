@@ -58,6 +58,7 @@ function Cadastrar() {
     useEffect(
         () => {
             setVeiculosEmpresa([])
+            setIdVeiculo(0)
             
             async function buscarVeiculosEmpresa() {
                 try {
@@ -101,7 +102,7 @@ function Cadastrar() {
                 
                 try {
                     const retornoApi = await api.post('/viagens', dadosViagem, {headers:{auth: localStorage.userToken}})
-                    console.log(retornoApi)
+                    setResultado(retornoApi.data)
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao cadastrar a viagem, tente novamente mais tarde.')                    
