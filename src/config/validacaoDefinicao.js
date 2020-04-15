@@ -7,7 +7,7 @@ const validacaoDefinicao =
     string: {
         min: "${path} deve ter no mínimo ${min} caracteres",
         max: "${path} deve ter no máximo ${max} caracteres",
-        email: "${path} é invalido."
+        email: "${path} é invalido.",
     },
     number: {
         moreThan: "${path} deve ser maior ${more}",
@@ -17,7 +17,7 @@ const validacaoDefinicao =
         positive: '${path} deve ser um número posítivo',
         negative: '${path} deve ser um número negativo',
         integer: '${path} deve ser um número inteiro',
-    }
+    },
 }
 
 export default validacaoDefinicao;

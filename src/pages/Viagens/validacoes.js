@@ -10,7 +10,8 @@ export const validacao = async dados => {
         Horario: dados.horario,
         Origem: dados.idReferenciaOrigem === 0 ? '' : dados.idReferenciaOrigem,
         Destino: dados.idReferenciaDestino === 0 ? '' : dados.idReferenciaDestino,
-        Veiculo: dados.id_veiculo === 0 ? '' : dados.id_veiculo
+        Veiculo: dados.id_veiculo === 0 ? '' : dados.id_veiculo,
+        Data: dados.data
     }
 
     yup.setLocale(validacaoDefinicao);
@@ -39,7 +40,11 @@ export const validacao = async dados => {
         Veiculo: yup
             .string()
             .max(50)
-            .required(),    
+            .required(),
+            
+        Data: yup   
+            .string()
+            .required()    
             
     })
 
@@ -57,6 +62,11 @@ export const validacao = async dados => {
     //Valida de o Horario eh valido
     if( dados.horario !== '' && !validaHora(dados.horario)) {
         errosValidados = [...errosValidados, { msg: 'Horário invalido.'}];
+    }
+
+    //Valida de o Horario eh valido
+    if( dados.data !== '' && !validaData(dados.horario)) {
+        errosValidados = [...errosValidados, { msg: 'Data invalida'}];
     }
 
     //Valida se a quantidade de vagas da viagem não eh maior que a quantidade de acentos do veiculo escolhido 
@@ -79,6 +89,10 @@ export const validacao = async dados => {
     }
 
     return dadosViagem;
+}
+
+function validaData(data) {
+    return false
 }
 
 function validaHora(hora) {

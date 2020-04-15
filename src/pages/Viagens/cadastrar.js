@@ -24,6 +24,7 @@ function Cadastrar() {
     const[idReferenciaDestino, setIdReferenciaDestino] = useState(0)
     const[vagas, setVagas] = useState('')
     const[horario, setHorario] = useState('')
+    const[data, setData] = useState('')
 
     //States dos combos
     const[veiculosEmpresa, setVeiculosEmpresa] = useState([])
@@ -92,7 +93,7 @@ function Cadastrar() {
 
             async function cadastrar() {
                 try {
-                    const dadosViagem = await validacao({vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo})
+                    const dadosViagem = await validacao({vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data})
 
                     if(dadosViagem.length > 0) {
                         setResultado(dadosViagem)
@@ -112,6 +113,7 @@ function Cadastrar() {
                         setIdReferenciaDestino(0)
                         setVagas('')
                         setHorario('')
+                        setData('')
                         setVeiculosEmpresa([])
                     }
 
@@ -124,7 +126,7 @@ function Cadastrar() {
             }
             cadastrar()
         },
-        [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo]
+        [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data]
     )
 
     return (  
@@ -180,7 +182,7 @@ function Cadastrar() {
                                             }
                                         </select>    
                                     </div>
-                                    <div className="form-group col-lg-3 col-md-6">
+                                    <div className="form-group col-lg-2 col-md-4">
                                         <label>Vagas</label>
                                         <InputMask 
                                             className="form-control" 
@@ -191,7 +193,18 @@ function Cadastrar() {
                                             maskChar=''
                                         />
                                     </div>
-                                    <div className="form-group col-lg-3 col-md-6">
+                                    <div className="form-group col-lg-2 col-md-4">
+                                        <label>Data</label>
+                                        <InputMask 
+                                            className="form-control" 
+                                            value={data} 
+                                            onChange={e => {setData(e.target.value); handleLimparMsg()}} 
+                                            placeholder="Informe a data" type="text"
+                                            mask="99/99/9999"
+                                            maskChar=''
+                                        />
+                                    </div>
+                                    <div className="form-group col-lg-2 col-md-4">
                                         <label>Horário</label>
                                         <InputMask 
                                             className="form-control" 
