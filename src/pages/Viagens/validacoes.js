@@ -41,7 +41,7 @@ export const validacao = async dados => {
             
     })
 
-    const errosValidados = await addressSchema.validate(ViagemParaValidacao, { abortEarly: false })
+    let errosValidados = await addressSchema.validate(ViagemParaValidacao, { abortEarly: false })
         .then( () =>  [{ success: 1, msg:"formOk"}] )                    
         .catch( err => {
             let errosValidados =  [{success: 0, msg: 'formError'}]
@@ -52,7 +52,10 @@ export const validacao = async dados => {
             return errosValidados;
     })
     
-    //fazer aqui a validação se eh uma hora valida, talvez criar uma function que valide.
+    //Fazer aqui a validação se eh uma hora valida, talvez criar uma function que valide.
+    if( dados.horario !== '' && !validaHora(dados.horario)) {
+        errosValidados = [...errosValidados, { msg: 'Horário invalido.'}];
+    }
 
     if(errosValidados[0].success === 0) {
         return errosValidados
@@ -69,4 +72,29 @@ export const validacao = async dados => {
     }
 
     return dadosViagem;
+}
+
+function validaHora(hora) {
+    if(hora.substring(0,1) < 0 || hora.substring(1,2) < 0 || hora.substring(3,4) < 0 || hora.substring(4,5) < 0) {
+        return false
+    }
+
+    /* VALIDAÇÂO DAS HORAS */
+    //Valida 1 digito da HORA
+    if(hora.substring(0,1) > 2) {
+        return false
+    }
+
+    //Valida 2 digito da HORA
+    if(hora.substring(0,1) == 2 && hora.substring(1,2) > 3) {
+        return false
+    }
+
+    /* VALIDAÇÂO DAS MINITOS */
+    //Valida 1 digito da MINUTOS
+    if(hora.substring(3,4) > 5) {
+        return false
+    }
+
+    return true;
 }

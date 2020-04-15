@@ -96,10 +96,27 @@ function Cadastrar() {
 
                     if(dadosViagem.length > 0) {
                         setResultado(dadosViagem)
+
                     } else {
                         const retornoApi = await api.post('/viagens', dadosViagem, {headers:{auth: localStorage.userToken}})
                         setResultado(retornoApi.data)
+                        setIdEmpresa(0)
+                        setIdVeiculo(0)
+                        setIdPaisOrigem(0)
+                        setIdEstadoOrigem(0)
+                        setIdCidadeOrigem(0)
+                        setIdReferenciaOrigem(0)
+                        setIdPaisDestino(0)
+                        setIdEstadoDestino(0)
+                        setIdCidadeDestino(0)
+                        setIdReferenciaDestino(0)
+                        setVagas('')
+                        setHorario('')
+                        setVeiculosEmpresa([])
                     }
+
+                    //Faz o scroll para o topo da pagina para ler as messagens de sucesso ou erros
+                    window.scrollTo(0, 0);
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao cadastrar a viagem, tente novamente mais tarde.')                    
@@ -182,6 +199,7 @@ function Cadastrar() {
                                             onChange={e => {setHorario(e.target.value); handleLimparMsg()}} 
                                             placeholder="Informe lugares" type="text" 
                                             mask="99:99"
+                                            maskChar=''
                                         />
                                     </div>
                                 </div>
