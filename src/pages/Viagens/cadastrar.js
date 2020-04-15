@@ -8,7 +8,7 @@ import { validaToken }  from '../../services/auth';
 import api from '../../services/api';
 
 import DestinosViagens from './component/DestinosViagens/'
-import { mockComponent } from 'react-dom/test-utils';
+import { validacao } from './validacoes';
 
 function Cadastrar() {
     //States para serem gravadas no banco
@@ -26,7 +26,7 @@ function Cadastrar() {
     const[horario, setHorario] = useState('')
 
     //States dos combos
-    const[veiculosEmpresa, setVeiculosEmpresa] =useState([])
+    const[veiculosEmpresa, setVeiculosEmpresa] = useState([])
     const[empresasUsuario, setEmpresasUsuario] = useState([])
 
     //States do resultado de erro ou sucesso
@@ -91,18 +91,15 @@ function Cadastrar() {
             setResultado([])
 
             async function cadastrar() {
-                const dadosViagem = {
-                    en_situacao: 'aguardando confirmação',
-                    vagas,
-                    hh_horario: horario,
-                    nr_id_local_referencia_origem: idReferenciaOrigem,
-                    nr_id_local_referencia_destino: idReferenciaDestino,
-                    id_veiculo
-                }
-                
                 try {
-                    const retornoApi = await api.post('/viagens', dadosViagem, {headers:{auth: localStorage.userToken}})
-                    setResultado(retornoApi.data)
+                    const dadosViagem = await validacao({vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo})
+
+                    if(dadosViagem.length > 0) {
+                        setResultado(dadosViagem)
+                    } else {
+                        const retornoApi = await api.post('/viagens', dadosViagem, {headers:{auth: localStorage.userToken}})
+                        setResultado(retornoApi.data)
+                    }
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao cadastrar a viagem, tente novamente mais tarde.')                    
