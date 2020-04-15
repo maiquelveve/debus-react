@@ -1,10 +1,12 @@
 import * as yup from 'yup';
 import validacaoDefinicao from '../../config/validacaoDefinicao';
+import api from '../../services/api';
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 export const validacao = async dados => {
     //Validando os dados INICIO
     let ViagemParaValidacao = {
-        Vagas: dados.vagas,
+        Vagas: dados.vagas === 0 || dados.vagas === ''  ? '' :  dados.vagas,
         Horario: dados.horario,
         Origem: dados.idReferenciaOrigem === 0 ? '' : dados.idReferenciaOrigem,
         Destino: dados.idReferenciaDestino === 0 ? '' : dados.idReferenciaDestino,
@@ -52,9 +54,14 @@ export const validacao = async dados => {
             return errosValidados;
     })
     
-    //Fazer aqui a validação se eh uma hora valida, talvez criar uma function que valide.
+    //Valida de o Horario eh valido
     if( dados.horario !== '' && !validaHora(dados.horario)) {
         errosValidados = [...errosValidados, { msg: 'Horário invalido.'}];
+    }
+
+    //Valida se a quantidade de vagas da viagem não eh maior que a quantidade de acentos do veiculo escolhido 
+    if( (dados.vagas !== '' && dados.vagas !== 0) && dados.id_veiculo !== 0 && !await verificaVagasDisponivel(dados.vagas, dados.id_veiculo)) {
+        errosValidados = [...errosValidados, { msg: 'Número de vagas é maior que a capacidade de lugares do véiculo'}];
     }
 
     if(errosValidados[0].success === 0) {
@@ -97,4 +104,19 @@ function validaHora(hora) {
     }
 
     return true;
+}
+
+async function verificaVagasDisponivel(vagas, id_veiculo) {
+    try {
+        const veiculo = await api.get(`/veiculos/${id_veiculo}`)    
+
+        if(vagas > veiculo.data.nr_lugares) {
+            return false
+        }
+
+        return true
+
+    } catch (error) {   
+        AlertCatch('Ocorreu um erro ao validar se a quantidade de vagas é maior do que a capacidade de lugares do veículo.')
+    }
 }
