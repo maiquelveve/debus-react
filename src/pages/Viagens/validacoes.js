@@ -3,6 +3,8 @@ import validacaoDefinicao from '../../config/validacaoDefinicao';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
+import { format, parseISO, isAfter } from 'date-fns'
+
 export const validacao = async dados => {
     //Validando os dados INICIO
     let ViagemParaValidacao = {
@@ -65,7 +67,7 @@ export const validacao = async dados => {
     }
 
     //Valida de o Horario eh valido
-    if( dados.data !== '' && !validaData(dados.horario)) {
+    if( dados.data !== '' && !validaData(dados.data)) {
         errosValidados = [...errosValidados, { msg: 'Data invalida'}];
     }
 
@@ -92,6 +94,18 @@ export const validacao = async dados => {
 }
 
 function validaData(data) {
+    const newYears = new Date('2019, 2, 29');
+    console.log(newYears)
+    
+    // const date1 = '2018-04-11';
+    // const date2 = '2018-04-02';
+    // const newDate1 = parseISO(date1)
+    // const newDate2 = parseISO(date2)
+    // const resultado = isAfter(newDate1, newDate2)
+    // console.log(resultado)
+
+    //const formattedDate = format(newYears, 'yyyy-MM-dd');
+    //console.log(formattedDate);
     return false
 }
 
