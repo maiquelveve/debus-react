@@ -92,7 +92,7 @@ export const validacao = async dados => {
         nr_id_local_referencia_origem: dados.idReferenciaOrigem,
         nr_id_local_referencia_destino: dados.idReferenciaDestino,
         id_veiculo: dados.id_veiculo,
-        dt_data: format(parseISO(dados.data),'yyyy-MM-dd') 
+        dt_data: ajustaData(dados.data)
     }
 
     return dadosViagem;
