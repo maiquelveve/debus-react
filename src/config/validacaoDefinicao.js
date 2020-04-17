@@ -18,6 +18,10 @@ const validacaoDefinicao =
         negative: '${path} deve ser um número negativo',
         integer: '${path} deve ser um número inteiro',
     },
+    date: {
+        min: "${path} ser maior ou igual ${min}",
+        max: "${path} deve ser menor que ${max}",
+    },
 }
 
 export default validacaoDefinicao;

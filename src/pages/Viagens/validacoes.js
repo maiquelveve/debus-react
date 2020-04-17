@@ -1,9 +1,8 @@
 import * as yup from 'yup';
 import validacaoDefinicao from '../../config/validacaoDefinicao';
+import { format, parseISO, isAfter, add } from 'date-fns'
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
-
-import { format, parseISO, isAfter } from 'date-fns'
 
 export const validacao = async dados => {
     //Validando os dados INICIO
@@ -46,7 +45,7 @@ export const validacao = async dados => {
             
         Data: yup   
             .string()
-            .required()    
+            .required()
             
     })
 
@@ -67,8 +66,13 @@ export const validacao = async dados => {
     }
 
     //Valida de o Horario eh valido
-    if( dados.data !== '' && !validaData(dados.data)) {
-        errosValidados = [...errosValidados, { msg: 'Data invalida'}];
+    if( dados.data !== '') {
+        if(validaHora(dados.horario)) {
+            const resultado = validaData(dados.data, dados.horario)
+            if(resultado) {
+                errosValidados = [...errosValidados,  resultado];
+            } 
+        }    
     }
 
     //Valida se a quantidade de vagas da viagem não eh maior que a quantidade de acentos do veiculo escolhido 
@@ -91,22 +95,6 @@ export const validacao = async dados => {
     }
 
     return dadosViagem;
-}
-
-function validaData(data) {
-    const newYears = new Date('2019, 2, 29');
-    console.log(newYears)
-    
-    // const date1 = '2018-04-11';
-    // const date2 = '2018-04-02';
-    // const newDate1 = parseISO(date1)
-    // const newDate2 = parseISO(date2)
-    // const resultado = isAfter(newDate1, newDate2)
-    // console.log(resultado)
-
-    //const formattedDate = format(newYears, 'yyyy-MM-dd');
-    //console.log(formattedDate);
-    return false
 }
 
 function validaHora(hora) {
@@ -132,6 +120,59 @@ function validaHora(hora) {
     }
 
     return true;
+}
+
+function validaData(data, horario) {
+    try {
+        data = ajustaData(data) 
+        data = parseISO(`${data} ${horario}`)
+
+        const dataMinima = add(new Date(), { hours: 2})
+        const dataMax = add(parseISO(format(new Date(),'yyyy-MM-dd')) , {months: 3, hours:23, minutes:59, seconds: 59})
+
+        //OK
+        if(!isAfter(data, dataMinima)) {
+            throw('MENOR')
+         }
+
+        if(isAfter(data, dataMax)) {
+           throw('MAIOR')
+        }
+        
+        return 
+
+    } catch (error) {
+        switch(error) {
+            case 'MENOR':
+                const dataMinima = add(new Date(), { hours: 2})
+                return { msg: 'Data deve ser maior que ' + format(dataMinima, "dd/MM/yyyy 'às' HH:mm:ss")}
+            case 'MAIOR':
+                const dataMax = add(parseISO(format(new Date(),'yyyy-MM-dd')) , {months: 3, hours:23, minutes:59, seconds: 59})
+                return { msg: 'Data deve ser menor que ' + format(dataMax, "dd/MM/yyyy 'às' HH:mm:ss")}
+            case 'INCOMPLETA':
+                return { msg: 'Data incompleta. Use o formato DD/MM/AAAA'}
+            default:
+                return { msg: 'Data Invalida'}    
+        }   
+    }
+}
+
+function ajustaData(data) {
+    try {
+        data = data.split('/')
+
+        //Caso o usuario não preencha a data no formato certo com pelo menos as 
+        if(data.length < 3 || data[2].length !== 4) {
+            throw('INCOMPLETA')
+        }
+
+        data = `${data[2]}-${data[1]}-${data[0]}`
+        const newDate = parseISO(data)
+        return format(newDate, "yyyy-MM-dd");
+
+    } catch (error) {
+        throw(error)
+    }
 }
 
 async function verificaVagasDisponivel(vagas, id_veiculo) {
