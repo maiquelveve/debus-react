@@ -59,9 +59,10 @@ export const validacao = async dados => {
             
             return errosValidados;
     })
-    
+
     //Valida de o Horario eh valido
     if( dados.horario !== '' && !validaHora(dados.horario)) {
+        errosValidados[0] = {success: 0, msg: 'formError'}
         errosValidados = [...errosValidados, { msg: 'Horário invalido.'}];
     }
 
@@ -70,6 +71,7 @@ export const validacao = async dados => {
         if(validaHora(dados.horario)) {
             const resultado = validaData(dados.data, dados.horario)
             if(resultado) {
+                errosValidados[0] = {success: 0, msg: 'formError'}
                 errosValidados = [...errosValidados,  resultado];
             } 
         }    
@@ -77,6 +79,7 @@ export const validacao = async dados => {
 
     //Valida se a quantidade de vagas da viagem não eh maior que a quantidade de acentos do veiculo escolhido 
     if( (dados.vagas !== '' && dados.vagas !== 0) && dados.id_veiculo !== 0 && !await verificaVagasDisponivel(dados.vagas, dados.id_veiculo)) {
+        errosValidados[0] = {success: 0, msg: 'formError'}
         errosValidados = [...errosValidados, { msg: 'Número de vagas é maior que a capacidade de lugares do véiculo'}];
     }
 
@@ -131,7 +134,6 @@ function validaData(data, horario) {
         const dataMinima = add(new Date(), { hours: 2})
         const dataMax = add(parseISO(format(new Date(),'yyyy-MM-dd')) , {months: 3, hours:23, minutes:59, seconds: 59})
 
-        //OK
         if(!isAfter(data, dataMinima)) {
             throw('MENOR')
          }
