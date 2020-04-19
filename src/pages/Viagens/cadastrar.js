@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import InputMask from 'react-input-mask';
+import CurrencyInput from 'react-currency-input';
 import {withRouter, Link} from 'react-router-dom';
 
 import AlertasResultados from '../../components/AlertasResultados';
@@ -25,6 +26,7 @@ function Cadastrar() {
     const[vagas, setVagas] = useState('')
     const[horario, setHorario] = useState('')
     const[data, setData] = useState('')
+    const[valor, setValor] = useState('')
 
     //States dos combos
     const[veiculosEmpresa, setVeiculosEmpresa] = useState([])
@@ -93,7 +95,7 @@ function Cadastrar() {
 
             async function cadastrar() {
                 try {
-                    const dadosViagem = await validacao({vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data})
+                    const dadosViagem = await validacao({vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data, valor})
 
                     if(dadosViagem.length > 0) {
                         setResultado(dadosViagem)
@@ -114,6 +116,7 @@ function Cadastrar() {
                         setVagas('')
                         setHorario('')
                         setData('')
+                        setValor('')
                         setVeiculosEmpresa([])
                     }
 
@@ -126,7 +129,7 @@ function Cadastrar() {
             }
             cadastrar()
         },
-        [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data]
+        [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data, valor]
     )
 
     return (  
@@ -165,7 +168,7 @@ function Cadastrar() {
                                     </div>
                                 </div>
                                 <div className="form-row">    
-                                    <div className="form-group col-lg-6 col-md-12">
+                                    <div className="form-group col-lg-4 col-md-12">
                                         <label>Veículo</label>
                                         <select 
                                             className="form-control" 
@@ -182,7 +185,7 @@ function Cadastrar() {
                                             }
                                         </select>    
                                     </div>
-                                    <div className="form-group col-lg-2 col-md-4">
+                                    <div className="form-group col-lg-2 col-md-3">
                                         <label>Vagas</label>
                                         <InputMask 
                                             className="form-control" 
@@ -193,7 +196,21 @@ function Cadastrar() {
                                             maskChar=''
                                         />
                                     </div>
-                                    <div className="form-group col-lg-2 col-md-4">
+                                    <div className="form-group col-lg-2 col-md-3">
+                                        <label>Preço</label>
+                                        <CurrencyInput   
+                                            className="form-control" 
+                                            value={valor} 
+                                            onChangeEvent={e => {setValor(e.target.value); handleLimparMsg()}} 
+                                            placeholder="Informe o valor" type="text"
+                                            decimalSeparator="," 
+                                            thousandSeparator="."
+                                            precision="2"
+                                            prefix="R$ "
+                                            selectAllOnFocus={true}
+                                        />
+                                    </div>
+                                    <div className="form-group col-lg-2 col-md-3">
                                         <label>Data</label>
                                         <InputMask 
                                             className="form-control" 
@@ -204,7 +221,7 @@ function Cadastrar() {
                                             maskChar=''
                                         />
                                     </div>
-                                    <div className="form-group col-lg-2 col-md-4">
+                                    <div className="form-group col-lg-2 col-md-3">
                                         <label>Horário</label>
                                         <InputMask 
                                             className="form-control" 

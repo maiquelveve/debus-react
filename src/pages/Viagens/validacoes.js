@@ -5,6 +5,7 @@ import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 export const validacao = async dados => {
+
     //Validando os dados INICIO
     let ViagemParaValidacao = {
         Vagas: dados.vagas === 0 || dados.vagas === ''  ? '' :  dados.vagas,
@@ -12,7 +13,8 @@ export const validacao = async dados => {
         Origem: dados.idReferenciaOrigem === 0 ? '' : dados.idReferenciaOrigem,
         Destino: dados.idReferenciaDestino === 0 ? '' : dados.idReferenciaDestino,
         Veiculo: dados.id_veiculo === 0 ? '' : dados.id_veiculo,
-        Data: dados.data
+        Data: dados.data,
+        Valor: dados.valor === '' ? 0 : ajustaValor(dados.valor)
     }
 
     yup.setLocale(validacaoDefinicao);
@@ -45,8 +47,11 @@ export const validacao = async dados => {
             
         Data: yup   
             .string()
-            .required()
-            
+            .required(), 
+
+        Valor: yup  
+            .number()
+            .max(999999.99)   
     })
 
     let errosValidados = await addressSchema.validate(ViagemParaValidacao, { abortEarly: false })
@@ -95,7 +100,8 @@ export const validacao = async dados => {
         nr_id_local_referencia_origem: dados.idReferenciaOrigem,
         nr_id_local_referencia_destino: dados.idReferenciaDestino,
         id_veiculo: dados.id_veiculo,
-        dt_data: ajustaData(dados.data)
+        dt_data: ajustaData(dados.data),
+        vl_valor: ajustaValor(dados.valor)
     }
 
     return dadosViagem;
@@ -158,6 +164,12 @@ function validaData(data, horario) {
                 return { msg: 'Data Invalida'}    
         }   
     }
+}
+
+function ajustaValor(valor) {
+    valor = valor.split(' ')
+    let novoValor = valor[1].replace(/\./gi,'').replace(/\,/gi,'.')
+    return parseFloat(novoValor)
 }
 
 function ajustaData(data) {

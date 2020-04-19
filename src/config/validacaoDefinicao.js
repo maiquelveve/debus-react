@@ -11,9 +11,9 @@ const validacaoDefinicao =
     },
     number: {
         moreThan: "${path} deve ser maior ${more}",
-        lessThan: "${path} deve ser maior que ${less}",
-        min: "${path} ser maior ${min} caracteres",
-        max: "${path} deve ter no máximo ${max} caracteres",
+        lessThan: "${path} deve ser menor que ${less}",
+        min: "${path} ser maior que ${min}",
+        max: "${path} não pode ser maior que ${max}",
         positive: '${path} deve ser um número posítivo',
         negative: '${path} deve ser um número negativo',
         integer: '${path} deve ser um número inteiro',
