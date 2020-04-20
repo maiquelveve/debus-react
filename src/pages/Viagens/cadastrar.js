@@ -35,6 +35,9 @@ function Cadastrar() {
     //States do resultado de erro ou sucesso
     const[resultado, setResultado] = useState([])
 
+    //States para informar o valor ou não (à combinar)
+    const[infoValor, setInfoValor] = useState(true)
+
     useEffect(
         () => {
             async function fetchData() {
@@ -86,6 +89,14 @@ function Cadastrar() {
             setResultado([])
         },  
         [resultado]
+    )
+
+    const handleTrocaInfValor = useCallback(
+        () => {
+            setInfoValor(!infoValor)
+            setValor(0)
+        },
+        [infoValor]
     )
 
     const handleCadastrar = useCallback(
@@ -197,18 +208,34 @@ function Cadastrar() {
                                         />
                                     </div>
                                     <div className="form-group col-lg-2 col-md-3">
-                                        <label>Preço</label>
-                                        <CurrencyInput   
-                                            className="form-control" 
-                                            value={valor} 
-                                            onChangeEvent={e => {setValor(e.target.value); handleLimparMsg()}} 
-                                            placeholder="Informe o valor" type="text"
-                                            decimalSeparator="," 
-                                            thousandSeparator="."
-                                            precision="2"
-                                            prefix="R$ "
-                                            selectAllOnFocus={true}
-                                        />
+                                        <label>
+                                            <div className="custom-control custom-switch">
+                                                <input 
+                                                    type="checkbox" 
+                                                    className="custom-control-input" 
+                                                    id="infValor" 
+                                                    onChange={handleTrocaInfValor}
+                                                    checked={infoValor} 
+                                                />
+                                                <label className="custom-control-label" for="infValor">
+                                                    {infoValor ? 'Valor unitário' : 'À combinar'}
+                                                </label>
+                                            </div>
+                                        </label>
+                                            { infoValor ?
+                                                <CurrencyInput   
+                                                className="form-control" 
+                                                value={valor} 
+                                                onChangeEvent={e => {setValor(e.target.value); handleLimparMsg()}} 
+                                                placeholder="Informe o valor" type="text"
+                                                decimalSeparator="," 
+                                                thousandSeparator="."
+                                                precision="2"
+                                                prefix="R$ "
+                                                selectAllOnFocus={true}
+                                                /> 
+                                                : <del><input value="R$ 0,00" className="form-control-plaintext text-center" disabled/></del>
+                                            }
                                     </div>
                                     <div className="form-group col-lg-2 col-md-3">
                                         <label>Data</label>
@@ -227,7 +254,7 @@ function Cadastrar() {
                                             className="form-control" 
                                             value={horario} 
                                             onChange={e => {setHorario(e.target.value); handleLimparMsg()}} 
-                                            placeholder="Informe lugares" type="text" 
+                                            placeholder="Informe Hora" type="text" 
                                             mask="99:99"
                                             maskChar=''
                                         />
