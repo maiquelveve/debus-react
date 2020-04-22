@@ -70,6 +70,7 @@ function Cadastrar() {
                         let errosValidados =  [{success: 0, msg: 'formError'}]
                         err.errors.map( err => {
                             errosValidados = [...errosValidados, { msg: err}];
+                            return true
                         })
                         
                         return errosValidados;
@@ -112,7 +113,7 @@ function Cadastrar() {
         () => {
             setResultado([])
         },
-        [resultado]
+        []
     )
 
     return (

@@ -13,7 +13,7 @@ function ListagemVeiculos({veiculos, retornoAtivacaoOuDesativacao}) {
             }
             desativarVeiculo(veiculo)
         },
-        []
+        [retornoAtivacaoOuDesativacao]
     )
 
     const handleAtivar = useCallback(
@@ -23,7 +23,7 @@ function ListagemVeiculos({veiculos, retornoAtivacaoOuDesativacao}) {
             }
             ativarVeiculo(veiculo)
         },
-        []
+        [retornoAtivacaoOuDesativacao]
     )
 
     return(

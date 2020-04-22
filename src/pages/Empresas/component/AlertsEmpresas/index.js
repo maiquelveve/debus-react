@@ -33,7 +33,7 @@ export const AlertDesativarEmpresa = (empresa, callbackAtivacaoOuDesativacao) =>
         if(value) {
             try {
                 //Mandar para a API
-                const retornoApi = await api.put(`/empresas/desativar/${empresa.id}`)
+                await api.put(`/empresas/desativar/${empresa.id}`)
                 
                 swal({
                     title: "Empresa Desativada!", 
@@ -50,7 +50,7 @@ export const AlertDesativarEmpresa = (empresa, callbackAtivacaoOuDesativacao) =>
                     },
                 }).then( () => { callbackAtivacaoOuDesativacao() });
             } catch (error) {
-                throw('Erro API')    
+                throw(error)
             }
         }        
     }).catch(err => {
@@ -87,7 +87,7 @@ export const AlertAtivarEmpresa = (empresa, callbackAtivacaoOuDesativacao) => {
         if(value) {
             try {
                 //Mandar para a API
-                const retornoApi = await api.put(`/empresas/ativar/${empresa.id}`)
+                await api.put(`/empresas/ativar/${empresa.id}`)
                 
                 swal({
                     title: "Empresa Ativada!", 
@@ -105,7 +105,7 @@ export const AlertAtivarEmpresa = (empresa, callbackAtivacaoOuDesativacao) => {
                 }).then( () => { callbackAtivacaoOuDesativacao() });
 
             } catch (error) {
-                throw('Erro API')  
+                throw(error)
             }
         }        
     }).catch(err => {

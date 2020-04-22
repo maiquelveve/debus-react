@@ -60,6 +60,7 @@ export const validacao = async dados => {
             let errosValidados =  [{success: 0, msg: 'formError'}]
             err.errors.map( err => {
                 errosValidados = [...errosValidados, { msg: err}];
+                return true
             })
             
             return errosValidados;
@@ -119,7 +120,7 @@ function validaHora(hora) {
     }
 
     //Valida 2 digito da HORA
-    if(hora.substring(0,1) == 2 && hora.substring(1,2) > 3) {
+    if(hora.substring(0,1) === 2 && hora.substring(1,2) > 3) {
         return false
     }
 
@@ -141,17 +142,17 @@ function validaData(data, horario) {
         const dataMax = add(parseISO(format(new Date(),'yyyy-MM-dd')) , {months: 3, hours:23, minutes:59, seconds: 59})
 
         if(!isAfter(data, dataMinima)) {
-            throw('MENOR')
+            throw new Error('MENOR')
          }
 
         if(isAfter(data, dataMax)) {
-           throw('MAIOR')
+           throw new Error('MAIOR')
         }
         
         return 
 
     } catch (error) {
-        switch(error) {
+        switch(error.message) {
             case 'MENOR':
                 const dataMinima = add(new Date(), { hours: 2})
                 return { msg: 'Data deve ser maior que ' + format(dataMinima, "dd/MM/yyyy 'às' HH:mm:ss")}
@@ -168,7 +169,8 @@ function validaData(data, horario) {
 
 function ajustaValor(valor) {
     valor = valor.split(' ')
-    let novoValor = valor[1].replace(/\./gi,'').replace(/\,/gi,'.')
+    let novoValor = valor[1].replace(/\./gi,'').replace(/,/gi,'.')
+    console.log(novoValor)
     return parseFloat(novoValor)
 }
 
@@ -178,7 +180,7 @@ function ajustaData(data) {
 
         //Caso o usuario não preencha a data no formato certo com pelo menos as 
         if(data.length < 3 || data[2].length !== 4) {
-            throw('INCOMPLETA')
+            throw new Error('INCOMPLETA')
         }
 
         data = `${data[2]}-${data[1]}-${data[0]}`

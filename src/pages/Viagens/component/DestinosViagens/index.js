@@ -51,7 +51,7 @@ function DestinosViagens(props) {
                 atualizarCombos()
             }
         },
-        [props.idPais]
+        [props]
     ) 
 
     useEffect(
@@ -75,7 +75,7 @@ function DestinosViagens(props) {
                 atualizarCombos()
             }
         },
-        [props.idEstado]
+        [props]
     )
 
     useEffect(
@@ -97,7 +97,7 @@ function DestinosViagens(props) {
                 atualizarCombos()
             } 
         },
-        [props.idCidade]
+        [props]
     )
 
     return(

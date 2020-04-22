@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { MdModeEdit, MdCancel, MdCached } from 'react-icons/md'; 
 import {AlertDesativarEmpresa, AlertAtivarEmpresa} from '../AlertsEmpresas';
@@ -11,7 +11,7 @@ function ListagemEmpresas({empresas, retornoAtivacaoOuDesativacao}) {
             }
             desativarEmpresa(empresa)
         },
-        []
+        [retornoAtivacaoOuDesativacao]
     )
 
     const handleAtivar = useCallback(
@@ -21,7 +21,7 @@ function ListagemEmpresas({empresas, retornoAtivacaoOuDesativacao}) {
             }
             ativarEmpresa(empresa)
         },
-        []
+        [retornoAtivacaoOuDesativacao]
     )
 
     return(

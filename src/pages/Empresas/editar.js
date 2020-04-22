@@ -38,7 +38,7 @@ function Editar(props) {
             }
             fetchData()
         },
-        []
+        [props.history, props.match.params.id]
     )
 
 
@@ -80,6 +80,7 @@ function Editar(props) {
                         let errosValidados =  [{success: 0, msg: 'formError'}]
                         err.errors.map( err => {
                             errosValidados = [...errosValidados, { msg: err}];
+                            return true
                         })
                         
                         return errosValidados;
@@ -110,14 +111,14 @@ function Editar(props) {
 
             cadastrar()
         }, 
-        [nome, recefi, celular]
+        [nome, recefi, celular, props.match.params.id]
     )
 
     const handleLimparResultado = useCallback(
         () => {
             setResultado([])
         },
-        [resultado]
+        []
     )
 
     return (

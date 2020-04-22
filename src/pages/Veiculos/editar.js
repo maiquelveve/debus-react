@@ -40,16 +40,16 @@ function Editar(props) {
                     props.history.push('/veiculos/listar')
                 }
             }
-            fetchData()
+            fetchData(props.history, props.match.params.id)
         },
-        []
+        [props.history, props.match.params.id]
     )
 
     const handleLimparMsg = useCallback(
         () => {
             setResultado([])
         },
-        [resultado]
+        []
     )    
 
     const handleEditar = useCallback(
@@ -88,6 +88,7 @@ function Editar(props) {
                         let errosValidados =  [{success: 0, msg: 'formError'}]
                         err.errors.map( err => {
                             errosValidados = [...errosValidados, { msg: err}];
+                            return true
                         })
                         
                         return errosValidados;
@@ -117,7 +118,7 @@ function Editar(props) {
             }
             editar()
         },
-        [placa, lugares, id_empresa]
+        [placa, lugares, id_empresa, props.match.params.id]
     )
 
     return(

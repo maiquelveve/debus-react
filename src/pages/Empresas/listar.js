@@ -35,7 +35,7 @@ function Listar() {
             }
             setRetornoAtivaDesativacao(0)
         },
-        [retornoAtivaDesativacao]
+        [retornoAtivaDesativacao, nome, recefi, ativa]
     )
 
     //Simple, faz a validação do token

@@ -11,7 +11,10 @@ import api from '../../services/api';
 import DestinosViagens from './component/DestinosViagens/'
 import { validacao } from './validacoes';
 
-function Cadastrar() {
+function Editar() {
+    //Viagem Salva no banco de dados
+    const[viagem, setViagem] = useState([])
+
     //States para serem gravadas no banco
     const[id_empresa, setIdEmpresa] = useState(0)
     const[id_veiculo, setIdVeiculo] = useState(0)
@@ -50,6 +53,11 @@ function Cadastrar() {
                 try {
                     const empresasUsuarioApi = await api.get(`/empresas/buscarDoUsuario`)
                     setEmpresasUsuario(empresasUsuarioApi.data)
+
+                    const id = 18;
+                    const retornoApi = await api.get(`/viagens/${id}`)
+                    console.log(retornoApi.data)
+                    setViagem(retornoApi.data)
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao buscar os dados no banco. Tente novamente mais tarde.')
@@ -99,12 +107,12 @@ function Cadastrar() {
         [infoValor]
     )
 
-    const handleCadastrar = useCallback(
+    const handleEditar = useCallback(
         e => {
             e.preventDefault()
             setResultado([])
 
-            async function cadastrar() {
+            async function editar() {
                 try {
                     const dadosViagem = await validacao({vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data, valor})
 
@@ -136,10 +144,10 @@ function Cadastrar() {
                     window.scrollTo(0, 0);
 
                 } catch (error) {
-                    AlertCatch('Ocorreu um erro ao cadastrar a viagem, tente novamente mais tarde.')                    
+                    AlertCatch('Ocorreu um erro ao editar a viagem, tente novamente mais tarde.')                    
                 }
             }
-            cadastrar()
+            editar()
         },
         [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data, valor]
     )
@@ -151,7 +159,7 @@ function Cadastrar() {
                     <span className="anchor" id="formLogin"></span>
                     <div className="card card-outline-secondary">
                         <div className="card-header">
-                            <h3 className="mb-0">Cadastrar Viagem</h3>
+                            <h3 className="mb-0">Editar Viagem</h3>
                         </div>
                         <div className="card-body">
                             { resultado.length !== 0 &&
@@ -159,7 +167,7 @@ function Cadastrar() {
                                     <AlertasResultados resultado={resultado} objeto="Viagem" acao="Cadastrado" />                   
                                 </div>
                             }     
-                            <form onSubmit={handleCadastrar}>
+                            <form onSubmit={handleEditar}>
                                 <div className="form-row">
                                     <div className="form-group col-12">
                                         <label>Empresa</label>
@@ -303,4 +311,4 @@ function Cadastrar() {
     );
 }
 
-export default withRouter(Cadastrar);
+export default withRouter(Editar);

@@ -33,7 +33,7 @@ export const AlertDesativarVeiculo = (veiculo, callbackAtivacaoOuDesativacao) =>
         if(value) {
             try {
                 //Mandar para a API
-                const retornoApi = await api.put(`/veiculos/desativar/${veiculo.id}`)
+                await api.put(`/veiculos/desativar/${veiculo.id}`)
                 
                 swal({
                     title: "Veículo Desativado!", 
@@ -50,7 +50,7 @@ export const AlertDesativarVeiculo = (veiculo, callbackAtivacaoOuDesativacao) =>
                     },
                 }).then( () => { callbackAtivacaoOuDesativacao() });
             } catch (error) {
-                throw('Erro API')    
+                throw(error)    
             }
         }        
     }).catch(err => {
@@ -87,7 +87,7 @@ export const AlertAtivarVeiculo = (veiculo, callbackAtivacaoOuDesativacao) => {
         if(value) {
             try {
                 //Mandar para a API
-                const retornoApi = await api.put(`/veiculos/ativar/${veiculo.id}`)
+                await api.put(`/veiculos/ativar/${veiculo.id}`)
                 
                 swal({
                     title: "Veículo Ativad0!", 
@@ -105,7 +105,7 @@ export const AlertAtivarVeiculo = (veiculo, callbackAtivacaoOuDesativacao) => {
                 }).then( () => { callbackAtivacaoOuDesativacao() });
 
             } catch (error) {
-                throw('Erro API')  
+                throw(error)  
             }
         }        
     }).catch(err => {

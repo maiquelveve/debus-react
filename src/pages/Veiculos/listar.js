@@ -34,7 +34,7 @@ function Listar() {
             }
             setRetornoAtivaDesativacao(0)
         },
-        [retornoAtivaDesativacao]
+        [retornoAtivaDesativacao, placa, ativo, id_empresa]
     )
 
     //Simple, faz a validação do token
