@@ -34,16 +34,19 @@ export const validaToken = async () => {
                          const result = await api.post('/config/validaToken', {}, { headers: {auth: localStorage.userToken}, validateStatus: status => status < 500});    
         */
         api.defaults.headers['auth'] = localStorage.userToken;  
-        const result = await api.post('/config/validaToken',{validateStatus: status => status < 500});
-
+        const result = await api.post('/config/validaToken', {}, {validateStatus: status => status < 500});
+        
         if(!result.data.success) {
             localStorage.removeItem('userToken');
             localStorage.removeItem('userActive');
+            await AlertCatch('Sua sessão expirou. Faça login novamente.')
         }
 
         return result.data.success;        
 
     } catch (error) {
-        AlertCatch('Ocorreu um erro na autenticação.')
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userActive');
+        await AlertCatch('Ocorreu um erro na autenticação.')
     }
 }

@@ -1,7 +1,7 @@
 import swal from 'sweetalert';
 
-export const AlertCatch = msg => {
-    swal({   
+export const AlertCatch = async msg => {
+    await swal({   
         title: "Ocorreu um erro!", 
         text: msg,
         buttons: {
