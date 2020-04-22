@@ -94,7 +94,7 @@ function Cadastrar() {
     const handleTrocaInfValor = useCallback(
         () => {
             setInfoValor(!infoValor)
-            setValor(0)
+            setValor('')
         },
         [infoValor]
     )
@@ -129,6 +129,7 @@ function Cadastrar() {
                         setData('')
                         setValor('')
                         setVeiculosEmpresa([])
+                        setInfoValor(true)
                     }
 
                     //Faz o scroll para o topo da pagina para ler as messagens de sucesso ou erros
