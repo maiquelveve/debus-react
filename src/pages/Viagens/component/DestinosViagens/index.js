@@ -33,9 +33,6 @@ function DestinosViagens(props) {
             setEstado([])
             setCidade([])
             setReferencia([])
-            props.setIdEstado(0)
-            props.setIdCidade(0)
-            props.setIdReferencia(0)
 
             async function atualizarCombos() {
                 try {
@@ -51,15 +48,13 @@ function DestinosViagens(props) {
                 atualizarCombos()
             }
         },
-        [props]
+        [props.idPais]
     ) 
 
     useEffect(
         () => {
             setCidade([])
             setReferencia([])
-            props.setIdCidade(0)
-            props.setIdReferencia(0)
 
             async function atualizarCombos() {
                 try {
@@ -75,13 +70,12 @@ function DestinosViagens(props) {
                 atualizarCombos()
             }
         },
-        [props]
+        [props.idEstado]
     )
 
     useEffect(
         () => {
             setReferencia([])
-            props.setIdReferencia(0)
 
             async function atualizarCombos() {
                 try {
@@ -97,7 +91,7 @@ function DestinosViagens(props) {
                 atualizarCombos()
             } 
         },
-        [props]
+        [props.idCidade]
     )
 
     return(
@@ -112,7 +106,13 @@ function DestinosViagens(props) {
                                 <select 
                                     className="form-control" 
                                     value={props.idPais} 
-                                    onChange={e => {props.setIdPais(parseInt(e.target.value)); props.handleLimparMsg()}}
+                                    onChange={e => {
+                                        props.setIdPais(parseInt(e.target.value)); 
+                                        props.setIdEstado(0)
+                                        props.setIdCidade(0)
+                                        props.setIdReferencia(0)
+                                        props.handleLimparMsg()
+                                    }}
                                 >
                                     <option value={0}>Selecine País</option>
                                     {
@@ -130,7 +130,12 @@ function DestinosViagens(props) {
                                 <select 
                                     className="form-control" 
                                     value={props.idEstado} 
-                                    onChange={e => {props.setIdEstado(parseInt(e.target.value)); props.handleLimparMsg()}}
+                                    onChange={e => {
+                                        props.setIdEstado(parseInt(e.target.value)); 
+                                        props.setIdCidade(0)
+                                        props.setIdReferencia(0)
+                                        props.handleLimparMsg()
+                                    }}
                                 >
                                     <option value={0}>Selecine Estado</option>
                                     {
@@ -147,7 +152,11 @@ function DestinosViagens(props) {
                                 <select 
                                     className="form-control" 
                                     value={props.idCidade} 
-                                    onChange={e => {props.setIdCidade(parseInt(e.target.value)); props.handleLimparMsg()}}
+                                    onChange={e => {
+                                            props.setIdCidade(parseInt(e.target.value)); 
+                                            props.setIdReferencia(0); 
+                                            props.handleLimparMsg()
+                                    }}
                                 >
                                     <option value={0}>Selecine Cidade</option>
                                     {

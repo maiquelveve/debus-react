@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import InputMask from 'react-input-mask';
 import CurrencyInput from 'react-currency-input';
-import {withRouter, Link} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import AlertasResultados from '../../components/AlertasResultados';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
@@ -11,10 +11,7 @@ import api from '../../services/api';
 import DestinosViagens from './component/DestinosViagens/'
 import { validacao } from './validacoes';
 
-function Editar() {
-    //Viagem Salva no banco de dados
-    const[viagem, setViagem] = useState([])
-
+function Editar(props) {
     //States para serem gravadas no banco
     const[id_empresa, setIdEmpresa] = useState(0)
     const[id_veiculo, setIdVeiculo] = useState(0)
@@ -54,10 +51,23 @@ function Editar() {
                     const empresasUsuarioApi = await api.get(`/empresas/buscarDoUsuario`)
                     setEmpresasUsuario(empresasUsuarioApi.data)
 
-                    const id = 18;
+                    const { id } = props.match.params
                     const retornoApi = await api.get(`/viagens/${id}`)
-                    console.log(retornoApi.data)
-                    setViagem(retornoApi.data)
+                    
+                    setHorario(retornoApi.data.hh_horario)
+                    setVagas(retornoApi.data.vagas)
+                    setValor(retornoApi.data.vl_valor)
+                    setData(retornoApi.data.dt_data)
+                    setIdEmpresa(retornoApi.data.id_empresa)
+                    setIdVeiculo(retornoApi.data.id_veiculo)
+                    setIdPaisOrigem(retornoApi.data.pais_origem_id)
+                    setIdEstadoOrigem(retornoApi.data.estado_origem_id)
+                    setIdCidadeOrigem(retornoApi.data.cidade_origem_id)
+                    setIdReferenciaOrigem(retornoApi.data.nr_id_local_referencia_origem)
+                    setIdPaisDestino(retornoApi.data.pais_destino_id)
+                    setIdEstadoDestino(retornoApi.data.estado_destino_id)
+                    setIdCidadeDestino(retornoApi.data.cidade_destino_id)
+                    setIdReferenciaDestino(retornoApi.data.nr_id_local_referencia_destino)
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao buscar os dados no banco. Tente novamente mais tarde.')
@@ -65,14 +75,13 @@ function Editar() {
             }
             fetchData();
         },
-        []
+        [props.match.params]
     )
-    
+
     //UseEffect para buscar os veiculos conforme a empresa escolhida
     useEffect(
         () => {
             setVeiculosEmpresa([])
-            setIdVeiculo(0)
             
             async function buscarVeiculosEmpresa() {
                 try {
@@ -90,7 +99,6 @@ function Editar() {
         },
         [id_empresa]
     )
-
 
     const handleLimparMsg = useCallback(
         () => {
@@ -153,7 +161,7 @@ function Editar() {
     )
 
     return (  
-        <div className="container-fluid h-100 mt-3">   
+        <div className="container-fluid h-100 mt-3"> 
             <div className="justify-content-center align-items-center h-100">
                 <div className="col-lg-12">
                     <span className="anchor" id="formLogin"></span>
@@ -174,7 +182,7 @@ function Editar() {
                                         <select 
                                             className="form-control" 
                                             value={id_empresa} 
-                                            onChange={e => {setIdEmpresa(parseInt(e.target.value)); handleLimparMsg()}}
+                                            onChange={e => {setIdEmpresa(parseInt(e.target.value)); setIdVeiculo(0); handleLimparMsg()}}
                                         >
                                             <option value={0}>Selecine Empresa</option>
                                             {
@@ -233,15 +241,15 @@ function Editar() {
                                         </label>
                                             { infoValor ?
                                                 <CurrencyInput   
-                                                className="form-control" 
-                                                value={valor} 
-                                                onChangeEvent={e => {setValor(e.target.value); handleLimparMsg()}} 
-                                                placeholder="Informe o valor" type="text"
-                                                decimalSeparator="," 
-                                                thousandSeparator="."
-                                                precision="2"
-                                                prefix="R$ "
-                                                selectAllOnFocus={true}
+                                                    className="form-control" 
+                                                    value={valor} 
+                                                    onChangeEvent={e => {setValor(e.target.value); handleLimparMsg()}} 
+                                                    placeholder="Informe o valor" type="text"
+                                                    decimalSeparator="," 
+                                                    thousandSeparator="."
+                                                    precision="2"
+                                                    prefix="R$ "
+                                                    selectAllOnFocus={true}
                                                 /> 
                                                 : <del><input value="R$ 0,00" className="form-control-plaintext text-center" disabled/></del>
                                             }
