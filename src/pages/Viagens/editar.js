@@ -10,6 +10,7 @@ import api from '../../services/api';
 
 import DestinosViagens from './component/DestinosViagens/'
 import { validacao } from './validacoes';
+import { ajustaDataFront, ajustaHoraFront, ajustaValorFront } from '../../services/ajustesDados';
 
 function Editar(props) {
     //States para serem gravadas no banco
@@ -54,10 +55,10 @@ function Editar(props) {
                     const { id } = props.match.params
                     const retornoApi = await api.get(`/viagens/${id}`)
                     
-                    setHorario(retornoApi.data.hh_horario)
+                    setHorario(ajustaHoraFront(retornoApi.data.hh_horario, true, false))
                     setVagas(retornoApi.data.vagas)
-                    setValor(retornoApi.data.vl_valor)
-                    setData(retornoApi.data.dt_data)
+                    setValor(ajustaValorFront(retornoApi.data.vl_valor))
+                    setData(ajustaDataFront(retornoApi.data.dt_data))
                     setIdEmpresa(retornoApi.data.id_empresa)
                     setIdVeiculo(retornoApi.data.id_veiculo)
                     setIdPaisOrigem(retornoApi.data.pais_origem_id)
@@ -128,24 +129,9 @@ function Editar(props) {
                         setResultado(dadosViagem)
 
                     } else {
-                        const retornoApi = await api.post('/viagens', dadosViagem, {headers:{auth: localStorage.userToken}})
+                        const { id } = props.match.params
+                        const retornoApi = await api.put(`/viagens/${id}`, dadosViagem, {headers:{auth: localStorage.userToken}})
                         setResultado(retornoApi.data)
-                        setIdEmpresa(0)
-                        setIdVeiculo(0)
-                        setIdPaisOrigem(0)
-                        setIdEstadoOrigem(0)
-                        setIdCidadeOrigem(0)
-                        setIdReferenciaOrigem(0)
-                        setIdPaisDestino(0)
-                        setIdEstadoDestino(0)
-                        setIdCidadeDestino(0)
-                        setIdReferenciaDestino(0)
-                        setVagas('')
-                        setHorario('')
-                        setData('')
-                        setValor('')
-                        setVeiculosEmpresa([])
-                        setInfoValor(true)
                     }
 
                     //Faz o scroll para o topo da pagina para ler as messagens de sucesso ou erros
@@ -157,7 +143,7 @@ function Editar(props) {
             }
             editar()
         },
-        [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data, valor]
+        [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data, valor, props.match.params]
     )
 
     return (  

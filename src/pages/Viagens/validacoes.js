@@ -5,7 +5,6 @@ import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 export const validacao = async dados => {
-
     //Validando os dados INICIO
     let ViagemParaValidacao = {
         Vagas: dados.vagas === 0 || dados.vagas === ''  ? '' :  dados.vagas,
@@ -170,7 +169,6 @@ function validaData(data, horario) {
 function ajustaValor(valor) {
     valor = valor.split(' ')
     let novoValor = valor[1].replace(/\./gi,'').replace(/,/gi,'.')
-    console.log(novoValor)
     return parseFloat(novoValor)
 }
 
