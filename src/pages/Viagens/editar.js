@@ -130,7 +130,7 @@ function Editar(props) {
 
                     } else {
                         const { id } = props.match.params
-                        const retornoApi = await api.put(`/viagens/${id}`, dadosViagem, {headers:{auth: localStorage.userToken}})
+                        const retornoApi = await api.put(`/viagens/${id}`, dadosViagem, {headers:{auth: localStorage.userToken}, validateStatus: status => status < 500})
                         setResultado(retornoApi.data)
                     }
 
@@ -158,7 +158,7 @@ function Editar(props) {
                         <div className="card-body">
                             { resultado.length !== 0 &&
                                 <div onClick={handleLimparMsg}>
-                                    <AlertasResultados resultado={resultado} objeto="Viagem" acao="Cadastrado" />                   
+                                    <AlertasResultados resultado={resultado} objeto="Viagem" acao="Editada" />                   
                                 </div>
                             }     
                             <form onSubmit={handleEditar}>

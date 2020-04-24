@@ -112,7 +112,7 @@ function Cadastrar() {
                         setResultado(dadosViagem)
 
                     } else {
-                        const retornoApi = await api.post('/viagens', dadosViagem, {headers:{auth: localStorage.userToken}})
+                        const retornoApi = await api.post('/viagens', dadosViagem, {headers:{auth: localStorage.userToken}, validateStatus: status => status < 500})
                         setResultado(retornoApi.data)
                         setIdEmpresa(0)
                         setIdVeiculo(0)
