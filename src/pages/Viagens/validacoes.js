@@ -119,7 +119,7 @@ function validaHora(hora) {
     }
 
     //Valida 2 digito da HORA
-    if(hora.substring(0,1) === 2 && hora.substring(1,2) > 3) {
+    if(parseInt(hora.substring(0,1)) === 2 && hora.substring(1,2) > 3) {
         return false
     }
 
