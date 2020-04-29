@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Usuarios/login';
 import CadastrarUsuarios from './pages/Usuarios/cadastrar';
-import MinhasViagens from './pages/Viagens';
+import ListarViagens from './pages/Viagens/listar';
 import CadastrarViagens from './pages/Viagens/cadastrar';
 import EditarViagens from './pages/Viagens/editar';
 import CadastrarEmpresas from './pages/Empresas/cadastrar';
@@ -22,7 +22,7 @@ function Routes() {
     return(
         <Switch>
             <Route exact path="/" component={Home} />
-            <PrivateRoute exact path="/viagens/minhasViagens" component={MinhasViagens} />
+            <PrivateRoute exact path="/viagens/listar" component={ListarViagens} />
             <PrivateRoute exact path="/viagens/cadastrar" component={CadastrarViagens} />
             <PrivateRoute exact path="/viagens/editar/:id" component={EditarViagens} />
             <PrivateRoute exact path="/empresas/editar/:id" component={EditarEmpresas} />

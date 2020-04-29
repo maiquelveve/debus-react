@@ -30,7 +30,7 @@ function Menus() {
                         <Link className="nav-link active" to="/empresas/listar">Empresas</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link active" to="/viagens/minhasViagens">Viagens</Link>
+                        <Link className="nav-link active" to="/viagens/listar">Viagens</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link active" onClick={ handleSair } to="" >Sair</Link>
