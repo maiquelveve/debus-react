@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { MdModeEdit, MdCancel, MdCached } from 'react-icons/md'; 
+import { MdModeEdit, MdCancel, MdSyncProblem } from 'react-icons/md'; 
+import { IoMdCheckmarkCircle } from 'react-icons/io';
 
 function ListagemViagens({viagens}) {
     return(
@@ -39,6 +40,11 @@ function ListagemViagens({viagens}) {
                                                         <MdModeEdit size={20} />
                                                     </span>
                                                 </Link>
+                                                <button type="button" className="btn btn-primary mx-1" value={viagem.id} >
+                                                    <span>
+                                                        <IoMdCheckmarkCircle size={20} />
+                                                    </span>
+                                                </button>
                                                 <button type="button" className="btn btn-danger mx-1" value={viagem.id} >
                                                     <span>
                                                         <MdCancel size={20} />
@@ -46,7 +52,7 @@ function ListagemViagens({viagens}) {
                                                 </button> 
                                                 <button type="button" className="btn btn-info mx-1" value={viagem.id} >
                                                     <span>
-                                                        <MdCached size={20} />
+                                                        <MdSyncProblem size={20} />
                                                     </span>
                                                 </button>       
                                             </td>
