@@ -1,7 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { MdModeEdit, MdCancel, MdSyncProblem } from 'react-icons/md'; 
-import { IoMdCheckmarkCircle } from 'react-icons/io';
+import AcoesTabela from './acoesTabela'
 
 function ListagemViagens({viagens}) {
     return(
@@ -35,26 +33,7 @@ function ListagemViagens({viagens}) {
                                             <td>{`${viagem.cidade_destino}/${viagem.estado_sigla_destino} - ${viagem.pais_sigla_destino}`}</td>
                                             <td>{viagem.dt_data.split('-').reverse().join('/')}</td>
                                             <td>
-                                                <Link to={`editar/${viagem.id}`} className="btn btn-success ml-1 mx-1">
-                                                    <span>
-                                                        <MdModeEdit size={20} />
-                                                    </span>
-                                                </Link>
-                                                <button type="button" className="btn btn-primary mx-1" value={viagem.id} >
-                                                    <span>
-                                                        <IoMdCheckmarkCircle size={20} />
-                                                    </span>
-                                                </button>
-                                                <button type="button" className="btn btn-danger mx-1" value={viagem.id} >
-                                                    <span>
-                                                        <MdCancel size={20} />
-                                                    </span>
-                                                </button> 
-                                                <button type="button" className="btn btn-info mx-1" value={viagem.id} >
-                                                    <span>
-                                                        <MdSyncProblem size={20} />
-                                                    </span>
-                                                </button>       
+                                                <AcoesTabela viagem={viagem} />
                                             </td>
                                         </tr>
                                     ))}
