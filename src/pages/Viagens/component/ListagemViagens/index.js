@@ -33,7 +33,7 @@ function ListagemViagens({viagens, callbackRetornoAcoes}) {
                                             <td>{`${viagem.cidade_origem}/${viagem.estado_sigla_origem} - ${viagem.pais_sigla_origem}`}</td>
                                             <td>{`${viagem.cidade_destino}/${viagem.estado_sigla_destino} - ${viagem.pais_sigla_destino}`}</td>
                                             <td>{viagem.dt_data.split('-').reverse().join('/')}</td>
-                                            <td>{viagem.en_situacao}</td>
+                                            <td>{viagem.en_situacao.toUpperCase()}</td>
                                             <td>
                                                 <AcoesTabela viagem={viagem} callbackRetornoAcoes={callbackRetornoAcoes} />
                                             </td>
