@@ -3,16 +3,21 @@ import { Link } from 'react-router-dom';
 import { MdModeEdit, MdCancel, MdSyncProblem } from 'react-icons/md'; 
 import { IoMdCheckmarkCircle } from 'react-icons/io';
 
+import { AlertCancelarViagem, AlertConfirmarViagem, AlertReativarViagem } from '../AlertsViagens';
+
 const handleConfirmarViagem = async viagem => {
     //aqui chama o alert estilizado sim/não 
+    AlertConfirmarViagem(viagem, ()=>{alert('callback CONFIRMAR')})
 }
 
 const handleCancelarViagem = async viagem => {
     //aqui chama o alert estilizado sim/não
+    AlertCancelarViagem(viagem, ()=>{alert('callback CANCELAR')})
 }
 
 const handleReativarViagem = async viagem => {
     //aqui chama o alert estilizado sim/não
+    AlertReativarViagem(viagem, ()=>{alert('callback REATIVAR')})
 }
 
 export const Editar = ({viagem}) => (
