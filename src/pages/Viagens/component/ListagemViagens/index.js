@@ -1,7 +1,7 @@
 import React from 'react'
 import AcoesTabela from './acoesTabela'
 
-function ListagemViagens({viagens}) {
+function ListagemViagens({viagens, callbackRetornoAcoes}) {
     return(
         <div className="row mt-4">
             <div className="col-lg-12">
@@ -20,6 +20,7 @@ function ListagemViagens({viagens}) {
                                         <th>Origem</th>
                                         <th>Destino</th>
                                         <th>Data</th>
+                                        <th>Situação</th>
                                         <th>Ação</th>
                                     </tr>
                                 </thead>
@@ -32,8 +33,9 @@ function ListagemViagens({viagens}) {
                                             <td>{`${viagem.cidade_origem}/${viagem.estado_sigla_origem} - ${viagem.pais_sigla_origem}`}</td>
                                             <td>{`${viagem.cidade_destino}/${viagem.estado_sigla_destino} - ${viagem.pais_sigla_destino}`}</td>
                                             <td>{viagem.dt_data.split('-').reverse().join('/')}</td>
+                                            <td>{viagem.en_situacao}</td>
                                             <td>
-                                                <AcoesTabela viagem={viagem} />
+                                                <AcoesTabela viagem={viagem} callbackRetornoAcoes={callbackRetornoAcoes} />
                                             </td>
                                         </tr>
                                     ))}

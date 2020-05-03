@@ -5,22 +5,22 @@ import { IoMdCheckmarkCircle } from 'react-icons/io';
 
 import { AlertCancelarViagem, AlertConfirmarViagem, AlertReativarViagem } from '../AlertsViagens';
 
-const handleConfirmarViagem = async viagem => {
+const handleConfirmarViagem = async (viagem, callbackRetornoAcoes) => {
     //aqui chama o alert estilizado sim/não 
-    AlertConfirmarViagem(viagem, ()=>{alert('callback CONFIRMAR')})
+    await AlertConfirmarViagem(viagem, callbackRetornoAcoes)
 }
 
-const handleCancelarViagem = async viagem => {
+const handleCancelarViagem = async (viagem, callbackRetornoAcoes) => {
     //aqui chama o alert estilizado sim/não
-    AlertCancelarViagem(viagem, ()=>{alert('callback CANCELAR')})
+    await AlertCancelarViagem(viagem, callbackRetornoAcoes)
 }
 
-const handleReativarViagem = async viagem => {
+const handleReativarViagem = async (viagem, callbackRetornoAcoes) => {
     //aqui chama o alert estilizado sim/não
-    AlertReativarViagem(viagem, ()=>{alert('callback REATIVAR')})
+    await AlertReativarViagem(viagem, callbackRetornoAcoes)
 }
 
-export const Editar = ({viagem}) => (
+export const Editar = ({viagem, callbackRetornoAcoes}) => (
     <Link to={`editar/${viagem.id}`} className="btn btn-success ml-1 mx-1">
         <span>
             <MdModeEdit size={20} />
@@ -28,24 +28,24 @@ export const Editar = ({viagem}) => (
     </Link>
 )
 
-export const Confirmar = ({viagem}) => (
-    <button type="button" className="btn btn-primary mx-1" onClick={ () => {handleConfirmarViagem(viagem)} }>
+export const Confirmar = ({viagem, callbackRetornoAcoes}) => (
+    <button type="button" className="btn btn-primary mx-1" onClick={ () => {handleConfirmarViagem(viagem, callbackRetornoAcoes)} }>
         <span>
             <IoMdCheckmarkCircle size={20} />
         </span>
     </button>
 )
 
-export const Cancelar = ({viagem}) => (
-    <button type="button" className="btn btn-danger mx-1" onClick={ () => {handleCancelarViagem(viagem)} }>
+export const Cancelar = ({viagem, callbackRetornoAcoes}) => (
+    <button type="button" className="btn btn-danger mx-1" onClick={ () => {handleCancelarViagem(viagem, callbackRetornoAcoes)} }>
         <span>
             <MdCancel size={20} />
         </span>
     </button> 
 )
 
-export const Reativar = ({viagem}) => (
-    <button type="button" className="btn btn-info mx-1" onClick={ () => {handleReativarViagem(viagem)} }>
+export const Reativar = ({viagem, callbackRetornoAcoes}) => (
+    <button type="button" className="btn btn-info mx-1" onClick={ () => {handleReativarViagem(viagem, callbackRetornoAcoes)} }>
         <span>
             <MdSyncProblem size={20} />
         </span>

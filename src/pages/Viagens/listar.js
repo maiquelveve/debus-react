@@ -15,6 +15,7 @@ function Listar() {
     const [situacao, setSituacao] = useState('')
     const [placa, setPlaca] = useState('')
     const [data, setData] = useState('')
+    const [retornoAcoes, setRetornoAcoes] = useState(0)
 
     //Simple, faz a validação do token
     useEffect(
@@ -38,12 +39,41 @@ function Listar() {
         []
     )
 
+    //Isso eh para quando houver uma troca de situação o componente recede essa function e executa quando terminar 
+    const callbackRetornoAcoes = () => { setRetornoAcoes(retornoAcoes + 1) }
+    useEffect(
+        () => {
+            if(retornoAcoes > 0) {
+                setViagens([])
+
+                async function listarViagens() {
+                    try {
+                        const params = {
+                            id_empresa, 
+                            en_situacao: situacao, 
+                            st_placa: placa.replace('-', ''), 
+                            dt_data: data.split('/').reverse().join('-')
+                        }
+                        const retornoApi = await api.get('/viagens', {params, headers:{'auth': localStorage.userToken}, validateStatus: status => status < 500})
+                        setViagens(retornoApi.data)
+                        
+                    } catch (error) {
+                        await AlertCatch('Houveram problemas ao listar as Viagens. Tente novamente.')                
+                    }
+                }
+                listarViagens()
+            }
+            setRetornoAcoes(0)
+        },
+        [retornoAcoes, id_empresa, situacao, placa, data]
+    )
+
     const handleListar = useCallback(
         e => {
             e.preventDefault()
             setViagens([])
 
-             async function listarViagens() {
+            async function listarViagens() {
                 try {
                     const params = {
                         id_empresa, 
@@ -143,7 +173,7 @@ function Listar() {
                 </div> 
             </div>    
             {viagens.length !== 0 ?
-                <ListagemViaagens viagens={viagens} />
+                <ListagemViaagens viagens={viagens} callbackRetornoAcoes={callbackRetornoAcoes} />
             :
                 <p className="mt-5" align="center">Não encotramos nenhuma Viagem.</p>
             }     
