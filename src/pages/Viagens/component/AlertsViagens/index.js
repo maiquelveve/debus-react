@@ -33,7 +33,7 @@ export const AlertConfirmarViagem = (viagem, callbackRetornoAcoes) => {
         if(value) {
             try {
                 //Mandar para a API
-                //await api.put(`/veiculos/desativar/${viagem.id}`)
+                await api.put(`/viagens/confirmar/${viagem.id}`)
                 
                 swal({
                     title: "Viagem Confirmada!", 
@@ -88,7 +88,7 @@ export const AlertCancelarViagem = (viagem, callbackRetornoAcoes) => {
         if(value) {
             try {
                 //Mandar para a API
-                //await api.put(`/veiculos/desativar/${viagem.id}`)
+                await api.put(`/viagens/cancelar/${viagem.id}`)
 
                 swal({
                     title: "Viagem Cancelada!", 
@@ -144,7 +144,7 @@ export const AlertReativarViagem = (viagem, callbackRetornoAcoes) => {
         if(value) {
             try {
                 //Mandar para a API
-                //await api.put(`/veiculos/desativar/${viagem.id}`)
+                await api.put(`/viagens/reativar/${viagem.id}`)
                 
                 swal({
                     title: "Viagem Reativada!", 
