@@ -43,10 +43,8 @@ function Listar() {
     const callbackRetornoAcoes = () => { setRetornoAcoes(retornoAcoes + 1) }
     useEffect(
         () => {
-            if(retornoAcoes > 0) {
-                setViagens([])
-
-                async function listarViagens() {
+            if(retornoAcoes !== 0) {
+                async function renovarPesquisa() {
                     try {
                         const params = {
                             id_empresa, 
@@ -61,7 +59,7 @@ function Listar() {
                         await AlertCatch('Houveram problemas ao listar as Viagens. Tente novamente.')                
                     }
                 }
-                listarViagens()
+                renovarPesquisa()
             }
             setRetornoAcoes(0)
         },
