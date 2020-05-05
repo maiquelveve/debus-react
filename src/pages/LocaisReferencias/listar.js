@@ -6,6 +6,7 @@ import { validaToken }  from '../../services/auth';
 
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import ComboPaisEstadosCidades from '../../components/CombosPaisEstadosCidades';
+import ListagemLocaisReferencias from './component/ListagemLocaisReferencias';
 
 function Listar() {
     const [localReferencia, setLocalReferencia] = useState('')
@@ -93,7 +94,7 @@ function Listar() {
                 </div>
             </div>
             {locaisReferencias.length > 0 ?
-                <p className="mt-5" align="center">Locais Encontrados</p>
+                <ListagemLocaisReferencias  locaisReferencias={locaisReferencias} />
              :
                 <p className="mt-5" align="center">Não foram encontrados nenhum Local de Referência</p>   
             }
