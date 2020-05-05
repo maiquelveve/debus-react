@@ -40,7 +40,7 @@ function Editar(props) {
             }
             fetchData();
         },
-        []
+        [props.match.params]
     )
 
     const handleLimparMsg = useCallback(
@@ -73,7 +73,7 @@ function Editar(props) {
             }
             editar()
         },
-        [localReferencia, idCidade]
+        [localReferencia, idCidade, props.match.params ]
     )
 
     return(

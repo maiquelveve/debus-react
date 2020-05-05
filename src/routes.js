@@ -15,6 +15,7 @@ import EditarVeiculos from './pages/Veiculos/editar';
 import ListarVeiculos from './pages/Veiculos/listar';
 import CadastrarLocaisRefrencias from './pages/LocaisReferencias/cadastrar';
 import EditarLocaisRefrencias from './pages/LocaisReferencias/editar';
+import ListarLocaisReferencias from './pages/LocaisReferencias/listar';
 
 import Erro from './pages/Erro';
 
@@ -25,6 +26,7 @@ function Routes() {
         <Switch>
             <Route exact path="/" component={Home} />
             <PrivateRoute exact path="/locaisReferencias/cadastrar" component={CadastrarLocaisRefrencias} />
+            <PrivateRoute exact path="/locaisReferencias/listar" component={ListarLocaisReferencias} />
             <PrivateRoute exact path="/locaisReferencias/editar/:id" component={EditarLocaisRefrencias} />
             <PrivateRoute exact path="/viagens/listar" component={ListarViagens} />
             <PrivateRoute exact path="/viagens/cadastrar" component={CadastrarViagens} />
