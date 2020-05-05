@@ -29,7 +29,6 @@ function Editar(props) {
                 try {
                     const { id } = props.match.params 
                     const retornoApi = await api.get(`/locaisReferencias/${id}`)
-                    console.log(retornoApi.data)
                     setLocalReferencia(retornoApi.data[0].st_dsc)
                     setIdPais(retornoApi.data[0].id_pais)
                     setIdEstado(retornoApi.data[0].id_estado)
@@ -63,7 +62,8 @@ function Editar(props) {
                     if (dados.length > 0) {
                         setResultado(dados)
                     } else {
-                        const retornoApi = await api.post('/locaisReferencias', dados, { headers:{auth: localStorage.userToken}, validateStatus: status => status < 500 })
+                        const { id } = props.match.params 
+                        const retornoApi = await api.put(`/locaisReferencias/${id}`, dados, { headers:{auth: localStorage.userToken}, validateStatus: status => status < 500 })
                         setResultado(retornoApi.data)
                     }
 
