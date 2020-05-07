@@ -20,7 +20,7 @@ const handleReativarViagem = async (viagem, callbackRetornoAcoes) => {
     await AlertReativarViagem(viagem, callbackRetornoAcoes)
 }
 
-export const Editar = ({viagem, callbackRetornoAcoes}) => (
+export const Editar = ({viagem}) => (
     <Link to={`editar/${viagem.id}`} className="btn btn-success ml-1 mx-1">
         <span>
             <MdModeEdit size={20} />

@@ -14,6 +14,7 @@ function Listar() {
     const [idEstado, setIdEstado] = useState(0)
     const [idCidade, setIdCidade] = useState(0)
     const [locaisReferencias, setLocaisReferencias] = useState([])
+    const [retornoCallback, setRetornoCallback] = useState(0)
     
     useEffect(
         () => {
@@ -28,6 +29,33 @@ function Listar() {
         []
     )
 
+    //USEEFFECT para renovar a pesquisa depois de alguma ação nos registros listados, ex: cancelar local de referencia
+    useEffect(
+        () => {
+            async function renovarPesquisa() {
+                try {
+                    const params = {
+                        id_pais: idPais,
+                        id_estado: idEstado,
+                        id_cidade: idCidade,
+                        st_dsc: localReferencia
+                    }
+
+                    const retornoApi = await api.get('/locaisReferencias/listar', { params, headers:{'auth': localStorage.userToken}, validateStatus: status => status < 500 })
+                    setLocaisReferencias(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Hoveram problemas ao realizar a pesquisa dos locais de referência. Tente novamente mais tarde.')
+                }
+            }
+
+            if(retornoCallback > 0) {
+                renovarPesquisa()
+            }
+        },
+        [retornoCallback, idPais, idEstado, idCidade, localReferencia]
+    )
+
     const handleListar = useCallback(
         e => {
             e.preventDefault()
@@ -35,6 +63,8 @@ function Listar() {
             async function listar() {
                 try {
                     const params = {
+                        id_pais: idPais,
+                        id_estado: idEstado,
                         id_cidade: idCidade,
                         st_dsc: localReferencia
                     }
@@ -48,7 +78,12 @@ function Listar() {
             }
             listar()
         },
-        [idCidade, localReferencia]
+        [idCidade, localReferencia, idPais, idEstado]
+    )
+
+    const retornoCallBackFunction = useCallback(
+        () => setRetornoCallback(retornoCallback + 1),
+        [retornoCallback]
     )
 
     return(
@@ -94,7 +129,7 @@ function Listar() {
                 </div>
             </div>
             {locaisReferencias.length > 0 ?
-                <ListagemLocaisReferencias  locaisReferencias={locaisReferencias} />
+                <ListagemLocaisReferencias  locaisReferencias={locaisReferencias} retornoCallBackFunction={retornoCallBackFunction} />
              :
                 <p className="mt-5" align="center">Não foram encontrados nenhum Local de Referência</p>   
             }

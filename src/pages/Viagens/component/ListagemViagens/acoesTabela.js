@@ -5,7 +5,7 @@ function AcoesTabela({viagem, callbackRetornoAcoes}) {
     return(
         <>
             {viagem.en_situacao === 'aguardando confirmação' &&
-                <Editar viagem={viagem} callbackRetornoAcoes={callbackRetornoAcoes} />
+                <Editar viagem={viagem} />
             }
             
             {viagem.en_situacao === 'aguardando confirmação' &&

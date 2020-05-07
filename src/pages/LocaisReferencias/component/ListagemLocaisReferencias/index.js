@@ -2,7 +2,7 @@ import React from 'react'
 
 import AcoesTabela from './acoesTabela';
 
-function ListagemLocaisReferencias({locaisReferencias}) {
+function ListagemLocaisReferencias({locaisReferencias, retornoCallBackFunction}) {
     return(
         <div className="row mt-4">
             <div className="col-lg-12">
@@ -32,7 +32,7 @@ function ListagemLocaisReferencias({locaisReferencias}) {
                                             <td>{localReferencia.id_estado}</td>
                                             <td>{localReferencia.id_cidade}</td>
                                             <td>
-                                                {<AcoesTabela  localReferencia={localReferencia} />}
+                                                {<AcoesTabela  localReferencia={localReferencia} retornoCallBackFunction={retornoCallBackFunction} />}
                                             </td>
                                         </tr>
                                     ))}
