@@ -33,7 +33,7 @@ export const AlertCancelarLocalReferencia = (localReferencia, callbackRetornoAco
         if(value) {
             try {
                 //Mandar para a API
-                await api.put(`/locaisReferencias/cancelar/${localReferencia.id}`)//fazer a rota na API
+                await api.put(`/locaisReferencias/cancelar/${localReferencia.id}`)
 
                 swal({
                     title: "Local de Referência Cancelado!", 
