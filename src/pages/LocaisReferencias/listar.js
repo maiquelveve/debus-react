@@ -120,7 +120,7 @@ function Listar() {
                                 <div className="form-row mt-2">
                                     <div className="form-group col-sm-12">
                                         <button type="submit" className="btn btn-success btn-lg">Buscar</button>
-                                        <Link className="btn btn-dark btn-lg ml-1" to="listar">Cadastrar</Link>
+                                        <Link className="btn btn-dark btn-lg ml-1" to="cadastrar">Cadastrar</Link>
                                     </div>
                                 </div>
                             </form>
