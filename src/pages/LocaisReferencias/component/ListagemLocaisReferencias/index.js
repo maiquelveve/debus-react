@@ -17,7 +17,7 @@ function ListagemLocaisReferencias({locaisReferencias, retornoCallBackFunction})
                                     <tr align="center">
                                         <th>#</th>
                                         <th>Descrição</th>
-                                        <th>Paiís</th>
+                                        <th>País</th>
                                         <th>Estado</th>
                                         <th>Cidade</th>
                                         <th>Ação</th>
@@ -28,9 +28,9 @@ function ListagemLocaisReferencias({locaisReferencias, retornoCallBackFunction})
                                         <tr key={localReferencia.id} align="center">
                                             <th scope="row">{localReferencia.id}</th>
                                             <td>{localReferencia.st_dsc}</td>
-                                            <td>{localReferencia.id_pais}</td>
-                                            <td>{localReferencia.id_estado}</td>
-                                            <td>{localReferencia.id_cidade}</td>
+                                            <td>{localReferencia.st_pais}</td>
+                                            <td>{localReferencia.ch_sigla_estado}</td>
+                                            <td>{localReferencia.st_nome}</td>
                                             <td>
                                                 {<AcoesTabela  localReferencia={localReferencia} retornoCallBackFunction={retornoCallBackFunction} />}
                                             </td>
