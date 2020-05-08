@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
+import api from '../../services/api';
 import { validaToken } from '../../services/auth';
+import { AlertCatch } from '../../components/AlertasDefaultSistema'
 
 function Home() {
+    const [viagens, setViagens] = useState([])
+
     useEffect(
         () => {
             async function fetchData() {
@@ -11,6 +15,14 @@ function Home() {
                     if(!token) {
                         window.location.reload('/')
                     }
+                }
+
+                try {
+                    const retornoApi = await api.get('/viagens/buscarViagensHome');
+                    setViagens(retornoApi.data)
+
+                } catch (error) {
+                    AlertCatch('Houveram alguns erros ao carregar as viagens. Tente novamente mais tarde.')
                 }
             }
             fetchData()
@@ -26,58 +38,28 @@ function Home() {
                 <Link className="btn btn-primary btn-lg" to="/">Call to action!</Link>
             </header>
 
-            <div className="row text-center">
-                <div className="col-lg-3 col-md-6 mb-4">
-                    <div className="card h-100">
-                        <img className="card-img-top" src="http://placehold.it/500x325" alt="" />
-                        <div className="card-body">
-                            <h4 className="card-title">Card title</h4>
-                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            <div className="row">
+                {viagens.length > 0 &&
+                    viagens.map( viagem => (
+                        <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
+                            <div className="card h-100">
+                                <div className="card-header">
+                                    <h5 className="card-title"><strong>Origem:</strong> Canoas/RS</h5>
+                                    <h5 className="card-title"><strong>Destino:</strong> Campo Bom/RS</h5>
+                                </div>
+                                <div className="card-body">
+                                    <p className="card-text"><strong>Empresa:</strong> FRAN TURNS</p>
+                                    <p className="card-text"><strong>Data:</strong> 15/05/2020</p>
+                                    <p className="card-text"><strong>Hora:</strong> 08:35</p>
+                                    <p className="card-text"><strong>Valor:</strong> R$ 15,54</p>
+                                </div>
+                                <div className="card-footer text-center">
+                                    <Link className="btn-lg btn btn-primary" to="/">Participar</Link>
+                                </div>
+                            </div>
                         </div>
-                        <div className="card-footer">
-                        <Link className="btn btn-primary" to="/">Find Out More!</Link>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-lg-3 col-md-6 mb-4">
-                    <div className="card h-100">
-                        <img className="card-img-top" src="http://placehold.it/500x325" alt="" />
-                        <div className="card-body">
-                            <h4 className="card-title">Card title</h4>
-                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
-                        </div>
-                        <div className="card-footer">
-                            <Link className="btn btn-primary" to="/">Find Out More!</Link>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-lg-3 col-md-6 mb-4">
-                    <div className="card h-100">
-                        <img className="card-img-top" src="http://placehold.it/500x325" alt="" />
-                        <div className="card-body">
-                            <h4 className="card-title">Card title</h4>
-                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-                        </div>
-                        <div className="card-footer">
-                            <Link className="btn btn-primary" to="/">Find Out More!</Link>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-lg-3 col-md-6 mb-4">
-                    <div className="card h-100">
-                        <img className="card-img-top" src="http://placehold.it/500x325" alt="" />
-                        <div className="card-body">
-                            <h4 className="card-title">Card title</h4>
-                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
-                        </div>
-                        <div className="card-footer">
-                            <Link className="btn btn-primary" to="/">Find Out More!</Link>
-                        </div>
-                    </div>
-                </div>
+                    ))
+                }                        
             </div>
         </div>
     );
