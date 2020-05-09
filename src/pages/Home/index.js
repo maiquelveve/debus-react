@@ -19,6 +19,7 @@ function Home() {
 
                 try {
                     const retornoApi = await api.get('/viagens/buscarViagensHome');
+                    console.log(retornoApi.data)
                     setViagens(retornoApi.data)
 
                 } catch (error) {
@@ -41,20 +42,20 @@ function Home() {
             <div className="row">
                 {viagens.length > 0 &&
                     viagens.map( viagem => (
-                        <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div className="col-lg-4 col-md-6 col-sm-12 mb-4" key={viagem.id}>
                             <div className="card h-100">
                                 <div className="card-header">
-                                    <h5 className="card-title"><strong>Origem:</strong> Canoas/RS</h5>
-                                    <h5 className="card-title"><strong>Destino:</strong> Campo Bom/RS</h5>
+                                    <h5 className="card-title"><strong>Origem:</strong> {`${viagem.cidade_origem}/${viagem.estado_sigla_origem}`}</h5>
+                                    <h5 className="card-title"><strong>Destino:</strong> {`${viagem.cidade_destino}/${viagem.estado_sigla_destino}`}</h5>
                                 </div>
-                                <div className="card-body">
-                                    <p className="card-text"><strong>Empresa:</strong> FRAN TURNS</p>
-                                    <p className="card-text"><strong>Data:</strong> 15/05/2020</p>
-                                    <p className="card-text"><strong>Hora:</strong> 08:35</p>
-                                    <p className="card-text"><strong>Valor:</strong> R$ 15,54</p>
+                                <div className="card-body text-center">
+                                    <p className="card-text"><strong>Empresa:</strong> {viagem.st_nome}</p>
+                                    <p className="card-text"><strong>Data:</strong> { viagem.dt_data.split('-').reverse().join('/') }</p>
+                                    <p className="card-text"><strong>Hora:</strong> { viagem.hh_horario.substring(0,5) } </p>
+                                    <p className="card-text"><strong>Valor:</strong> { Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(viagem.vl_valor) }</p>
                                 </div>
                                 <div className="card-footer text-center">
-                                    <Link className="btn-lg btn btn-primary" to="/">Participar</Link>
+                                    <Link className="btn-lg btn btn-primary" to={`/viagens/reversa/${viagem.id}`}>Participar</Link>
                                 </div>
                             </div>
                         </div>
