@@ -5,7 +5,7 @@ import { validaToken } from '../../services/auth';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
-import { Loading } from '../../components/Loading'
+import { Loading, ExibirLoadingLayout } from '../../components/Loading'
 
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
@@ -38,6 +38,7 @@ function Reservar(props) {
 
     return(
         <div>
+            <ExibirLoadingLayout />
             <p>{viagem.id}</p>
         </div>
     )

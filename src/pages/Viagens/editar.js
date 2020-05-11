@@ -11,6 +11,7 @@ import api from '../../services/api';
 import DestinosViagens from './component/DestinosViagens/'
 import { validacao } from './validacoes';
 import { ajustaDataFront, ajustaHoraFront, ajustaValorFront } from '../../services/ajustesDados';
+import { ExibirLoadingLayout } from '../../components/Loading'
 
 function Editar(props) {
     //States para serem gravadas no banco
