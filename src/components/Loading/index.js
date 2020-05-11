@@ -16,11 +16,11 @@ export function ExibirLoadingLayout() {
     const[exibirLoading, setExibirLoading] = useState(true)
     
     if(exibirLoading) {
-        setTimeout(() => setExibirLoading(false), 500)
+        setTimeout(() => setExibirLoading(false), 2000)
         return(
             <div className="loading_circular">
                 <CircularProgress />
-                <p>Carregando FAKE....</p>
+                <p>Carregando....</p>
             </div>
         )
     } else {

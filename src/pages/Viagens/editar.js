@@ -11,7 +11,7 @@ import api from '../../services/api';
 import DestinosViagens from './component/DestinosViagens/'
 import { validacao } from './validacoes';
 import { ajustaDataFront, ajustaHoraFront, ajustaValorFront } from '../../services/ajustesDados';
-import { ExibirLoadingLayout } from '../../components/Loading'
+import { Loading ,ExibirLoadingLayout } from '../../components/Loading'
 
 function Editar(props) {
     //States para serem gravadas no banco
@@ -29,6 +29,7 @@ function Editar(props) {
     const[horario, setHorario] = useState('')
     const[data, setData] = useState('')
     const[valor, setValor] = useState('')
+    const[load, setLoad] = useState(true)
 
     //States dos combos
     const[veiculosEmpresa, setVeiculosEmpresa] = useState([])
@@ -70,6 +71,7 @@ function Editar(props) {
                     setIdEstadoDestino(retornoApi.data.estado_destino_id)
                     setIdCidadeDestino(retornoApi.data.cidade_destino_id)
                     setIdReferenciaDestino(retornoApi.data.nr_id_local_referencia_destino)
+                    setLoad(false)
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao buscar os dados no banco. Tente novamente mais tarde.')
@@ -147,7 +149,11 @@ function Editar(props) {
         [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data, valor, props.match.params]
     )
 
+    if(load) return <Loading />    
+
     return (  
+        <>
+        <ExibirLoadingLayout />
         <div className="container-fluid h-100 mt-3"> 
             <div className="justify-content-center align-items-center h-100">
                 <div className="col-lg-12">
@@ -294,7 +300,7 @@ function Editar(props) {
                                 <div className="form-row mt-2">
                                     <div className="form-group col-sm-12">
                                         <button type="submit" className="btn btn-success btn-lg">Salvar</button>
-                                        <Link className="btn btn-primary btn-lg ml-1" to="listar">Voltar</Link>
+                                        <Link className="btn btn-primary btn-lg ml-1" to="../listar">Voltar</Link>
                                     </div>
                                 </div>
                             </form>
@@ -303,6 +309,7 @@ function Editar(props) {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
