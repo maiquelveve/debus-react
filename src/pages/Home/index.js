@@ -55,7 +55,7 @@ function Home() {
                                     <p className="card-text"><strong>Valor:</strong> { Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(viagem.vl_valor) }</p>
                                 </div>
                                 <div className="card-footer text-center">
-                                    <Link className="btn-lg btn btn-primary" to={`/viagens/reversa/${viagem.id}`}>Participar</Link>
+                                    <Link className="btn-lg btn btn-primary" to={`/viagens/reservar/${viagem.id}`}>Reservar</Link>
                                 </div>
                             </div>
                         </div>

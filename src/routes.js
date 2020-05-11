@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Usuarios/login';
 import CadastrarUsuarios from './pages/Usuarios/cadastrar';
+import ReservarViagens from './pages/Viagens/reservar';
 import ListarViagens from './pages/Viagens/listar';
 import CadastrarViagens from './pages/Viagens/cadastrar';
 import EditarViagens from './pages/Viagens/editar';
@@ -31,6 +32,7 @@ function Routes() {
             <PrivateRoute exact path="/viagens/listar" component={ListarViagens} />
             <PrivateRoute exact path="/viagens/cadastrar" component={CadastrarViagens} />
             <PrivateRoute exact path="/viagens/editar/:id" component={EditarViagens} />
+            <PrivateRoute exact path="/viagens/reservar/:id" component={ReservarViagens} />
             <PrivateRoute exact path="/empresas/editar/:id" component={EditarEmpresas} />
             <PrivateRoute exact path="/empresas/cadastrar" component={CadastrarEmpresas} />
             <PrivateRoute exact path="/empresas/listar" component={ListarEmpresas} />
