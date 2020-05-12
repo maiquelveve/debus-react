@@ -149,11 +149,11 @@ function Editar(props) {
         [vagas, horario, idReferenciaOrigem, idReferenciaDestino, id_veiculo, data, valor, props.match.params]
     )
 
-    if(load) return <Loading />    
+    if(load) return <Loading size={80} />    
 
     return (  
         <>
-        <ExibirLoadingLayout />
+        <ExibirLoadingLayout size={95} />
         <div className="container-fluid h-100 mt-3"> 
             <div className="justify-content-center align-items-center h-100">
                 <div className="col-lg-12">

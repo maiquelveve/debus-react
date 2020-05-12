@@ -6,3 +6,11 @@
     justify-content: center;
     align-items: center;
 }
+
+.loading_linha_layout {
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-left:-110px;
+    margin-top:-40px;
+}

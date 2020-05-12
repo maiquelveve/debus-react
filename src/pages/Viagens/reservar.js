@@ -34,11 +34,11 @@ function Reservar(props) {
         [props.match.params]
     )
         
-    if(load) return(<Loading />) 
+    if(load) return(<Loading size={80} />) 
 
     return(
         <div>
-            <ExibirLoadingLayout />
+            <ExibirLoadingLayout size={95} />
             <p>{viagem.id}</p>
         </div>
     )
