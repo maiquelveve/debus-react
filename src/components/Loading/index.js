@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CircularProgress } from '@material-ui/core';
 import {  makeStyles, withStyles } from '@material-ui/core/styles';
 
@@ -41,7 +41,7 @@ function LoadingCircularCompletando(props) {
     const classes = useStyles();
     const [completed, setCompleted] = React.useState(0);
   
-    React.useEffect(() => {
+    useEffect(() => {
       function progress() {
         setCompleted((prevCompleted) => (prevCompleted >= 100 ? 100 : prevCompleted + 10));
       }
