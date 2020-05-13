@@ -6,11 +6,12 @@ import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 import { Loading, ExibirLoadingLayout } from '../../components/Loading'
-import { ButtonEX } from '../../components/FormComponents'
 
 
-import {Grid, IconButton } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { ButtonEX, DataEX } from '../../components/FormComponents'
+
+import {Grid, IconButton, Button, Container } from '@material-ui/core';
+import {Delete} from '@material-ui/icons';
 
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
@@ -45,24 +46,21 @@ function Reservar(props) {
         <div>
             {/* <ExibirLoadingLayout size={95} /> */}
             <p>{viagem.id}</p>
-
-            <Grid container spacing={3} direction="row" justify="center" alignItems="center">
-                <Grid item xs={12} >
-                    <ButtonEX titulo="OLA" />  
-                </Grid>
-                <Grid item xs={6}>
-                    <ButtonEX titulo="OLA" />  
-                </Grid>
-                <Grid item xs={6} >
-                    <ButtonEX titulo="OLA" />  
-                </Grid>
-            </Grid> 
-
-            <IconButton>
-                <DeleteIcon />
-            </IconButton>
-            
-
+            <Container>
+                <Grid container spacing={3} direction="row" justify="center" alignItems="center">
+                    <Grid item xs={4} >
+                        <ButtonEX titulo="OLA" />  
+                    </Grid>
+                    <Grid item xs={4}>
+                        <DataEX/>
+                    </Grid>
+                    <Grid item xs={4} >
+                        <IconButton>
+                            <Delete />
+                        </IconButton> 
+                    </Grid>
+                </Grid> 
+            </Container>
         </div>
     )
 }
