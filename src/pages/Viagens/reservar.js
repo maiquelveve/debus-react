@@ -5,18 +5,14 @@ import { validaToken } from '../../services/auth';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
-import { Loading, ExibirLoadingLayout } from '../../components/Loading'
+import { Loading, ExibirLoadingLayout } from '../../components/Loading';
 
-
-import { ButtonEX, DataEX } from '../../components/FormComponents'
-
-import {Grid, IconButton, Button, Container } from '@material-ui/core';
-import {Delete} from '@material-ui/icons';
+import { DataOKCancel, DataSemOKCancel } from '../../components/FormComponents/datas';
 
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
     const [load, setLoad] = useState(true)
-
+    
     useEffect(
         () => {
             async function fetchData() {
@@ -44,23 +40,10 @@ function Reservar(props) {
 
     return(
         <div>
-            {/* <ExibirLoadingLayout size={95} /> */}
+            <ExibirLoadingLayout size={95} />
             <p>{viagem.id}</p>
-            <Container>
-                <Grid container spacing={3} direction="row" justify="center" alignItems="center">
-                    <Grid item xs={4} >
-                        <ButtonEX titulo="OLA" />  
-                    </Grid>
-                    <Grid item xs={4}>
-                        <DataEX/>
-                    </Grid>
-                    <Grid item xs={4} >
-                        <IconButton>
-                            <Delete />
-                        </IconButton> 
-                    </Grid>
-                </Grid> 
-            </Container>
+            <DataOKCancel label="Data" />
+            <DataSemOKCancel label="Data" />
         </div>
     )
 }
