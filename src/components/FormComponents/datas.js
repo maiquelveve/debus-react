@@ -28,7 +28,7 @@ const defaultMaterialTheme = createMuiTheme({
   },
 });
 
-export const DataOKCancel = (props) => {
+export const DataConfirm = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateChange = (date) => {
@@ -46,6 +46,7 @@ export const DataOKCancel = (props) => {
           onChange={handleDateChange}
           cancelLabel='Fechar'
           invalidDateMessage="Data não é valida"
+          disablePast={true}
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}
@@ -55,7 +56,7 @@ export const DataOKCancel = (props) => {
   );
 }
 
-export const DataSemOKCancel = (props) => {
+export const Data = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateChange = (date) => {

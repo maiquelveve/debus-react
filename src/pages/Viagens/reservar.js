@@ -7,7 +7,7 @@ import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 import { Loading, ExibirLoadingLayout } from '../../components/Loading';
 
-import { DataOKCancel, DataSemOKCancel } from '../../components/FormComponents/datas';
+import { DataConfirm, Data } from '../../components/FormComponents/datas';
 
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
@@ -42,8 +42,8 @@ function Reservar(props) {
         <div>
             <ExibirLoadingLayout size={95} />
             <p>{viagem.id}</p>
-            <DataOKCancel label="Data" />
-            <DataSemOKCancel label="Data" />
+            <DataConfirm label="Data" />
+            <Data label="Data" />
         </div>
     )
 }
