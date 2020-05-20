@@ -18,6 +18,7 @@ import CadastrarLocaisRefrencias from './pages/LocaisReferencias/cadastrar';
 import EditarLocaisRefrencias from './pages/LocaisReferencias/editar';
 import ListarLocaisReferencias from './pages/LocaisReferencias/listar';
 
+import ExemploMaterialUi from './pages/ExemploMaterialUi/reservarExMaterialui';
 import Erro from './pages/Erro';
 
 import PrivateRoute from './services/PrivateRoute'
@@ -25,6 +26,8 @@ import PrivateRoute from './services/PrivateRoute'
 function Routes() {
     return(
         <Switch>
+            <PrivateRoute exact path="/materialui/:id" component={ExemploMaterialUi} />{/* rota de exemplos do material UI */}
+
             <Route exact path="/" component={Home} />
             <PrivateRoute exact path="/locaisReferencias/cadastrar" component={CadastrarLocaisRefrencias} />
             <PrivateRoute exact path="/locaisReferencias/listar" component={ListarLocaisReferencias} />

@@ -5,6 +5,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position:absolute;
+    z-index: 50;
+    background-color: #fff;
 }
 
 .loading_linha_layout {
@@ -13,4 +16,6 @@
     top:50%;
     margin-left:-110px;
     margin-top:-40px;
+    z-index: 50;
+    background-color: #fff;
 }

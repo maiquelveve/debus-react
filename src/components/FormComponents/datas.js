@@ -29,10 +29,11 @@ const defaultMaterialTheme = createMuiTheme({
 });
 
 export const DataConfirm = (props) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(props.value);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    props.setValue(date);
   };
 
   return (
@@ -57,10 +58,11 @@ export const DataConfirm = (props) => {
 }
 
 export const Data = (props) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(props.value);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    props.setValue(date);
   };
 
   return (
