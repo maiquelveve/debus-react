@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { validaToken } from '../../services/auth';
@@ -6,6 +6,7 @@ import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 import { Loading, ExibirLoadingLayout } from '../../components/Loading';
+import InformacoesViagens from './component/InformacoesViagens';
 
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
@@ -38,8 +39,8 @@ function Reservar(props) {
 
     return(
         <div>
-            <ExibirLoadingLayout size={95} />
-            <p>{viagem.id}</p>
+            {/* <ExibirLoadingLayout size={95} /> */}
+            <InformacoesViagens /> 
         </div>
     )
 }
