@@ -1,53 +1,45 @@
 import React from 'react';
 
-function InformacoesViagens(props) {
+function InformacoesViagens(props) {    
     return(
-        <div className="container-fluid mt-2">
-            <div className="card">
-                <div className="card-header text-center">
-                    <div className="row">
-                        <p  className="col-lg-5 col-sm-12"><strong>ORIGEM:</strong> Canoas - RS</p>
-                        <p className="col-lg-2 col-sm-12">-></p>
-                        <p className="col-lg-5 col-sm-12"><strong>DESTINO:</strong> Quintão - RS</p>
+        <div className="card">
+            <div className="card-header text-center">
+                <div className="row mb-3 mt-4">
+                    <h5 className="col-lg-5 col-sm-12"><strong>ORIGEM:</strong> Canoas - RS</h5>
+                    <h5 className="col-lg-2 col-sm-12">-></h5>
+                    <h5 className="col-lg-5 col-sm-12"><strong>DESTINO:</strong> Quintão - RS</h5>
+                </div>  
+            </div>
+            <div className="card-body">
+                <div className="row">
+                    <div className="col-lg-4 col-sm-6 text-center text-lg-left">
+                        <p><strong>Empresa:</strong> Fran Turs</p>
                     </div>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <p><strong>Vagas Disponíveis:</strong> 4</p>
-                        </div>
-                    </div>    
-                </div>
-                <div className="card-body">
-                    <div className="row  text-center">
-                        <div className="col-sm-4">
-                            <p>Origem: Canoas - RS</p>
-                        </div>
-                        <div className="col-sm-4">
-                            <p>Destino: Quintão - RS</p>
-                        </div>
-                        <div className="col-sm-2">
-                            <p>Data: 25/05/2020</p>
-                        </div>
-                        <div className="col-sm-2">
-                            <p>Hora: 14:30</p>
-                        </div>
+                    <div className="col-lg-4 col-sm-6 text-center text-lg-center">
+                        <p><strong>Placa:</strong> IQY-3336</p>
                     </div>
-                    <div className="row">
-                        <div className="col-sm-2  text-center">
-                            <p>Empresa: Fran Turs</p>
-                        </div>
-                        <div className="col-sm-2  text-center">
-                            <p>Placa: iqy-3336</p>
-                        </div>
-                        <div className="col-sm-4 text-center">
-                            <p>Valor: R$ 15,00</p>
-                        </div>
-                        <div className="col-sm-4 text-center">
-                            <p>Situação: Viagem Confirmada </p>
-                        </div>
+                    <div className="col-lg-4 col-sm-6 text-center text-lg-right">
+                        <p><strong>Situação:</strong> Viagem Confirmada </p>
+                    </div>
+                    <div className="col-lg-4 col-sm-6 text-center text-lg-left">
+                        <p><strong>Data:</strong> 25/05/2020</p>
+                    </div>
+                    <div className="col-lg-4 col-sm-6 text-center text-lg-center">
+                        <p><strong>Hora:</strong> 14:30</p>
+                    </div>
+                    <div className="col-lg-4 col-sm-6 text-center text-lg-right">
+                        <p><strong>Valor:</strong> R$ 15,00</p>
                     </div>
                 </div>
             </div>
-        </div>
+            <div className="card-footer text-center">
+                <div className="row">
+                    <div className="col-sm-12">
+                        <h3><strong>Vagas Disponíveis: </strong> 4</h3>
+                    </div>
+                </div>  
+            </div>
+        </div> 
     )
 }
 
