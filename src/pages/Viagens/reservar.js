@@ -67,27 +67,33 @@ function Reservar(props) {
                 + Passageiros
             </button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <DialogTitle id="form-dialog-title">Novo Passageirto</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We will send updates
-                        occasionally.
+                        Cadastre o passageiro para essa viagem.
                     </DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="Email Address"
-                        type="email"
+                        label="Nome"
+                        type="text"
+                        fullWidth
+                    />
+                    <TextField
+                        margin="dense"
+                        id="name"
+                        label="CPF"
+                        type="text"
                         fullWidth
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        Cancel
+                        Fechar
                     </Button>
                     <Button onClick={handleClose} color="primary">
-                        Subscribe
+                        Confirmar
                     </Button>
                 </DialogActions>
             </Dialog>
