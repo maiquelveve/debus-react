@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { validaToken } from '../../services/auth';
@@ -15,6 +15,20 @@ function Reservar(props) {
     const [viagem, setViagem] = useState([])
     const [load, setLoad] = useState(true)
     const [openModal, setOpenModal] = useState(false);
+    const [passageiros, setPassageiros] = useState([])
+
+    async function buscarPassageiros() {
+        try {
+            const params = { id_viagem: props.match.params.id }
+            const retornoApi = await api.get('passageiros', { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
+            setPassageiros(retornoApi.data)
+
+        } catch (error) {
+            AlertCatch('Ocorreu um erro ao cadastrar os dados no banco. Tente novamente mais tarde.') 
+        }
+    }
+
+    const refazerBuscaDosPassageiros = useCallback(buscarPassageiros, [])
 
     useEffect(
         () => {
@@ -27,6 +41,7 @@ function Reservar(props) {
                 try {
                     const { id } = props.match.params
                     const retornoApi = await api.get(`/viagens/${id}`)
+                    refazerBuscaDosPassageiros()
                     setViagem(retornoApi.data)
                     setLoad(false)
 
@@ -36,7 +51,7 @@ function Reservar(props) {
             }
             fetchData();
         },
-        [props.match.params]
+        [props.match.params, refazerBuscaDosPassageiros]
     )
         
     if(load) return(<Loading size={80} />) 
@@ -53,11 +68,11 @@ function Reservar(props) {
                     </button> 
                 </div>
                 <div className="col-12 mt-3">
-                    <MostrarPassageiros id_viagem={props.match.params.id} />
+                    <MostrarPassageiros passageiros={passageiros} refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} />
                 </div>
             </div> 
                     
-            <ModalAddPassageiros open={openModal} setOpen={setOpenModal} id_viagem={props.match.params.id} />
+            <ModalAddPassageiros open={openModal} setOpen={setOpenModal} id_viagem={props.match.params.id} refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} />
         </div>
     )
 }
