@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,7 +8,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-function ModalAddPassageiros({open, setOpen, setPassageiros, passageiros}) {
+import api from '../../../services/api';
+import { AlertCatch } from '../../../components/AlertasDefaultSistema';
+
+function ModalAddPassageiros({open, setOpen, id_viagem}) {
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
 
@@ -22,14 +26,25 @@ function ModalAddPassageiros({open, setOpen, setPassageiros, passageiros}) {
 
     const handleAddPassageiros = useCallback(
         () => {
-            setPassageiros([...passageiros, {nome, cpf}])
-            setOpen(false);
-            setNome('')
-            setCpf('')
-            window.scrollTo(0, 5000)
+            async function cadastrarPassageiro() {
+                try {
+                    const passageiro = { st_nome: nome, st_cpf: cpf }
+                    const params = { id_viagem }
+                    await api.post('passageiros', passageiro, { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
+                    window.scrollTo(0, 5000)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao cadastrar os dados no banco. Tente novamente mais tarde.') 
+                } finally {
+                    setOpen(false);
+                    setNome('')
+                    setCpf('')
+                }
+            }
+            cadastrarPassageiro()
 
         },
-        [setOpen, setPassageiros, passageiros, nome, cpf]
+        [setOpen, nome, cpf, id_viagem]
     )
 
     return(

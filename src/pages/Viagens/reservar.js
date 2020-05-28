@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { validaToken } from '../../services/auth';
@@ -14,7 +14,6 @@ import MostrarPassageiros from '../Passageiros/component/MostrarPassageiros';
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
     const [load, setLoad] = useState(true)
-    const [passageiros, setPassageiros] = useState([])
     const [openModal, setOpenModal] = useState(false);
 
     useEffect(
@@ -39,20 +38,6 @@ function Reservar(props) {
         },
         [props.match.params]
     )
-
-    //VER AQUI
-    const handleDeletarPassageiro = useCallback(
-        index => {
-            const array = passageiros
-            array.splice(index)
-            if(array.length === 0) {
-                alert('zero')
-            } else {
-                alert('tem')
-            }
-        },
-        [passageiros]
-    )
         
     if(load) return(<Loading size={80} />) 
 
@@ -62,19 +47,17 @@ function Reservar(props) {
             <InformacoesViagens viagem={viagem} />
             
             <div className="row">
-                {passageiros.length < 4 &&
-                    <div className="col-12 mt-3">
-                        <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
-                            + Passageiros
-                        </button> 
-                    </div>
-                }    
                 <div className="col-12 mt-3">
-                    <MostrarPassageiros passageiros={passageiros} handleDeletarPassageiro={handleDeletarPassageiro} />
+                    <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
+                        + Passageiros
+                    </button> 
+                </div>
+                <div className="col-12 mt-3">
+                    <MostrarPassageiros id_viagem={props.match.params.id} />
                 </div>
             </div> 
                     
-            <ModalAddPassageiros open={openModal} setOpen={setOpenModal} passageiros={passageiros} setPassageiros={setPassageiros}/>
+            <ModalAddPassageiros open={openModal} setOpen={setOpenModal} id_viagem={props.match.params.id} />
         </div>
     )
 }
