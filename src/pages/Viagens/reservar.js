@@ -7,32 +7,15 @@ import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 import { Loading, ExibirLoadingLayout } from '../../components/Loading';
 import InformacoesViagens from './component/InformacoesViagens';
-import Passageiros from '../Passageiros';
+import ModalAddPassageiros from '../Passageiros/component/ModalAddPassageiros';
+import MostrarPassageiros from '../Passageiros/component/MostrarPassageiros';
 
-//Imports para o modal
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
     const [load, setLoad] = useState(true)
-    const[passageiros, setPassageiros] = useState([])
-
-    //functions e variavel para o modal
-    const [open, setOpen] = useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-      };
-    
-      const handleClose = () => {
-        setOpen(false);
-      };
-
+    const [passageiros, setPassageiros] = useState([])
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(
         () => {
@@ -61,42 +44,23 @@ function Reservar(props) {
 
     return(
         <div className="container-fluid mt-2">
-            {/* <ExibirLoadingLayout size={95} /> */}
-            <InformacoesViagens /> 
-            <button className='float-right mt-4 btn btn-primary btn-lg' onClick={handleClickOpen}>
-                + Passageiros
-            </button>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Novo Passageirto</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Cadastre o passageiro para essa viagem.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Nome"
-                        type="text"
-                        fullWidth
-                    />
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="CPF"
-                        type="text"
-                        fullWidth
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Fechar
-                    </Button>
-                    <Button onClick={handleClose} color="primary">
-                        Confirmar
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <ExibirLoadingLayout size={95} />
+            <InformacoesViagens viagem={viagem} />
+            
+            <div className="row">
+                {passageiros.length < 4 &&
+                    <div className="col-12 mt-3">
+                        <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
+                            + Passageiros
+                        </button> 
+                    </div>
+                }    
+                <div className="col-12 mt-3">
+                    <MostrarPassageiros passageiros={passageiros} />
+                </div>
+            </div> 
+                    
+            <ModalAddPassageiros open={openModal} setOpen={setOpenModal} passageiros={passageiros} setPassageiros={setPassageiros}/>
         </div>
     )
 }
