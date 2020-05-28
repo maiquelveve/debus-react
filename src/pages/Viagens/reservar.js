@@ -57,23 +57,31 @@ function Reservar(props) {
     if(load) return(<Loading size={80} />) 
 
     return(
-        <div className="container-fluid mt-2">
-            <ExibirLoadingLayout size={95} />
-            <InformacoesViagens viagem={viagem} />
-            
-            <div className="row">
-                <div className="col-12 mt-3">
-                    <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
-                        + Passageiros
-                    </button> 
-                </div>
-                <div className="col-12 mt-3">
-                    <MostrarPassageiros passageiros={passageiros} refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} />
-                </div>
-            </div> 
-                    
-            <ModalAddPassageiros open={openModal} setOpen={setOpenModal} id_viagem={props.match.params.id} refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} />
-        </div>
+        <>    
+        {viagem.length > 0 ?
+            <div className="container-fluid mt-2">
+                <ExibirLoadingLayout size={95} />
+                <InformacoesViagens viagem={viagem} />
+                
+                <div className="row">
+                    <div className="col-12 mt-3">
+                        <MostrarPassageiros passageiros={passageiros} refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} />
+                    </div>
+                    <div className="col-12 mt-3">
+                        <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
+                            + Passageiros
+                        </button> 
+                    </div>
+                </div> 
+                        
+                <ModalAddPassageiros open={openModal} setOpen={setOpenModal} id_viagem={props.match.params.id} refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} />
+            </div>
+        : 
+            <div>
+                Esta viagem já esta encerrada....volta a HOME            
+            </div>    
+        }
+        </>    
     )
 }
 
