@@ -19,7 +19,6 @@ function Home() {
 
                 try {
                     const retornoApi = await api.get('/viagens/buscarViagensHome');
-                    console.log(retornoApi.data)
                     setViagens(retornoApi.data)
 
                 } catch (error) {

@@ -40,7 +40,7 @@ function Reservar(props) {
 
                 try {
                     const { id } = props.match.params
-                    const retornoApi = await api.get(`/viagens/${id}`)
+                    const retornoApi = await api.get(`/viagens/reservar/${id}`)
                     refazerBuscaDosPassageiros()
                     setViagem(retornoApi.data)
                     setLoad(false)
