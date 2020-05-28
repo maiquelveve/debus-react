@@ -1,6 +1,8 @@
 import React from 'react';
+import { MdCancel } from 'react-icons/md'; 
 
-function MostrarPassageiros({passageiros}) {
+function MostrarPassageiros({passageiros, handleDeletarPassageiro}) {
+
     return(
         <>
             {passageiros.length > 0 &&
@@ -16,7 +18,7 @@ function MostrarPassageiros({passageiros}) {
                                         <th>#</th>
                                         <th>Nome</th>
                                         <th>CPF</th>
-                                        {/* <th>Ação</th> */}
+                                        <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -26,7 +28,11 @@ function MostrarPassageiros({passageiros}) {
                                             <td>{passageiro.nome}</td>
                                             <td>{passageiro.cpf}</td>
                                             <td>
-                                                {/* <AcoesTabela viagem={viagem} callbackRetornoAcoes={callbackRetornoAcoes} /> */}
+                                                <button type="button" className="btn btn-danger mx-1" onClick={() => handleDeletarPassageiro(index)}>
+                                                    <span>
+                                                        <MdCancel size={20} />
+                                                    </span>
+                                                </button> 
                                             </td>
                                         </tr>
                                     ))}

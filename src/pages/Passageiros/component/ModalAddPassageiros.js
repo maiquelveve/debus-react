@@ -11,7 +11,6 @@ function ModalAddPassageiros({open, setOpen, setPassageiros, passageiros}) {
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
 
-
     const handleClose = useCallback(
         () => {
             setOpen(false);

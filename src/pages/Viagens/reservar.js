@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { validaToken } from '../../services/auth';
@@ -39,6 +39,20 @@ function Reservar(props) {
         },
         [props.match.params]
     )
+
+    //VER AQUI
+    const handleDeletarPassageiro = useCallback(
+        index => {
+            const array = passageiros
+            array.splice(index)
+            if(array.length === 0) {
+                alert('zero')
+            } else {
+                alert('tem')
+            }
+        },
+        [passageiros]
+    )
         
     if(load) return(<Loading size={80} />) 
 
@@ -56,7 +70,7 @@ function Reservar(props) {
                     </div>
                 }    
                 <div className="col-12 mt-3">
-                    <MostrarPassageiros passageiros={passageiros} />
+                    <MostrarPassageiros passageiros={passageiros} handleDeletarPassageiro={handleDeletarPassageiro} />
                 </div>
             </div> 
                     
