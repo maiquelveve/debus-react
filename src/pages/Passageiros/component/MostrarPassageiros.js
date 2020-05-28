@@ -52,6 +52,11 @@ function MostrarPassageiros({passageiros, refazerBuscaDosPassageiros}) {
                                                         <MdCancel size={20} />
                                                     </span>
                                                 </button> 
+                                                <button type="button" className="btn btn-success mx-1" onClick={() => {} }>
+                                                    <span>
+                                                        <MdCancel size={20} />
+                                                    </span>
+                                                </button> 
                                             </td>
                                         </tr>
                                     ))}
@@ -60,7 +65,7 @@ function MostrarPassageiros({passageiros, refazerBuscaDosPassageiros}) {
                         </div> 
                     </div>
                 </div> 
-            }    
+            }  
         </>        
     )
 }

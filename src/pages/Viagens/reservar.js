@@ -14,7 +14,7 @@ import MostrarPassageiros from '../Passageiros/component/MostrarPassageiros';
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
     const [load, setLoad] = useState(true)
-    const [openModal, setOpenModal] = useState(false);
+    const [openModal, setOpenModal] = useState(false)
     const [passageiros, setPassageiros] = useState([])
 
     async function buscarPassageiros() {
