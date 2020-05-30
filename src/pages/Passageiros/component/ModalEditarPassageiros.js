@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -12,9 +12,17 @@ import api from '../../../services/api';
 import { AlertCatch } from '../../../components/AlertasDefaultSistema';
 
 function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, passageiro}) {
-    const [nome, setNome] = useState(passageiro.st_nome)
-    const [cpf, setCpf] = useState(passageiro.st_cpf)
+    const [nome, setNome] = useState('')
+    const [cpf, setCpf] = useState('')
     
+    useEffect(
+        () => {
+            setNome(passageiro.st_nome)
+            setCpf(passageiro.st_cpf)
+        },
+        [passageiro]  
+    )
+
     const handleClose = useCallback(
         () => {
             setOpen(false);
@@ -26,6 +34,8 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
         () => {
             async function editarPassageiro() {
                 try {
+                    const newPassageiro = { st_nome: nome, st_cpf: cpf } 
+                    await api.put(`passageiros/${passageiro.id}`, newPassageiro, { headers: { auth: localStorage.userToken }, validateStatus: status => status < 500 })
                     refazerBuscaDosPassageiros()
                     window.scrollTo(0, 5000)
 
@@ -33,12 +43,14 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
                     AlertCatch('Ocorreu um erro ao editar os dados no banco. Tente novamente mais tarde.') 
                 } finally {
                     setOpen(false);
+                    setNome('')
+                    setCpf('')
                 }
             }
             editarPassageiro()
 
         },
-        [refazerBuscaDosPassageiros]
+        [refazerBuscaDosPassageiros, setOpen, nome, cpf, passageiro]
     )
 
     return(

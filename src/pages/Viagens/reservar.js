@@ -8,6 +8,7 @@ import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import { Loading, ExibirLoadingLayout } from '../../components/Loading';
 import InformacoesViagens from './component/InformacoesViagens';
 import ModalAddPassageiros from '../Passageiros/component/ModalAddPassageiros';
+import ModalEditarPassageiros from '../Passageiros/component/ModalEditarPassageiros';
 import MostrarPassageiros from '../Passageiros/component/MostrarPassageiros';
 
 
@@ -15,7 +16,9 @@ function Reservar(props) {
     const [viagem, setViagem] = useState([])
     const [load, setLoad] = useState(true)
     const [openModal, setOpenModal] = useState(false)
+    const [openModalEditar, setOpenModalEditar] = useState(false)
     const [passageiros, setPassageiros] = useState([])
+    const [passageiro, setPassageiro] = useState([])
 
     async function buscarPassageiros() {
         try {
@@ -29,6 +32,14 @@ function Reservar(props) {
     }
 
     const refazerBuscaDosPassageiros = useCallback(buscarPassageiros, [])
+
+    const abrirModalEditarPassageiro = useCallback(
+        passageiro => {
+            setOpenModalEditar(!openModalEditar)
+            setPassageiro(passageiro)
+        },
+        [openModalEditar]
+    )
 
     useEffect(
         () => {
@@ -65,7 +76,11 @@ function Reservar(props) {
                 
                 <div className="row">
                     <div className="col-12 mt-3">
-                        <MostrarPassageiros passageiros={passageiros} refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} />
+                        <MostrarPassageiros 
+                            passageiros={passageiros} 
+                            refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
+                            abrirModalEditarPassageiro={abrirModalEditarPassageiro} 
+                        />
                     </div>
                     <div className="col-12 mt-3">
                         <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
@@ -74,7 +89,19 @@ function Reservar(props) {
                     </div>
                 </div> 
                         
-                <ModalAddPassageiros open={openModal} setOpen={setOpenModal} id_viagem={props.match.params.id} refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} />
+                <ModalAddPassageiros 
+                    open={openModal} 
+                    setOpen={setOpenModal} 
+                    id_viagem={props.match.params.id} 
+                    refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
+                />
+
+                <ModalEditarPassageiros 
+                    open={openModalEditar}
+                    setOpen={setOpenModalEditar}
+                    refazerBuscaDosPassageiros={refazerBuscaDosPassageiros}
+                    passageiro={passageiro}
+                />
             </div>
         : 
             <div>
