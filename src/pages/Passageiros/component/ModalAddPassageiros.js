@@ -11,8 +11,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import api from '../../../services/api';
 import { AlertCatch } from '../../../components/AlertasDefaultSistema';
 import { CpfMask } from'../../../components/MaskInputs';
+import { validacao } from '../validacoes';
 
-function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageiros}) {
+function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageiros, setOpenAlertSuccess, setOpenAlertError, setResultado}) {
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
 
@@ -29,26 +30,34 @@ function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageir
         () => {
             async function cadastrarPassageiro() {
                 try {
-                    const passageiro = { st_nome: nome, st_cpf: cpf }
-                    const params = { id_viagem }
-                    await api.post('passageiros', passageiro, { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
-                    window.scrollTo(0, 5000)
+                    const passageiro = await validacao({ nome, cpf })
+
+                    if(passageiro.length > 0) {
+                        setResultado(passageiro)
+                        setOpenAlertError(true)
+
+                    } else {
+                        const params = { id_viagem }
+                        await api.post('passageiros', passageiro, { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
+                        window.scrollTo(0, 5000)
+                        setOpen(false);
+                        setNome('')
+                        setCpf('')
+                        setOpenAlertSuccess(true)
+                    }
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao cadastrar os dados no banco. Tente novamente mais tarde.') 
                 } finally {
-                    setOpen(false);
-                    setNome('')
-                    setCpf('')
                     refazerBuscaDosPassageiros()
                 }
             }
             cadastrarPassageiro()
 
         },
-        [setOpen, nome, cpf, id_viagem, refazerBuscaDosPassageiros]
+        [setOpen, nome, cpf, id_viagem, refazerBuscaDosPassageiros, setOpenAlertSuccess, setOpenAlertError, setResultado]
     )
-
+       
     return(
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Novo Passageirto</DialogTitle>

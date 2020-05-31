@@ -11,6 +11,7 @@ import ModalAddPassageiros from '../Passageiros/component/ModalAddPassageiros';
 import ModalEditarPassageiros from '../Passageiros/component/ModalEditarPassageiros';
 import MostrarPassageiros from '../Passageiros/component/MostrarPassageiros';
 
+import { AlertSuccess, AlertError } from '../../components/AlertasMaterialUi';
 
 function Reservar(props) {
     const [viagem, setViagem] = useState([])
@@ -19,6 +20,9 @@ function Reservar(props) {
     const [openModalEditar, setOpenModalEditar] = useState(false)
     const [passageiros, setPassageiros] = useState([])
     const [passageiro, setPassageiro] = useState([])
+    const [openAlertSuccess, setOpenAlertSuccess] = useState(false)
+    const [openAlertError, setOpenAlertError] = useState(false)
+    const [resultado, setResultado] = useState([])
 
     async function buscarPassageiros() {
         try {
@@ -94,6 +98,9 @@ function Reservar(props) {
                     setOpen={setOpenModal} 
                     id_viagem={props.match.params.id} 
                     refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
+                    setOpenAlertSuccess = {setOpenAlertSuccess}
+                    setOpenAlertError = {setOpenAlertError}
+                    setResultado = {setResultado}
                 />
 
                 <ModalEditarPassageiros 
@@ -102,6 +109,9 @@ function Reservar(props) {
                     refazerBuscaDosPassageiros={refazerBuscaDosPassageiros}
                     passageiro={passageiro}
                 />
+
+                <AlertError open={openAlertError} setOpen={setOpenAlertError} messages={resultado} />
+                <AlertSuccess open={openAlertSuccess} setOpen={setOpenAlertSuccess} messages={'Passageiro Cadastrado!'} />
             </div>
         : 
             <div>
