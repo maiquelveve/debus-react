@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import api from '../../../services/api';
 import { AlertCatch } from '../../../components/AlertasDefaultSistema';
+import { CpfMask } from'../../../components/MaskInputs';
 
 function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageiros}) {
     const [nome, setNome] = useState('')
@@ -73,6 +74,9 @@ function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageir
                     onChange={ e => setCpf(e.target.value) }
                     value={cpf}
                     fullWidth
+                    InputProps={{
+                        inputComponent: CpfMask,
+                    }}
                 />
             </DialogContent>
             <DialogActions>
