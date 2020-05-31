@@ -3,6 +3,7 @@ import { FaUserTimes,FaUserEdit } from 'react-icons/fa'
 
 import api from '../../../services/api';
 import { AlertCatch } from '../../../components/AlertasDefaultSistema';
+import { CpfMaskFunction } from '../../../components/MaskInputs';
 
 function MostrarPassageiros({passageiros, refazerBuscaDosPassageiros, abrirModalEditarPassageiro}) {
 
@@ -45,7 +46,7 @@ function MostrarPassageiros({passageiros, refazerBuscaDosPassageiros, abrirModal
                                         <tr key={passageiro.id} align="center">
                                             <th>{index+1}</th>
                                             <td>{passageiro.st_nome}</td>
-                                            <td>{passageiro.st_cpf}</td>
+                                            <td>{CpfMaskFunction(passageiro.st_cpf)}</td>
                                             <td>
                                                 <button 
                                                     type="button" 

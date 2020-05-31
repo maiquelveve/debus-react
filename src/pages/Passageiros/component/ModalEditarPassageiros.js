@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import api from '../../../services/api';
 import { AlertCatch } from '../../../components/AlertasDefaultSistema';
+import { CpfMask } from '../../../components/MaskInputs';
 
 function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, passageiro}) {
     const [nome, setNome] = useState('')
@@ -36,7 +37,6 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
                 try {
                     const newPassageiro = { st_nome: nome, st_cpf: cpf } 
                     await api.put(`passageiros/${passageiro.id}`, newPassageiro, { headers: { auth: localStorage.userToken }, validateStatus: status => status < 500 })
-                    refazerBuscaDosPassageiros()
                     window.scrollTo(0, 5000)
 
                 } catch (error) {
@@ -45,6 +45,7 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
                     setOpen(false);
                     setNome('')
                     setCpf('')
+                    refazerBuscaDosPassageiros()
                 }
             }
             editarPassageiro()
@@ -78,6 +79,9 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
                     onChange={ e => setCpf(e.target.value) }
                     value={cpf}
                     fullWidth
+                    InputProps={{
+                        inputComponent: CpfMask,
+                    }}
                 />
             </DialogContent>
             <DialogActions>

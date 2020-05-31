@@ -32,7 +32,6 @@ function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageir
                     const passageiro = { st_nome: nome, st_cpf: cpf }
                     const params = { id_viagem }
                     await api.post('passageiros', passageiro, { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
-                    refazerBuscaDosPassageiros()
                     window.scrollTo(0, 5000)
 
                 } catch (error) {
@@ -41,6 +40,7 @@ function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageir
                     setOpen(false);
                     setNome('')
                     setCpf('')
+                    refazerBuscaDosPassageiros()
                 }
             }
             cadastrarPassageiro()
