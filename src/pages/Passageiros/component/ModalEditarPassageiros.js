@@ -13,7 +13,7 @@ import { AlertCatch } from '../../../components/AlertasDefaultSistema';
 import { CpfMask } from '../../../components/MaskInputs';
 import { validacao } from '../validacoes';
 
-function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, passageiro}) {
+function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, passageiro, setOpenAlertSuccess, setOpenAlertError, setResultado}) {
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
     
@@ -36,28 +36,30 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
         () => {
             async function editarPassageiro() {
                 try {
-                    const newPassageiro = await validacao(nome, cpf)
-
+                    const newPassageiro = await validacao({nome, cpf})
+                    
                     if(newPassageiro.length > 0) {
-                        console.log(newPassageiro)
+                        setOpenAlertError(true)
+                        setResultado(newPassageiro)
                     } else {
                         await api.put(`passageiros/${passageiro.id}`, newPassageiro, { headers: { auth: localStorage.userToken }, validateStatus: status => status < 500 })
                         window.scrollTo(0, 5000)
+                        setOpen(false);
+                        setNome('')
+                        setCpf('')
+                        setOpenAlertSuccess(true)
                     }
 
                 } catch (error) {
                     AlertCatch('Ocorreu um erro ao editar os dados no banco. Tente novamente mais tarde.') 
                 } finally {
-                    setOpen(false);
-                    setNome('')
-                    setCpf('')
                     refazerBuscaDosPassageiros()
                 }
             }
             editarPassageiro()
 
         },
-        [refazerBuscaDosPassageiros, setOpen, nome, cpf, passageiro]
+        [refazerBuscaDosPassageiros, setOpen, nome, cpf, passageiro, setOpenAlertSuccess, setOpenAlertError, setResultado]
     )
 
     return(

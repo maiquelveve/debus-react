@@ -4,10 +4,10 @@ import validacaoDefinicao from '../../config/validacaoDefinicao';
 export const validacao = async dados => {
     //Validando os dados INICIO
     let PassageiroParaValidacao = {
-        Nome: dados.nome, 
-        CPF: dados.cpf,
+        Nome: dados.nome.trim(), 
+        CPF: dados.cpf.replace(/[^\d]+/g,'') ,
     }
-
+    
     yup.setLocale(validacaoDefinicao);
     const addressSchema = yup.object().shape({
         Nome: yup
@@ -19,7 +19,7 @@ export const validacao = async dados => {
         CPF: yup
             .string()
             .min(11)
-            .max(14)
+            .max(11)
             .required(),
           
     })

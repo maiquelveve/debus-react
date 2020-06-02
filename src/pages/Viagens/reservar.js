@@ -108,10 +108,13 @@ function Reservar(props) {
                     setOpen={setOpenModalEditar}
                     refazerBuscaDosPassageiros={refazerBuscaDosPassageiros}
                     passageiro={passageiro}
+                    setOpenAlertSuccess = {setOpenAlertSuccess}
+                    setOpenAlertError = {setOpenAlertError}
+                    setResultado = {setResultado}
                 />
 
                 <AlertError open={openAlertError} setOpen={setOpenAlertError} messages={resultado} />
-                <AlertSuccess open={openAlertSuccess} setOpen={setOpenAlertSuccess} messages={'Passageiro Cadastrado!'} />
+                <AlertSuccess open={openAlertSuccess} setOpen={setOpenAlertSuccess} messages={'Passageiro Salvo!'} />
             </div>
         : 
             <div>
