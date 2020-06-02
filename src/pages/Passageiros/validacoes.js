@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 import validacaoDefinicao from '../../config/validacaoDefinicao';
-
+import { validadorCpf } from '../../services/validadorCpf';
 export const validacao = async dados => {
     //Validando os dados INICIO
     let PassageiroParaValidacao = {
         Nome: dados.nome.trim(), 
-        CPF: dados.cpf.replace(/[^\d]+/g,'') ,
+        CPF: dados.cpf.replace(/[^\d]+/g,''),
     }
     
     yup.setLocale(validacaoDefinicao);
@@ -37,6 +37,10 @@ export const validacao = async dados => {
 
     if(errosValidados[0].success === 0) {
         return errosValidados
+    }
+
+    if(!validadorCpf(dados.cpf.replace(/[^\d]+/g,''))) {
+        return [{success: 0, msg: 'CPF inválido.'}]
     }
     //Validando os dados FINAL
 
