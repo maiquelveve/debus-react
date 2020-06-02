@@ -30,7 +30,7 @@ function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageir
         () => {
             async function cadastrarPassageiro() {
                 try {
-                    const passageiro = await validacao({ nome, cpf })
+                    const passageiro = await validacao({ nome, cpf, id_viagem })
 
                     if(passageiro.length > 0) {
                         setOpenAlertError(true)

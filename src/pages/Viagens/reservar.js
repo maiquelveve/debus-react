@@ -106,6 +106,7 @@ function Reservar(props) {
                 <ModalEditarPassageiros 
                     open={openModalEditar}
                     setOpen={setOpenModalEditar}
+                    id_viagem={props.match.params.id} 
                     refazerBuscaDosPassageiros={refazerBuscaDosPassageiros}
                     passageiro={passageiro}
                     setOpenAlertSuccess = {setOpenAlertSuccess}

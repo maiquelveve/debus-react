@@ -13,7 +13,7 @@ import { AlertCatch } from '../../../components/AlertasDefaultSistema';
 import { CpfMask } from '../../../components/MaskInputs';
 import { validacao } from '../validacoes';
 
-function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, passageiro, setOpenAlertSuccess, setOpenAlertError, setResultado}) {
+function ModalEditarPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageiros, passageiro, setOpenAlertSuccess, setOpenAlertError, setResultado}) {
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
     
@@ -36,7 +36,7 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
         () => {
             async function editarPassageiro() {
                 try {
-                    const newPassageiro = await validacao({nome, cpf})
+                    const newPassageiro = await validacao({ nome, cpf, id_viagem })
                     
                     if(newPassageiro.length > 0) {
                         setOpenAlertError(true)
@@ -64,7 +64,7 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
             editarPassageiro()
 
         },
-        [refazerBuscaDosPassageiros, setOpen, nome, cpf, passageiro, setOpenAlertSuccess, setOpenAlertError, setResultado]
+        [refazerBuscaDosPassageiros, setOpen, nome, cpf, passageiro, setOpenAlertSuccess, setOpenAlertError, setResultado, id_viagem]
     )
 
     return(

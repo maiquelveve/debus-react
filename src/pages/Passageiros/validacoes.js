@@ -43,6 +43,7 @@ export const validacao = async dados => {
     const dadosPassageiro = {
         st_nome: dados.nome,
         st_cpf: dados.cpf,
+        id_viagem: dados.id_viagem
     }
 
     return dadosPassageiro;
