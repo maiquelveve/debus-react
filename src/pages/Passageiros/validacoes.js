@@ -21,7 +21,6 @@ export const validacao = async dados => {
             .min(11)
             .max(11)
             .required(),
-          
     })
 
     let errosValidados = await addressSchema.validate(PassageiroParaValidacao, { abortEarly: false })

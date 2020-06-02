@@ -33,17 +33,22 @@ function ModalAddPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassageir
                     const passageiro = await validacao({ nome, cpf })
 
                     if(passageiro.length > 0) {
-                        setResultado(passageiro)
                         setOpenAlertError(true)
+                        setResultado(passageiro)
 
                     } else {
                         const params = { id_viagem }
-                        await api.post('passageiros', passageiro, { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
-                        window.scrollTo(0, 5000)
-                        setOpen(false);
-                        setNome('')
-                        setCpf('')
-                        setOpenAlertSuccess(true)
+                        const retornoApi = await api.post('passageiros', passageiro, { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
+                        if(retornoApi.data.success === 1) {
+                            window.scrollTo(0, 5000)
+                            setOpen(false);
+                            setNome('')
+                            setCpf('')
+                            setOpenAlertSuccess(true)
+                        } else {
+                            setOpenAlertError(true)
+                            setResultado(retornoApi.data)    
+                        }    
                     }
 
                 } catch (error) {

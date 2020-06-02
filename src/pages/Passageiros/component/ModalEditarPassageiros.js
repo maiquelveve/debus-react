@@ -42,12 +42,17 @@ function ModalEditarPassageiros({open, setOpen, refazerBuscaDosPassageiros, pass
                         setOpenAlertError(true)
                         setResultado(newPassageiro)
                     } else {
-                        await api.put(`passageiros/${passageiro.id}`, newPassageiro, { headers: { auth: localStorage.userToken }, validateStatus: status => status < 500 })
-                        window.scrollTo(0, 5000)
-                        setOpen(false);
-                        setNome('')
-                        setCpf('')
-                        setOpenAlertSuccess(true)
+                        const retornoApi = await api.put(`passageiros/${passageiro.id}`, newPassageiro, { headers: { auth: localStorage.userToken }, validateStatus: status => status < 500 })
+                        if(retornoApi.data.success === 1) {
+                            window.scrollTo(0, 5000)
+                            setOpen(false);
+                            setNome('')
+                            setCpf('')
+                            setOpenAlertSuccess(true)
+                        } else {
+                            setOpenAlertError(true)
+                            setResultado(retornoApi.data)
+                        }
                     }
 
                 } catch (error) {
