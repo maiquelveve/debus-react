@@ -14,8 +14,9 @@ import MostrarPassageiros from '../Passageiros/component/MostrarPassageiros';
 import { AlertSuccess, AlertError } from '../../components/AlertasMaterialUi';
 
 function Reservar(props) {
-    const [viagem, setViagem] = useState([])
     const [load, setLoad] = useState(true)
+    const [loadLayout, setLoadLayout] = useState(true)
+    const [viagem, setViagem] = useState([])
     const [openModal, setOpenModal] = useState(false)
     const [openModalEditar, setOpenModalEditar] = useState(false)
     const [passageiros, setPassageiros] = useState([])
@@ -71,58 +72,62 @@ function Reservar(props) {
         
     if(load) return(<Loading size={80} />) 
 
-    return(
-        <>    
-        {viagem.length > 0 ?
-            <div className="container-fluid mt-2">
-                <ExibirLoadingLayout size={95} />
-                <InformacoesViagens viagem={viagem} />
-                
-                <div className="row">
-                    <div className="col-12 mt-3">
-                        <MostrarPassageiros 
-                            passageiros={passageiros} 
-                            refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
-                            abrirModalEditarPassageiro={abrirModalEditarPassageiro} 
-                        />
-                    </div>
-                    <div className="col-12 mt-3">
-                        <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
-                            + Passageiros
-                        </button> 
-                    </div>
-                </div> 
-                        
-                <ModalAddPassageiros 
-                    open={openModal} 
-                    setOpen={setOpenModal} 
-                    id_viagem={props.match.params.id} 
-                    refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
-                    setOpenAlertSuccess = {setOpenAlertSuccess}
-                    setOpenAlertError = {setOpenAlertError}
-                    setResultado = {setResultado}
-                />
-
-                <ModalEditarPassageiros 
-                    open={openModalEditar}
-                    setOpen={setOpenModalEditar}
-                    id_viagem={props.match.params.id} 
-                    refazerBuscaDosPassageiros={refazerBuscaDosPassageiros}
-                    passageiro={passageiro}
-                    setOpenAlertSuccess = {setOpenAlertSuccess}
-                    setOpenAlertError = {setOpenAlertError}
-                    setResultado = {setResultado}
-                />
-
-                <AlertError open={openAlertError} setOpen={setOpenAlertError} messages={resultado} />
-                <AlertSuccess open={openAlertSuccess} setOpen={setOpenAlertSuccess} messages={'Passageiro Salvo!'} />
-            </div>
-        : 
+    //Caso a viagem estaja em alguma situação que não possa mais ser cadastrado novos passageiros.
+    if(viagem.length === 0 ) {
+        return(
             <div>
                 Esta viagem já esta encerrada....volta a HOME            
-            </div>    
-        }
-        </>    
+            </div>
+        )
+    }
+
+    if(loadLayout) {
+        return (<ExibirLoadingLayout size={95} setLoadLayout={setLoadLayout} />)
+    }
+
+    return(
+        <div className="container-fluid mt-2">
+            <InformacoesViagens viagem={viagem} />
+            
+            <div className="row">
+                <div className="col-12 mt-3">
+                    <MostrarPassageiros 
+                        passageiros={passageiros} 
+                        refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
+                        abrirModalEditarPassageiro={abrirModalEditarPassageiro} 
+                    />
+                </div>
+                <div className="col-12 mt-3">
+                    <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
+                        + Passageiros
+                    </button> 
+                </div>
+            </div> 
+                    
+            <ModalAddPassageiros 
+                open={openModal} 
+                setOpen={setOpenModal} 
+                id_viagem={props.match.params.id} 
+                refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
+                setOpenAlertSuccess = {setOpenAlertSuccess}
+                setOpenAlertError = {setOpenAlertError}
+                setResultado = {setResultado}
+            />
+
+            <ModalEditarPassageiros 
+                open={openModalEditar}
+                setOpen={setOpenModalEditar}
+                id_viagem={props.match.params.id} 
+                refazerBuscaDosPassageiros={refazerBuscaDosPassageiros}
+                passageiro={passageiro}
+                setOpenAlertSuccess = {setOpenAlertSuccess}
+                setOpenAlertError = {setOpenAlertError}
+                setResultado = {setResultado}
+            />
+
+            <AlertError open={openAlertError} setOpen={setOpenAlertError} messages={resultado} />
+            <AlertSuccess open={openAlertSuccess} setOpen={setOpenAlertSuccess} messages={'Passageiro Salvo!'} />
+        </div>
     )
 }
 

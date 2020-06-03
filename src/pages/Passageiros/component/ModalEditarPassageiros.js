@@ -69,10 +69,10 @@ function ModalEditarPassageiros({open, setOpen, id_viagem, refazerBuscaDosPassag
 
     return(
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Novo Passageirto</DialogTitle>
+            <DialogTitle id="form-dialog-title">Editar Passageirto</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Cadastre o passageiro para essa viagem.
+                    Editar o passageiro para essa viagem.
                 </DialogContentText>
                 <TextField
                     autoFocus
