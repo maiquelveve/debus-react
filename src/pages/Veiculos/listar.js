@@ -8,8 +8,6 @@ import { validaToken } from '../../services/auth';
 
 import ListagemVeiculos from './component/ListagemVeiculos';
 
-import SimpleDialog from './teste'
-
 function Listar() {
     const [ativo, setAtivo] = useState('')
     const [id_empresa, setIdEmpresa] = useState('')
@@ -81,18 +79,6 @@ function Listar() {
         [placa, ativo, id_empresa]
     )
 
-    //teste aline
-    const [open, setOpen] = useState(false)
-    const [link, setLink] = useState({})
-    const handleClickModal = () => {
-        setOpen(true)
-        setLink({
-            adicionar: '/empresas/listar',
-            editar: '/viagens/listar',
-            remover: '/locaisReferencias/listar'
-        })
-    }
-
     return(
         <div className="container-fluid mt-5">
             <div className="row">
@@ -141,10 +127,6 @@ function Listar() {
                                     </div>
                                     <div className="form-group col-sm-2">
                                         <label className="mr-sm-3"></label>
-                                        <button type="button" className="mt-2 form-control btn btn-success" onClick={handleClickModal}>Buscar33</button>
-                                    </div>
-                                    <div className="form-group col-sm-2">
-                                        <label className="mr-sm-3"></label>
                                         <button type="submit" className="mt-2 form-control btn btn-success">Buscar</button>
                                     </div>
                                     <div className="form-group col-sm-2">
@@ -163,7 +145,6 @@ function Listar() {
                 :   
                     <p className="mt-5" align="center">Não encotramos nenhum veículo.</p>
             }
-            <SimpleDialog open={open} setOpen={setOpen} link={link} />
         </div> 
     )
 }
