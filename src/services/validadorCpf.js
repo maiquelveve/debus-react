@@ -9,7 +9,7 @@ export const validadorCpf = cpf => {
     }
 
     for (i = 0; i < cpf.length - 1; i++) {
-        if (cpf.charAt(i) != cpf.charAt(i + 1)) {
+        if (cpf.charAt(i) !== parseInt(cpf.charAt(i + 1))) {
             digitos_iguais = 0;
             break;
         }
@@ -25,7 +25,7 @@ export const validadorCpf = cpf => {
         } 
 
         resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-        if (resultado != digitos.charAt(0)) {
+        if (resultado !== parseInt(digitos.charAt(0))) {
             return false;
         } 
 
@@ -36,7 +36,7 @@ export const validadorCpf = cpf => {
         }    
         
         resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-        if (resultado != digitos.charAt(1)) {
+        if (resultado !== parseInt(digitos.charAt(1))) {
             return false;
         }
 

@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {withRouter} from 'react-router-dom';
+import {withRouter, useHistory} from 'react-router-dom';
 import * as yup from 'yup';
 
-import {validaToken} from '../../services/auth';
+import {validaToken, validaPerfilAcesso} from '../../services/auth';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import AlertasResultados from '../../components/AlertasResultados';
@@ -17,6 +17,7 @@ function Cadastrar() {
     const [celular, setCelular] = useState('')
     const [resultado, setResultado] = useState([])
 
+    const history = useHistory()
 
     useEffect(
         () => {
@@ -25,10 +26,14 @@ function Cadastrar() {
                 if(!token) {
                     window.location.reload('/')
                 } 
+
+                if(!await validaPerfilAcesso('E')) {
+                    history.push('/')
+                }
             }
             fetchData()
         },
-        []
+        [history]
     )
 
 

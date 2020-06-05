@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, useHistory } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import * as yup from 'yup';
 
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import api from '../../services/api';
-import { validaToken } from '../../services/auth';
+import { validaToken, validaPerfilAcesso } from '../../services/auth';
 import AlertasResultados from '../../components/AlertasResultados';
 import validacaoDefinicao from '../../config/validacaoDefinicao';
 
@@ -16,6 +16,8 @@ function Cadastrar() {
     const [lugares, setLugares] = useState()//deixando assim a primeira vez que eh setado um valor no campo lugares da um erro no console pq o javascript se perde no trocar dos valores pq eh usado o onChange, e não tem valor inicial
     const [empresasUsuario, setEmpresasUsuario] = useState([])
 
+    const history = useHistory()
+    
     //Simple, faz a validação do token
     useEffect(
         () => {
@@ -24,6 +26,10 @@ function Cadastrar() {
                 if(!token) {
                     window.location.reload('/')
                 } 
+
+                if(!await validaPerfilAcesso('E')) {
+                    history.push('/')
+                }
 
                 try {
                     const retornoApi = await api.get('/empresas/buscarDoUsuario', { headers:{'auth': localStorage.userToken}}, {validateStatus: status => status < 500});    
@@ -35,7 +41,7 @@ function Cadastrar() {
             }
             fetchData()
         },
-        []
+        [history]
     )
 
     const handleLimparMsg = useCallback(

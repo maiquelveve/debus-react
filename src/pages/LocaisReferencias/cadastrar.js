@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { withRouter, Link} from 'react-router-dom'
+import { withRouter, Link, useHistory } from 'react-router-dom'
 
 import api from '../../services/api';
-import { validaToken }  from '../../services/auth';
+import { validaToken, validaPerfilAcesso }  from '../../services/auth';
 
 import AlertasResultados from '../../components/AlertasResultados';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
@@ -18,6 +18,8 @@ function Cadastrar() {
     const [idEstado, setIdEstado] = useState(0)
     const [idCidade, setIdCidade] = useState(0)
 
+    const history = useHistory()
+    
     useEffect(
         () => {
             async function fetchData() {
@@ -25,10 +27,14 @@ function Cadastrar() {
                 if(!token) {
                     window.location.reload('/')
                 } 
+
+                if(!await validaPerfilAcesso('E')) {
+                    history.push('/')
+                }
             }
             fetchData();
         },
-        []
+        [history]
     )
 
     const handleLimparMsg = useCallback(

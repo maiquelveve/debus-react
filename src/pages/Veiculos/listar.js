@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, useHistory } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import api from '../../services/api';
-import { validaToken } from '../../services/auth';
+import { validaToken, validaPerfilAcesso } from '../../services/auth';
 
 import ListagemVeiculos from './component/ListagemVeiculos';
 
@@ -16,6 +16,8 @@ function Listar() {
     const [veiculos, setVeiculos] = useState([])
     const [retornoAtivaDesativacao, setRetornoAtivaDesativacao] = useState(0)
 
+    const history = useHistory()
+    
     const retornoAtivacaoOuDesativacao = () =>  setRetornoAtivaDesativacao(retornoAtivaDesativacao + 1)
     useEffect(
         () => {
@@ -46,6 +48,10 @@ function Listar() {
                     window.location.reload('/')
                 } 
 
+                if(!await validaPerfilAcesso('E')) {
+                    history.push('/')
+                }
+
                 try {
                     const retornoApi = await api.get('/empresas/buscarDoUsuario', { headers:{'auth': localStorage.userToken}}, {validateStatus: status => status < 500});    
                     setEmpresasUsuario(retornoApi.data)
@@ -56,7 +62,7 @@ function Listar() {
             }
             fetchData()
         },
-        []
+        [history]
     )
 
     const handleListar = useCallback(

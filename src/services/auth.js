@@ -12,6 +12,34 @@ export const autenticado = () => {
     }
 }
 
+export const validaPerfilAcesso = async perfilAutorizado => {
+    try {
+        const token = localStorage.userToken
+        if(token) {
+            //Busca perfil do usuario logado 
+            const retornoApi = await api.post('/buscarPerfilAcessoUsuario', {}, {headers: { auth: token } })
+            
+            //Caso o usuario for Administrador, ele terá acesso liberado
+            if(retornoApi.data === 'A') {
+                return true
+            }
+
+            if(retornoApi.data !== perfilAutorizado) {
+                return false
+            }
+
+            //Caso o perfil seja autorizado
+            return true
+
+        } else {
+            return false
+        }
+
+    } catch (error) {
+        AlertCatch('Ocorreu um erro na autenticação.')
+    }
+}
+
 export const validaToken = async () => {
 
     try {

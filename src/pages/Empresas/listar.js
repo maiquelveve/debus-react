@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter, Link, useHistory} from 'react-router-dom';
 
-import {validaToken} from '../../services/auth';
+import { validaToken, validaPerfilAcesso } from '../../services/auth';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
@@ -13,6 +13,8 @@ function Listar() {
     const[ativa, setAtiva] = useState('')
     const[empresas, setEmpresas] = useState([])
     const[retornoAtivaDesativacao, setRetornoAtivaDesativacao] = useState(0);
+
+    const history = useHistory()
 
     //Isso só serve para refazer a pesquisa depois que ativar ou desativar uma empresa
     const retornoAtivacaoOuDesativacao = () =>  setRetornoAtivaDesativacao(retornoAtivaDesativacao + 1)
@@ -46,10 +48,14 @@ function Listar() {
                 if(!token) {
                     window.location.reload('/')
                 } 
+
+                if(!await validaPerfilAcesso('E')) {
+                    history.push('/')
+                }
             }
             fetchData()
         },
-        []
+        [history]
     )
 
     const handleListar = useCallback(

@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
-import { validaToken }  from '../../services/auth';
+import { validaToken, validaPerfilAcesso }  from '../../services/auth';
 
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import ComboPaisEstadosCidades from '../../components/CombosPaisEstadosCidades';
@@ -16,6 +16,8 @@ function Listar() {
     const [locaisReferencias, setLocaisReferencias] = useState([])
     const [retornoCallback, setRetornoCallback] = useState(0)
     
+    const history = useHistory()
+
     useEffect(
         () => {
             async function fetchData() {
@@ -23,10 +25,14 @@ function Listar() {
                 if(!token) {
                     window.location.reload('/')
                 } 
+
+                if(!await validaPerfilAcesso('E')) {
+                    history.push('/')
+                }
             }
             fetchData();
         },
-        []
+        [history]
     )
 
     //USEEFFECT para renovar a pesquisa depois de alguma ação nos registros listados, ex: cancelar local de referencia
