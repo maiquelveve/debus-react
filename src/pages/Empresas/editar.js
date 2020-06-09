@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {withRouter, useHistory} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import * as yup from 'yup';
 
-import {validaToken, validaPerfilAcesso} from '../../services/auth';
+import {validaToken} from '../../services/auth';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import AlertasResultados from '../../components/AlertasResultados';
@@ -15,8 +15,6 @@ function Editar(props) {
     const [celular, setCelular] = useState('')
     const [resultado, setResultado] = useState([])
 
-    const history = useHistory()
-
     useEffect(
         () => {
             async function fetchData() {
@@ -24,10 +22,6 @@ function Editar(props) {
                 if(!token) {
                     window.location.reload('/')
                 } 
-
-                if(!await validaPerfilAcesso('E')) {
-                    history.push('/')
-                }
 
                 try { 
                     const id_empresa = props.match.params.id;
@@ -43,7 +37,7 @@ function Editar(props) {
             }
             fetchData()
         },
-        [props.history, props.match.params.id, history]
+        [props.history, props.match.params.id]
     )
 
 

@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { withRouter, Link, useHistory } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 import api from '../../services/api';
-import { validaToken, validaPerfilAcesso }  from '../../services/auth';
+import { validaToken }  from '../../services/auth';
 
 import AlertasResultados from '../../components/AlertasResultados';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
@@ -18,8 +18,6 @@ function Editar(props) {
     const [idEstado, setIdEstado] = useState(0)
     const [idCidade, setIdCidade] = useState(0)
 
-    const history = useHistory()
-    
     useEffect(
         () => {
             async function fetchData() {
@@ -28,10 +26,6 @@ function Editar(props) {
                     window.location.reload('/')
                 }
 
-                if(!await validaPerfilAcesso('E')) {
-                    history.push('/')
-                }
-                
                 try {
                     const { id } = props.match.params 
                     const retornoApi = await api.get(`/locaisReferencias/${id}`)
@@ -46,7 +40,7 @@ function Editar(props) {
             }
             fetchData();
         },
-        [props.match.params, history]
+        [props.match.params]
     )
 
     const handleLimparMsg = useCallback(

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import InputMask from 'react-input-mask';
 import CurrencyInput from 'react-currency-input';
-import { withRouter, Link, useHistory } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import AlertasResultados from '../../components/AlertasResultados';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
-import { validaToken, validaPerfilAcesso }  from '../../services/auth';
+import { validaToken }  from '../../services/auth';
 import api from '../../services/api';
 
 import DestinosViagens from './component/DestinosViagens/'
@@ -41,8 +41,6 @@ function Editar(props) {
     //States para informar o valor ou não (à combinar)
     const[infoValor, setInfoValor] = useState(true)
 
-    const history = useHistory()
-
     useEffect(
         () => {
             async function fetchData() {
@@ -50,10 +48,6 @@ function Editar(props) {
                 if(!token) {
                     window.location.reload('/')
                 } 
-
-                if(!await validaPerfilAcesso('E')) {
-                    history.push('/')
-                }
 
                 //Carregando o combo de da tela
                 try {
@@ -85,7 +79,7 @@ function Editar(props) {
             }
             fetchData();
         },
-        [props.match.params, history]
+        [props.match.params]
     )
 
     //UseEffect para buscar os veiculos conforme a empresa escolhida

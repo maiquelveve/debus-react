@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import {withRouter, Link, useHistory} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
-import {validaToken, validaPerfilAcesso} from '../../services/auth';
+import {validaToken} from '../../services/auth';
 import api from '../../services/api';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
@@ -17,8 +17,6 @@ function Listar() {
     const [data, setData] = useState('')
     const [retornoAcoes, setRetornoAcoes] = useState(0)
 
-    const history = useHistory()
-
     //Simple, faz a validação do token
     useEffect(
         () => {
@@ -27,10 +25,6 @@ function Listar() {
                 if(!token) {
                     window.location.reload('/')
                 } 
-
-                if(!await validaPerfilAcesso('E')) {
-                    history.push('/')
-                }
 
                 try {
                     const retornoApi = await api.get('/empresas/buscarDoUsuario', { headers:{'auth': localStorage.userToken}, validateStatus: status => status < 500});    
@@ -42,7 +36,7 @@ function Listar() {
             }
             fetchData()
         },
-        [history]
+        []
     )
 
     //Isso eh para quando houver uma troca de situação o componente recede essa function e executa quando terminar 
