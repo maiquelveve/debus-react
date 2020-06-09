@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import {withRouter, Link, useHistory} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 
 import { validaToken } from '../../services/auth';
 import api from '../../services/api';
