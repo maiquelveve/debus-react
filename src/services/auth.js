@@ -10,7 +10,7 @@ export const autenticado = () => {
     } else {
         return false   
     }
-}
+}                         
 
 export const validaToken = async () => {
 

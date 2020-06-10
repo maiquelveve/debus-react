@@ -12,17 +12,17 @@ function Header() {
 
     const setPerfilUser = async () => {
         try {
-        const token = localStorage.userToken
-        if(token) {
-            const retornoApi = await api.post('/buscarPerfilAcessoUsuario', {}, {headers: { auth: token } })            
-            //Salvando o perfil no redux
-            dispatch({
-                type: 'PERFIL',
-                ch_perfil: retornoApi.data
-            })
-        }
+            const token = localStorage.userToken
+            if(token) {
+                const retornoApi = await api.post('/buscarPerfilAcessoUsuario', {}, {headers: { auth: token } })            
+                //Salvando o perfil no redux
+                dispatch({
+                    type: 'PERFIL',
+                    ch_perfil: retornoApi.data
+                })
+            }
         } catch (error) {
-        AlertCatch('Ocorreu um erro na autenticação.')
+            AlertCatch('Ocorreu um erro na autenticação.')
         }
     }   
     setPerfilUser()
