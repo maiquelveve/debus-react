@@ -12,34 +12,6 @@ export const autenticado = () => {
     }
 }
 
-export const validaPerfilAcesso = async perfilAutorizado => {
-    try {
-        const token = localStorage.userToken
-        if(token) {
-            //Busca perfil do usuario logado 
-            const retornoApi = await api.post('/buscarPerfilAcessoUsuario', {}, {headers: { auth: token } })
-            
-            //Caso o usuario for Administrador, ele terá acesso liberado
-            if(retornoApi.data === 'A') {
-                return true
-            }
-
-            if(retornoApi.data !== perfilAutorizado) {
-                return false
-            }
-
-            //Caso o perfil seja autorizado
-            return true
-
-        } else {
-            return false
-        }
-
-    } catch (error) {
-        AlertCatch('Ocorreu um erro na autenticação.')
-    }
-}
-
 export const validaToken = async () => {
 
     try {
@@ -65,16 +37,19 @@ export const validaToken = async () => {
         const result = await api.post('/config/validaToken', {}, {validateStatus: status => status < 500});
         
         if(!result.data.success) {
-            localStorage.removeItem('userToken');
-            localStorage.removeItem('userActive');
             await AlertCatch('Sua sessão expirou. Faça login novamente.')
+            logout()
         }
 
         return result.data.success;        
 
     } catch (error) {
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('userActive');
         await AlertCatch('Ocorreu um erro na autenticação.')
+        logout()
     }
+}
+
+export const logout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userActive');
 }

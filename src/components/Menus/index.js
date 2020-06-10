@@ -1,19 +1,14 @@
 import React, { useCallback } from 'react';
 import {Link} from 'react-router-dom'
 
-import { autenticado } from '../../services/auth';
+import { autenticado, logout } from '../../services/auth';
 
 function Menus() {
     
     const handleSair = useCallback(
         () => {
-            function sair() {
-                localStorage.removeItem('userToken'); 
-                localStorage.removeItem('userActive'); 
-                window.location.reload('/')
-            }
-
-            sair()
+            logout()
+            window.location.reload('/')
         },
         []
     )

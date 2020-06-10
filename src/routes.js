@@ -21,7 +21,7 @@ import ListarLocaisReferencias from './pages/LocaisReferencias/listar';
 import ExemploMaterialUi from './pages/ExemploMaterialUi/reservarExMaterialui';
 import Erro from './pages/Erro';
 
-import PrivateRoute from './services/PrivateRoute'
+import PrivateRoute, {ControleAcessoRoute} from './services/PrivateRoute'
 
 function Routes() {
     return(
@@ -29,21 +29,27 @@ function Routes() {
             <PrivateRoute exact path="/materialui/:id" component={ExemploMaterialUi} />{/* rota de exemplos do material UI */}
 
             <Route exact path="/" component={Home} />
-            <PrivateRoute exact path="/locaisReferencias/cadastrar" component={CadastrarLocaisRefrencias} />
-            <PrivateRoute exact path="/locaisReferencias/listar" component={ListarLocaisReferencias} />
-            <PrivateRoute exact path="/locaisReferencias/editar/:id" component={EditarLocaisRefrencias} />
-            <PrivateRoute exact path="/viagens/listar" component={ListarViagens} />
-            <PrivateRoute exact path="/viagens/cadastrar" component={CadastrarViagens} />
-            <PrivateRoute exact path="/viagens/editar/:id" component={EditarViagens} />
+            
+            <ControleAcessoRoute exact path="/locaisReferencias/cadastrar" perfilAutorizado='E' component={CadastrarLocaisRefrencias} />
+            <ControleAcessoRoute exact path="/locaisReferencias/listar" perfilAutorizado='E' component={ListarLocaisReferencias} />
+            <ControleAcessoRoute exact path="/locaisReferencias/editar/:id" perfilAutorizado='E' component={EditarLocaisRefrencias} />
+            
+            <ControleAcessoRoute exact path="/viagens/listar" perfilAutorizado='E' component={ListarViagens} />
+            <ControleAcessoRoute exact path="/viagens/cadastrar" perfilAutorizado='E' component={CadastrarViagens} />
+            <ControleAcessoRoute exact path="/viagens/editar/:id" perfilAutorizado='E' component={EditarViagens} />
             <PrivateRoute exact path="/viagens/reservar/:id" component={ReservarViagens} />
-            <PrivateRoute exact path="/empresas/editar/:id" component={EditarEmpresas} />
-            <PrivateRoute exact path="/empresas/cadastrar" component={CadastrarEmpresas} />
-            <PrivateRoute exact path="/empresas/listar" component={ListarEmpresas} />
-            <PrivateRoute exact path="/veiculos/cadastrar" component={CadastrarVeiculos} />
-            <PrivateRoute exact path="/veiculos/editar/:id" component={EditarVeiculos} />
-            <PrivateRoute exact path="/veiculos/listar" component={ListarVeiculos} />
+            
+            <ControleAcessoRoute exact path="/empresas/listar" perfilAutorizado='E' component={ListarEmpresas} />
+            <ControleAcessoRoute exact path="/empresas/editar/:id" perfilAutorizado='E' component={EditarEmpresas} />
+            <ControleAcessoRoute exact path="/empresas/cadastrar" perfilAutorizado='E' component={CadastrarEmpresas} />
+            
+            <ControleAcessoRoute exact path="/veiculos/cadastrar" perfilAutorizado='E' component={CadastrarVeiculos} />
+            <ControleAcessoRoute exact path="/veiculos/editar/:id" perfilAutorizado='E' component={EditarVeiculos} />
+            <ControleAcessoRoute exact path="/veiculos/listar" perfilAutorizado='E' component={ListarVeiculos} />
+            
             <Route exact path="/usuarios/login" component={Login} />
             <Route exact path="/usuarios/cadastrar" component={CadastrarUsuarios} />
+
             <Route path="*" component={Erro} />
         </Switch>
     )
