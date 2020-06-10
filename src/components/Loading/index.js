@@ -27,8 +27,8 @@ export function ExibirLoadingLayout(props) {
             </div>
         )
     } else {
-        props.setLoadLayout(false)
-        return ''
+      props.setLoadLayout(false)
+      return ''
     }
 }
 
