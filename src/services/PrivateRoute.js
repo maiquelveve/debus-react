@@ -1,12 +1,15 @@
 import React from 'react'
 import {Redirect, Route} from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 import { autenticado } from './auth'
 
 //Rotas que alem de estar logado o usuario o tipo de perfil dele tbm será avaliado
 export const ControleAcessoRoute = ({ component: Componente, perfilAutorizado, ...rest }) => {
     try {
-        const perfilUserLogado = localStorage.perfil // buscar no redux
+        //pega o reducer
+        const perfil = useSelector(state => state.usuarioReducer)
+        const perfilUserLogado = perfil[0].ch_perfil // buscar no redux
 
         if(!autenticado()){
             throw('Não Autorizado')
