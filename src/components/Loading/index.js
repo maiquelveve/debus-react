@@ -17,7 +17,7 @@ export const Loading = (props) => {
 //Exporta uma bolinha de loading que vai completando mas ela eh só para ficar bonitinho
 export function ExibirLoadingLayout(props) {
     const[exibirLoading, setExibirLoading] = useState(true)
-    
+
     if(exibirLoading) {
         setTimeout(() => setExibirLoading(false), 1500)
         return(
@@ -27,8 +27,7 @@ export function ExibirLoadingLayout(props) {
             </div>
         )
     } else {
-      props.setLoadLayout(false)
-      return ''
+      return null
     }
 }
 

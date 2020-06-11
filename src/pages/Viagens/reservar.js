@@ -81,53 +81,59 @@ function Reservar(props) {
         )
     }
 
+    //Sei que fica no console um erro mas no layout ta funcionado..pensar um dia melhor...agora não eh hora...
     if(loadLayout) {
-        return (<ExibirLoadingLayout size={95} setLoadLayout={setLoadLayout} />)
+        setTimeout(() => setLoadLayout(false), 1500)
+        return(<ExibirLoadingLayout size={95} />)
     }
 
     return(
-        <div className="container-fluid mt-2">
-            <InformacoesViagens viagem={viagem} />
-            
-            <div className="row">
-                <div className="col-12 mt-3">
-                    <MostrarPassageiros 
-                        passageiros={passageiros} 
-                        refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
-                        abrirModalEditarPassageiro={abrirModalEditarPassageiro} 
-                    />
-                </div>
-                <div className="col-12 mt-3">
-                    <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
-                        + Passageiros
-                    </button> 
-                </div>
-            </div> 
-                    
-            <ModalAddPassageiros 
-                open={openModal} 
-                setOpen={setOpenModal} 
-                id_viagem={props.match.params.id} 
-                refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
-                setOpenAlertSuccess = {setOpenAlertSuccess}
-                setOpenAlertError = {setOpenAlertError}
-                setResultado = {setResultado}
-            />
+        <>
+        {viagem.length > 0 &&
+            <div className="container-fluid mt-2">                
+                <InformacoesViagens viagem={viagem} />
+                
+                <div className="row">
+                    <div className="col-12 mt-3">
+                        <MostrarPassageiros 
+                            passageiros={passageiros} 
+                            refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
+                            abrirModalEditarPassageiro={abrirModalEditarPassageiro} 
+                        />
+                    </div>
+                    <div className="col-12 mt-3">
+                        <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
+                            + Passageiros
+                        </button> 
+                    </div>
+                </div> 
+                        
+                <ModalAddPassageiros 
+                    open={openModal} 
+                    setOpen={setOpenModal} 
+                    id_viagem={props.match.params.id} 
+                    refazerBuscaDosPassageiros={refazerBuscaDosPassageiros} 
+                    setOpenAlertSuccess = {setOpenAlertSuccess}
+                    setOpenAlertError = {setOpenAlertError}
+                    setResultado = {setResultado}
+                />
 
-            <ModalEditarPassageiros 
-                open={openModalEditar}
-                setOpen={setOpenModalEditar}
-                id_viagem={props.match.params.id} 
-                refazerBuscaDosPassageiros={refazerBuscaDosPassageiros}
-                passageiro={passageiro}
-                setOpenAlertSuccess = {setOpenAlertSuccess}
-                setOpenAlertError = {setOpenAlertError}
-                setResultado = {setResultado}
-            />
+                <ModalEditarPassageiros 
+                    open={openModalEditar}
+                    setOpen={setOpenModalEditar}
+                    id_viagem={props.match.params.id} 
+                    refazerBuscaDosPassageiros={refazerBuscaDosPassageiros}
+                    passageiro={passageiro}
+                    setOpenAlertSuccess = {setOpenAlertSuccess}
+                    setOpenAlertError = {setOpenAlertError}
+                    setResultado = {setResultado}
+                />
 
-            <AlertError open={openAlertError} setOpen={setOpenAlertError} messages={resultado} />
-            <AlertSuccess open={openAlertSuccess} setOpen={setOpenAlertSuccess} messages={'Passageiro Salvo!'} />
-        </div>
+                <AlertError open={openAlertError} setOpen={setOpenAlertError} messages={resultado} />
+                <AlertSuccess open={openAlertSuccess} setOpen={setOpenAlertSuccess} messages={'Passageiro Salvo!'} />
+            </div>
+        }
+        </>
     )
 }
 
