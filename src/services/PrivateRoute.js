@@ -9,15 +9,15 @@ export const ControleAcessoRoute = ({ component: Componente, perfilAutorizado, .
     try {
         //pega o reducer
         const perfil = useSelector(state => state.usuarioReducer)
-        const perfilUserLogado = perfil[0].ch_perfil // buscar no redux
+        const perfilUserLogado = perfil[0] // buscar no redux
 
         if(!autenticado()){
-            throw('Não Autorizado')
+            throw new Error('Não Autorizado')
         }
 
         if(perfilUserLogado !== 'A') {
             if(perfilAutorizado !== perfilUserLogado) {
-                throw('Não Autorizado')
+                throw new Error('Não Autorizado')
             }
         }
 
