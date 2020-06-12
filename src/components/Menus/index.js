@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import {Link} from 'react-router-dom'
 
+import MenusLiberados from './MenusLiberados';
 import { autenticado, logout } from '../../services/auth';
 
 function Menus() {
@@ -17,23 +18,7 @@ function Menus() {
         <ul className="navbar-nav ml-auto">
             {/* Menus do usuario LOGADO */}
             { autenticado() &&
-                <>
-                    <li className="nav-item">
-                        <Link className="nav-link active" to="/veiculos/listar">Veículos</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link active" to="/empresas/listar">Empresas</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link active" to="/viagens/listar">Viagens</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link active" to="/locaisReferencias/listar">Locais</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link active" onClick={ handleSair } to="" >Sair</Link>
-                    </li>
-                </>    
+                <MenusLiberados handleSair={handleSair}/>
             }
 
             {/* Menus do usuario DESLOGADO */}
