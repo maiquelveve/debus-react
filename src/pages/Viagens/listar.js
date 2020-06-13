@@ -97,7 +97,7 @@ function Listar() {
                 <div className="col-lg-12">
                     <div className="card card-outline-secondary">
                         <div className="card-header">
-                            <h3 className="mb-0">Minhas Viagens</h3>
+                            <h3 className="mb-0">Listar Viagens</h3>
                         </div>
                         <div className="card-body">
                             <form className="form" onSubmit={handleListar}>
