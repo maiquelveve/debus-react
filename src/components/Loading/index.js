@@ -111,3 +111,51 @@ const useStylesFacebook = makeStyles({
     },
 });
 //Loading que eh tipo o do FACEBOOK - FINAL
+
+
+//Loading que eh tipo o do FACEBOOK para os MENUS
+const useStylesFacebookMenus = makeStyles((theme) => ({
+  root: {
+      position: 'relative',
+  },
+  bottom: {
+      color: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+  },
+  top: {
+      color: '#1a90ff',
+      animationDuration: '550ms',
+      position: 'absolute',
+      left: 0,
+  },
+  circle: {
+      strokeLinecap: 'round',
+  },
+}));
+
+export function FacebookProgressMenus(props) {
+  const classes = useStylesFacebookMenus();
+
+  return (
+      <div className={classes.root}>
+          <CircularProgress
+              variant="determinate"
+              className={classes.bottom}
+              size={40}
+              thickness={4}
+              {...props}
+              value={100}
+          />
+          <CircularProgress
+              variant="indeterminate"
+              disableShrink
+              className={classes.top}
+              classes={{
+              circle: classes.circle,
+              }}
+              size={40}
+              thickness={4}
+              {...props}
+          />
+      </div>
+  );
+}

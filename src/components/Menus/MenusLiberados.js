@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Loading } from '../Loading'
+import { FacebookProgressMenus } from '../Loading';
 
 function MenusLiberados({handleSair}) {
 
@@ -51,26 +51,23 @@ function MenusLiberados({handleSair}) {
     let Menus
     const perfil = useSelector(state => state.usuarioReducer)
     
-    if(perfil.length > 0) {
-        //return (<li>carregando.....</li>)
-        switch(perfil[0]) {
-            case 'A':
-                Menus = MenusAdministrador
-                break;
-                
-            case 'E':
-                Menus = MenusEmpresas
-                break;
+    switch(perfil[0]) {
+        case 'A':
+            Menus = MenusAdministrador
+            break;
+            
+        case 'E':
+            Menus = MenusEmpresas
+            break;
 
-            case 'C': 
-                Menus = MenusComum
-                break;
-        }
+        case 'C': 
+            Menus = MenusComum
+            break;
+        default:
+            Menus = () => (<FacebookProgressMenus size={20}/>)
+    }
 
-        return Menus()  
-    } else {
-        return ('careegando....')
-    }    
+    return Menus()  
 }
 
 export default MenusLiberados;
