@@ -13,6 +13,7 @@ import ViagemVisualizada from './viagemVisualizada';
 const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative',
+        background: '#007bff'
     },
     title: {
         marginLeft: theme.spacing(2),
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    return <Slide direction="down" ref={ref} {...props} />;
 });
 
 export default function Visualizar({open, setOpen, viagemId}) {
@@ -34,7 +35,7 @@ export default function Visualizar({open, setOpen, viagemId}) {
     return (
         <div>
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-                <AppBar className={classes.appBar}>
+                <AppBar className={classes.appBar} >
                     <Toolbar>
                         <Typography variant="h6" className={classes.title}>
                             Viagem
