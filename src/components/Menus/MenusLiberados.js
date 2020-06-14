@@ -9,6 +9,9 @@ function MenusLiberados({handleSair}) {
     const MenusAdministrador = () => (
         <>
             <li className="nav-item">
+                <Link className="nav-link active" to="/viagens/minhas_viagens">Minhas Viagens</Link>
+            </li>
+            <li className="nav-item">
                 <Link className="nav-link active" to="/veiculos/listar">ADM</Link>
             </li>
             <li className="nav-item">
@@ -19,6 +22,9 @@ function MenusLiberados({handleSair}) {
 
     const MenusEmpresas = () => (
         <>
+            <li className="nav-item">
+                <Link className="nav-link active" to="/viagens/minhas_viagens">Minhas Viagens</Link>
+            </li>
             <li className="nav-item">
                 <Link className="nav-link active" to="/veiculos/listar">Veículos</Link>
             </li>
@@ -40,7 +46,7 @@ function MenusLiberados({handleSair}) {
     const MenusComum = () => (
         <>
             <li className="nav-item">
-                <Link className="nav-link active" to="/veiculos/listar">Minhas Viagens</Link>
+                <Link className="nav-link active" to="/viagens/minhas_viagens">Viagens</Link>
             </li>
             <li className="nav-item">
                 <Link className="nav-link active" onClick={ handleSair } to="" >Sair</Link>

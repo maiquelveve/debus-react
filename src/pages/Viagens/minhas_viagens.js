@@ -7,7 +7,7 @@ import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import api from '../../services/api';
 
 import ListagemMinhasViagens from './component/ListagemViagens/listagemMinhasViagens';
-import DestinosViagens from './component/DestinosViagens/'
+import DestinosViagens from './component/DestinosViagens/';
 
 function MinhasViagens() {
 
@@ -110,7 +110,9 @@ function MinhasViagens() {
                                 
                                 <div className="form-row text-center">
                                     <div className="form-group col-sm-2 text-center">
-                                        <button type="submit" className="mt-2 form-control btn btn-success">Buscar</button>
+                                        <button type="submit" className="mt-2 form-control btn btn-success">
+                                            Buscar
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -122,7 +124,7 @@ function MinhasViagens() {
                 <ListagemMinhasViagens viagens={viagens} />
             :
                 <p className="mt-5" align="center">Não encotramos nenhuma Viagem.</p>
-            }     
+            }  
         </div> 
     );
 }

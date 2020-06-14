@@ -1,8 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
 import { RiInformationLine } from 'react-icons/ri';
+import Visualizar from '../Visualizar';
 
 function ListagemMinhasViagens({viagens}) {
+
+    const [viagemId, setViagemId] = useState('')
+    const [open, setOpen] = useState(false);
+
+    const handleAbrirModalVisualizar = useCallback(
+        viagemId =>  {
+            setViagemId(viagemId)
+            setOpen(true)
+        },
+        []
+    )
+
     return(
         <div className="row mt-4">
             <div className="col-lg-12">
@@ -44,11 +56,11 @@ function ListagemMinhasViagens({viagens}) {
                                             <td>{viagem.qt_passageiro}</td>
                                             <td>{viagem.en_situacao.toUpperCase()}</td>
                                             <td>
-                                                <Link to={`visualizar/${viagem.id}`} className="btn btn-warning ml-1 mx-1">
+                                                <button type="button" className="btn btn-info mx-1" onClick={ () => { handleAbrirModalVisualizar(viagem.id) } }>
                                                     <span>
                                                         <RiInformationLine size={20} />
                                                     </span>
-                                                </Link>
+                                                </button> 
                                             </td>
                                         </tr>
                                     ))}
@@ -58,6 +70,7 @@ function ListagemMinhasViagens({viagens}) {
                     </div>
                 </div>
             </div> 
+            <Visualizar  open={open} setOpen={setOpen} viagemId={viagemId} />   
         </div>
     )
 }
