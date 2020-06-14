@@ -17,7 +17,7 @@ function ViagemVisualizada({id}) {
         () => {
             async function fetchData() {
                 try {
-                    const retornoApi = await api.get(`/viagens/reservar/${id}`)
+                    const retornoApi = await api.get(`/viagens/visualizar/${id}`)
                     setViagem(retornoApi.data)
 
                     const params = { id_viagem: id }
