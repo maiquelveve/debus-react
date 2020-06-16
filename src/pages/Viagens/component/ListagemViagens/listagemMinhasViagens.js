@@ -1,8 +1,13 @@
 import React, { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { MdBorderColor, MdDeleteForever } from 'react-icons/md';
 import { RiInformationLine } from 'react-icons/ri';
+
+import { AlertCatch } from '../../../../components/AlertasDefaultSistema';
+import { AlertDeletarViagem } from '../AlertsViagens';
 import Visualizar from '../Visualizar';
 
-function ListagemMinhasViagens({viagens}) {
+function ListagemMinhasViagens({viagens, handleCallbackDeletar}) {
 
     const [viagemId, setViagemId] = useState('')
     const [open, setOpen] = useState(false);
@@ -13,6 +18,18 @@ function ListagemMinhasViagens({viagens}) {
             setOpen(true)
         },
         []
+    )
+
+    const handleDeletarViagemUsuario = useCallback(
+        async viagem => {
+            try {
+                await AlertDeletarViagem(viagem, handleCallbackDeletar)
+
+            } catch (error) {
+                AlertCatch('Ocorreu um erro ao cancelar a viagem. Tente novamente mais tarde!')
+            }
+        },
+        [handleCallbackDeletar]
     )
 
     return(
@@ -56,9 +73,19 @@ function ListagemMinhasViagens({viagens}) {
                                             <td>{viagem.qt_passageiro}</td>
                                             <td>{viagem.en_situacao.toUpperCase()}</td>
                                             <td>
+                                                <Link className="btn btn-success mx-1" to={`/viagens/reservar/${viagem.id}`}>
+                                                    <span>
+                                                        <MdBorderColor size={20} />
+                                                    </span>
+                                                </Link>
                                                 <button type="button" className="btn btn-info mx-1" onClick={ () => { handleAbrirModalVisualizar(viagem.id) } }>
                                                     <span>
                                                         <RiInformationLine size={20} />
+                                                    </span>
+                                                </button> 
+                                                <button type="button" className="btn btn-danger mx-1" onClick={ () => { handleDeletarViagemUsuario(viagem) } }>
+                                                    <span>
+                                                        <MdDeleteForever size={20} />
                                                     </span>
                                                 </button> 
                                             </td>

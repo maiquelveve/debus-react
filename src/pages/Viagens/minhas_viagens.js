@@ -58,7 +58,34 @@ function MinhasViagens() {
         },
         [data, situacao, idReferenciaOrigem]
     )
-    
+
+    const reafazerPesquisa = useCallback(
+        () => {
+            setViagens([])
+
+            async function reafazerPesquisa() {
+                try {
+                    const params = {
+                        en_situacao: situacao, 
+                        dt_data: data.split('/').reverse().join('-'),
+                        nr_id_local_referencia_origem: idReferenciaOrigem
+                    }
+                    const retornoApi = await api.get('/viagens/minhas_viagens', {params, headers:{'auth': localStorage.userToken}, validateStatus: status => status < 500})
+                    setViagens(retornoApi.data)
+
+                    //Faz scroll até o inicio do resultado da pesquisa
+                    window.scroll(0,265)
+                    
+                } catch (error) {
+                    await AlertCatch('Houveram problemas ao listar as Viagens. Tente novamente.')                
+                }
+             }
+             reafazerPesquisa()
+        },
+        [data, situacao, idReferenciaOrigem]
+    )
+    const handleCallbackDeletar = useCallback( () => { reafazerPesquisa() }, [reafazerPesquisa])
+        
     return (        
         <div className="container-fluid mt-5">
             <div className="row">
@@ -121,7 +148,7 @@ function MinhasViagens() {
                 </div> 
             </div>    
             {viagens.length !== 0 ?
-                <ListagemMinhasViagens viagens={viagens} />
+                <ListagemMinhasViagens viagens={viagens} handleCallbackDeletar={handleCallbackDeletar} />
             :
                 <p className="mt-5" align="center">Não encotramos nenhuma Viagem.</p>
             }  
