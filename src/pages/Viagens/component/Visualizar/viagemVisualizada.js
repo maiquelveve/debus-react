@@ -27,7 +27,6 @@ function ViagemVisualizada({id}) {
                     setLoad(false)
 
                 } catch (error) {
-                    console.log(error)
                     AlertCatch('Ocorreu um erro ao buscar os dados no banco. Tente novamente mais tarde.')
                 }
             }
