@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MdBorderColor, MdDeleteForever } from 'react-icons/md';
 import { RiInformationLine } from 'react-icons/ri';
 
+import { ajusteValorFront } from '../../../../services/ajustesDados';
 import { AlertCatch } from '../../../../components/AlertasDefaultSistema';
 import { AlertDeletarViagem } from '../AlertsViagens';
 import Visualizar from '../Visualizar';
@@ -61,14 +62,8 @@ function ListagemMinhasViagens({viagens, handleCallbackDeletar}) {
                                             <td>{`${viagem.cidade_origem}/${viagem.estado_sigla_origem} - ${viagem.pais_sigla_origem}`}</td>
                                             <td>{`${viagem.cidade_destino}/${viagem.estado_sigla_destino} - ${viagem.pais_sigla_destino}`}</td>
                                             <td>{viagem.dt_data.split('-').reverse().join('/')}</td>
-                                            <td>
-                                                {
-                                                    viagem.vl_valor === 0 
-                                                    ? 
-                                                        'À COMBINAR' 
-                                                    : 
-                                                    new Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' }).format(viagem.vl_valor)
-                                                }
+                                            <td>{ ajusteValorFront(viagem.vl_valor) }
+                                                
                                             </td>
                                             <td>{viagem.qt_passageiro}</td>
                                             <td>{viagem.en_situacao.toUpperCase()}</td>

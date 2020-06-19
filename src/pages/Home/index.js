@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import api from '../../services/api';
+import { ajusteValorFront } from '../../services/ajustesDados';
 import { validaToken } from '../../services/auth';
-import { AlertCatch } from '../../components/AlertasDefaultSistema'
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 function Home() {
     const [viagens, setViagens] = useState([])
@@ -51,7 +52,7 @@ function Home() {
                                     <p className="card-text"><strong>Empresa:</strong> {viagem.st_nome}</p>
                                     <p className="card-text"><strong>Data:</strong> { viagem.dt_data.split('-').reverse().join('/') }</p>
                                     <p className="card-text"><strong>Hora:</strong> { viagem.hh_horario.substring(0,5) } </p>
-                                    <p className="card-text"><strong>Valor:</strong> { Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(viagem.vl_valor) }</p>
+                                    <p className="card-text"><strong>Valor:</strong> { ajusteValorFront(viagem.vl_valor) } </p>
                                 </div>
                                 <div className="card-footer text-center">
                                     <Link className="btn-lg btn btn-primary" to={`/viagens/reservar/${viagem.id}`}>Reservar</Link>

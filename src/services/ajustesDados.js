@@ -20,3 +20,15 @@ export const ajustaHoraFront = (hora, isMinuto, isSegundo) => {
 export const ajustaValorFront = valor => {
     return "R$ " + valor.toString().replace('.', ',')            
 }
+
+export const ajustaPlacaFront = valor => {
+    return valor.substring(0, 3) + '-' + valor.substring(3)
+}
+
+export const ajusteValorFront = valor => {
+    if(valor === 0) {
+        return 'À combinar'
+    }
+
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
+}
