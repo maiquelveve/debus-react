@@ -54,9 +54,7 @@ function Home() {
                                     <p className="card-text"><strong>Hora:</strong> { viagem.hh_horario.substring(0,5) } </p>
                                     <p className="card-text"><strong>Valor:</strong> { ajusteValorFront(viagem.vl_valor) } </p>
                                 </div>
-                                <div className="card-footer text-center">
-                                    <Link className="btn-lg btn btn-primary" to={`/viagens/reservar/${viagem.id}`}>Reservar</Link>
-                                </div>
+                                <BtnResevas viagem={viagem} />
                             </div>
                         </div>
                     ))
@@ -64,6 +62,40 @@ function Home() {
             </div>
         </div>
     );
+}
+
+function BtnResevas({viagem}) {
+    const [qtPassageirosViagem, setQtPassageirosViagem] = useState(0)
+
+    useEffect(
+        () => {
+            async function fetchData(id_viagem) {
+                try {
+                    const retornoApi = await api.get('/viagens_passageiros', { params: { id_viagem } });
+                    setQtPassageirosViagem(retornoApi.data.qt_passageiros_viagem)
+
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar a quantidade de vagas ocupadas no banco. Tente novamente mais tarde.')
+                }
+            }
+            fetchData(viagem.id)
+        },
+        [viagem.id]
+    )
+
+    if(viagem.vagas - qtPassageirosViagem <= 0) {
+        return(
+            <div className="card-footer text-center">
+                <Link className="btn-lg btn btn-danger disabled" >Esgotada</Link>
+            </div>
+        )    
+    }
+
+    return(
+        <div className="card-footer text-center">
+            <Link className="btn-lg btn btn-primary" to={`/viagens/reservar/${viagem.id}`}>Reservar</Link>
+        </div>
+    )
 }
 
 export default Home;
