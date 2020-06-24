@@ -40,7 +40,7 @@ function InformacoesViagens(props) {
             <div className="card-footer text-center">
                 <div className="row">
                     <div className="col-sm-12">
-                        <h3><strong>Vagas Disponíveis: </strong> 4</h3>
+                    <h3><strong>Vagas Disponíveis: </strong> {viagem.vagas_disponiveis} </h3>
                     </div>
                 </div>  
             </div>

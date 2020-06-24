@@ -25,18 +25,51 @@ function Reservar(props) {
     const [openAlertError, setOpenAlertError] = useState(false)
     const [resultado, setResultado] = useState([])
 
-    async function buscarPassageiros() {
-        try {
-            const params = { id_viagem: props.match.params.id }
-            const retornoApi = await api.get('passageiros', { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
-            setPassageiros(retornoApi.data)
+    const buscarPassageiros = useCallback(
+        () => {
+            async function buscarPassageiros() {
+                try {
+                    const params = { id_viagem: props.match.params.id }
+                    const retornoApi = await api.get('passageiros', { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
+                    setPassageiros(retornoApi.data)
+        
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao cadastrar os dados no banco. Tente novamente mais tarde.') 
+                }
+            }
+            buscarPassageiros()
+        },
+        [props.match.params.id]
+    )
 
-        } catch (error) {
-            AlertCatch('Ocorreu um erro ao cadastrar os dados no banco. Tente novamente mais tarde.') 
-        }
-    }
+    const refazerBuscaViagemAtualizada = useCallback(
+        () => {
+            async function buscarViagemAtualizada() {
+                try {
+                    const { id } = props.match.params
+                    let retornoApi = await api.get(`/viagens/reservar/${id}`)
+                    const retornoApiQtPassageiros = await api.get('/viagens_passageiros', { params: { id_viagem: id } });
+                    
+                    //Setando a quantidade de vagas disponiveis para reserva da viagem
+                    retornoApi.data[0].vagas_disponiveis = retornoApi.data[0].vagas - retornoApiQtPassageiros.data.qt_passageiros_viagem
+                    setViagem(retornoApi.data)
 
-    const refazerBuscaDosPassageiros = useCallback(buscarPassageiros, [])
+                } catch (error) {
+                    AlertCatch('Ocorreu um erro ao buscar os dados no banco para atualizar a viagem. Tente novamente mais tarde.')
+                }
+            }
+            buscarViagemAtualizada()
+        },
+        [props.match.params]
+    )
+
+    const refazerBuscaDosPassageiros = useCallback(
+        () => {
+            buscarPassageiros()
+            refazerBuscaViagemAtualizada()
+        }, 
+        [buscarPassageiros, refazerBuscaViagemAtualizada]
+    )    
 
     const abrirModalEditarPassageiro = useCallback(
         passageiro => {
@@ -56,7 +89,12 @@ function Reservar(props) {
 
                 try {
                     const { id } = props.match.params
-                    const retornoApi = await api.get(`/viagens/reservar/${id}`)
+                    let retornoApi = await api.get(`/viagens/reservar/${id}`)
+                    const retornoApiQtPassageiros = await api.get('/viagens_passageiros', { params: { id_viagem: id } });
+                    
+                    //Setando a quantidade de vagas disponiveis para reserva da viagem
+                    retornoApi.data[0].vagas_disponiveis = retornoApi.data[0].vagas - retornoApiQtPassageiros.data.qt_passageiros_viagem
+
                     refazerBuscaDosPassageiros()
                     setViagem(retornoApi.data)
                     setLoad(false)
@@ -101,11 +139,7 @@ function Reservar(props) {
                             abrirModalEditarPassageiro={abrirModalEditarPassageiro} 
                         />
                     </div>
-                    <div className="col-12 mt-3">
-                        <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
-                            + Passageiros
-                        </button> 
-                    </div>
+                    <BtnAddPassageiro setOpenModal={setOpenModal} openModal={openModal} vagas_disponiveis={viagem[0].vagas_disponiveis} />
                 </div> 
                         
                 <ModalAddPassageiros 
@@ -131,6 +165,20 @@ function Reservar(props) {
 
                 <AlertError open={openAlertError} setOpen={setOpenAlertError} messages={resultado} />
                 <AlertSuccess open={openAlertSuccess} setOpen={setOpenAlertSuccess} messages={'Passageiro Salvo!'} />
+            </div>
+        }
+        </>
+    )
+}
+
+function BtnAddPassageiro({setOpenModal, openModal, vagas_disponiveis}) {
+    return(
+        <>
+        {vagas_disponiveis > 0 &&
+            <div className="col-12 mt-3">
+                <button className='float-right btn btn-primary btn-lg' onClick={() => setOpenModal(!openModal) }>
+                    + Passageiros
+                </button> 
             </div>
         }
         </>
