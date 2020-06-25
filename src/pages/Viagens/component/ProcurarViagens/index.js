@@ -1,11 +1,18 @@
 import React, {useState, useCallback} from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import SearchSharpIcon from '@material-ui/icons/SearchSharp'
+
+import { makeStyles } from '@material-ui/core/styles';
 
 import DestinoProcurarViagem from '../DestinoProcurarViagem';
 import api from '../../../../services/api';
@@ -14,6 +21,17 @@ import { AlertCatch } from '../../../../components/AlertasDefaultSistema';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const useStyles = makeStyles((theme) => ({
+    appBar: {
+      position: 'relative',
+      backgroundColor: '#007bff'
+    },
+    title: {
+      marginLeft: theme.spacing(1),
+      flex: 1,
+    },
+}));
 
 function ProcurarViagens({open, setOpen, setRetornoPesquisa, setExibirLoading}) {
 
@@ -36,6 +54,8 @@ function ProcurarViagens({open, setOpen, setRetornoPesquisa, setExibirLoading}) 
         },
         [setOpen, setExibirLoading]
     )
+
+    const classes = useStyles();
 
     const handleProcurarViagem = useCallback(
         () => {
@@ -75,9 +95,18 @@ function ProcurarViagens({open, setOpen, setRetornoPesquisa, setExibirLoading}) 
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="form-dialog-title">Procurar Viagens</DialogTitle>
+                <AppBar className={classes.appBar}>
+                    <Toolbar>
+                        <Typography variant="h6" className={classes.title}>
+                            <DialogTitle id="form-dialog-title"> <SearchSharpIcon /> Procurar Viagens</DialogTitle>
+                        </Typography>
+                        <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                            <CloseIcon />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
                 <DialogContent>
-                    <form className={`text-center`} noValidate autoComplete="off">
+                    <form className={`text-center mt-5`} noValidate autoComplete="off">
                         <div className="form-row">
                             <div className="form-group col-6">
                                 <TextField
@@ -145,12 +174,9 @@ function ProcurarViagens({open, setOpen, setRetornoPesquisa, setExibirLoading}) 
                     </form>    
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Fechar
-                    </Button>
-                    <Button onClick={handleProcurarViagem} color="primary">
-                        Pesquisar
-                    </Button>
+                    <IconButton onClick={handleProcurarViagem} size="large">
+                        PESQUISAR
+                    </IconButton>
                 </DialogActions>
             </Dialog>
         </div>
