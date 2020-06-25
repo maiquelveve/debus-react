@@ -159,3 +159,58 @@ export function FacebookProgressMenus(props) {
       </div>
   );
 }
+
+//Loading que eh tipo o do FACEBOOK para os Pesquisas
+const useStylesFacebookPesquisas = makeStyles((theme) => ({
+  top: {
+      color: '#1a90ff',
+      animationDuration: '550ms',
+      position: 'relative',
+      left: 0,
+  },
+}));
+
+export function FacebookProgressPesquisa(props) {
+  const classes = useStylesFacebookPesquisas();
+
+  return (
+      <>
+        <div>
+            <CircularProgress
+                variant="indeterminate"
+                disableShrink
+                className={classes.top}
+                size={40}
+                thickness={4}
+                {...props}
+            />
+        </div>
+        <p>Procurando....</p>
+      </>
+  );
+}
+
+//Loading que eh tipo o do FACEBOOK para os SIMPLE 
+const useStylesFacebookSimple = makeStyles((theme) => ({
+  top: {
+      color: '#1a90ff',
+      animationDuration: '550ms',
+      position: 'relative',
+      left: 0,
+  },
+}));
+
+export function FacebookProgressSimple(props) {
+  const classes = useStylesFacebookSimple();
+
+  return (
+    <CircularProgress
+        variant="indeterminate"
+        disableShrink
+        className={classes.top}
+        size={40}
+        thickness={4}
+        {...props}
+    />
+  );
+}

@@ -15,7 +15,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function ProcurarViagens({open, setOpen, setRetornoPesquisa}) {
+function ProcurarViagens({open, setOpen, setRetornoPesquisa, setExibirLoading}) {
+
     const [dataInicial, setDataInicial] = useState('')
     const [dataFinal, setDataFinal] = useState('')
     const [empresa, setEmpresa] = useState('')
@@ -31,12 +32,14 @@ function ProcurarViagens({open, setOpen, setRetornoPesquisa}) {
     const handleClose = useCallback(
         () => {
             setOpen(false);
+            setExibirLoading(false)
         },
-        [setOpen]
+        [setOpen, setExibirLoading]
     )
 
     const handleProcurarViagem = useCallback(
         () => {
+            setExibirLoading(true)
             async function procurarViagem() {
                 try {
                     const params = { 
@@ -57,7 +60,7 @@ function ProcurarViagens({open, setOpen, setRetornoPesquisa}) {
             }
             procurarViagem()
         },
-        [dataInicial, dataFinal, empresa, idCidadeOrigem, idCidadeDestino, setRetornoPesquisa, handleClose]
+        [dataInicial, dataFinal, empresa, idCidadeOrigem, idCidadeDestino, setRetornoPesquisa, handleClose, setExibirLoading]
     )
 
     return (
