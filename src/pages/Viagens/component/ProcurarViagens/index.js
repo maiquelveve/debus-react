@@ -30,16 +30,6 @@ function ProcurarViagens({open, setOpen, setRetornoPesquisa}) {
 
     const handleClose = useCallback(
         () => {
-            setDataInicial('')
-            setDataFinal('')
-            setDataInicial('')
-            setDataFinal('')
-            setIdPaisOrigem(0)
-            setIdEstadoOrigem(0)
-            setIdCidadeOrigem(0)
-            setIdPaisDestino(0)
-            setIdEstadoDestino(0)
-            setIdCidadeDestino(0)
             setOpen(false);
         },
         [setOpen]
