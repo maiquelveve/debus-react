@@ -89,28 +89,30 @@ function ProcurarViagens({open, setOpen, setRetornoPesquisa}) {
                             </div>
                             <div className="form-group col-3">
                                 <TextField
-                                    className="form-control" 
-                                    margin="dense"
-                                    id="name"
-                                    label="Data Inicial"
-                                    type="email"
+                                    id="dateInicial"
+                                    label="Data Inical"
+                                    type="date"
                                     value={dataInicial}
                                     onChange={e => setDataInicial(e.target.value)}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
                             </div>
                             <div className="form-group col-3">
                                 <TextField
-                                    className="form-control" 
-                                    margin="dense"
-                                    id="name"
+                                    id="dateFinal"
                                     label="Data Final"
-                                    type="email"
+                                    type="date"
                                     value={dataFinal}
                                     onChange={e => setDataFinal(e.target.value)}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
                                 />
                             </div>    
                         </div> 
-                        <div className="form-row">
+                        <div className="form-row mt-2">
                             <div className="form-group col-12">
                                 <DestinoProcurarViagem 
                                     setIdPais = {setIdPaisOrigem}
