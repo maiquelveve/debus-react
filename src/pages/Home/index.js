@@ -4,9 +4,11 @@ import api from '../../services/api';
 import { ajusteValorFront } from '../../services/ajustesDados';
 import { validaToken } from '../../services/auth';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
+import ProcurarViagens from '../Viagens/component/ProcurarViagens';
 
 function Home() {
     const [viagens, setViagens] = useState([])
+    const [open, setOpen] = useState(false);
 
     useEffect(
         () => {
@@ -34,13 +36,15 @@ function Home() {
     return (
         <div className="container">
             <header className="jumbotron my-4">
-                <h1 className="display-3">A Warm Welcome!</h1>
-                <p className="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
-                <Link className="btn btn-primary btn-lg" to="/">Call to action!</Link>
+                <h1 className="display-3">Não encontrou o que procura!</h1>
+                <p className="lead">Melhore sua pesqusia clicando no botão a baixo.</p>
+                <div className="text-center">
+                    <Link className="btn btn-primary btn-lg" to="" onClick={() => setOpen(true) }>Procurar Viagens</Link>
+                </div>
             </header>
 
             <div className="row">
-                {viagens.length > 0 &&
+                {viagens.length > 0 ?
                     viagens.map( viagem => (
                         <div className="col-lg-4 col-md-6 col-sm-12 mb-4" key={viagem.id}>
                             <div className="card h-100">
@@ -58,8 +62,12 @@ function Home() {
                             </div>
                         </div>
                     ))
+                :   
+                    <p> Não foram encontradas viagens.</p>
                 }                        
             </div>
+
+            <ProcurarViagens open={open} setOpen={setOpen} setRetornoPesquisa={setViagens}/>
         </div>
     );
 }
@@ -86,7 +94,7 @@ function BtnResevas({viagem}) {
     if(viagem.vagas - qtPassageirosViagem <= 0) {
         return(
             <div className="card-footer text-center">
-                <Link className="btn-lg btn btn-danger disabled" >Esgotada</Link>
+                <Link className="btn-lg btn btn-danger disabled" to={""} >Esgotada</Link>
             </div>
         )    
     }
