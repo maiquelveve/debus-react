@@ -4,6 +4,10 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Usuarios/login';
 import CadastrarUsuarios from './pages/Usuarios/cadastrar';
+
+import PerfilUsuarios from './pages/Usuarios/perfil';
+import TrocaSenhaUsuarios from './pages/Usuarios/trocar_senha';
+
 import ReservarViagens from './pages/Viagens/reservar';
 import ListarViagens from './pages/Viagens/listar';
 import CadastrarViagens from './pages/Viagens/cadastrar';
@@ -51,6 +55,8 @@ function Routes() {
             
             <Route exact path="/usuarios/login" component={Login} />
             <Route exact path="/usuarios/cadastrar" component={CadastrarUsuarios} />
+            <PrivateRoute exact path="/usuarios/perfil" component={PerfilUsuarios} />
+            <PrivateRoute exact path="/usuarios/trocar_senha" component={TrocaSenhaUsuarios} />
 
             <Route path="*" component={Erro} />
         </Switch>

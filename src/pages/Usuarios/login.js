@@ -52,6 +52,7 @@ function Login({history}) {
                     if(validacao.success !== 0) {
                         localStorage.userToken = validacao.token
                         localStorage.userActive = JSON.stringify(validacao.usuario)
+                        localStorage.userNameDebus = validacao.usuario.st_nome
                         window.location.href ='/';
                         
                     } else {

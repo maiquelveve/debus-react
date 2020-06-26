@@ -174,7 +174,7 @@ function ProcurarViagens({open, setOpen, setRetornoPesquisa, setExibirLoading}) 
                     </form>    
                 </DialogContent>
                 <DialogActions>
-                    <IconButton onClick={handleProcurarViagem} size="large">
+                    <IconButton onClick={handleProcurarViagem} size="medium">
                         PESQUISAR
                     </IconButton>
                 </DialogActions>
