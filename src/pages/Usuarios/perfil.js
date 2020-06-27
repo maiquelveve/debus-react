@@ -1,28 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {FaUserEdit} from 'react-icons/fa';
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Debus
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import api from '../../services/api';
+import { AlertCatch } from '../../components/AlertasDefaultSistema';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: '#007bff',
+        width: theme.spacing(10),
+        height: theme.spacing(10),
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -47,15 +37,50 @@ const useStyles = makeStyles((theme) => ({
 export default function Perfil() {
     const classes = useStyles();
 
+    const [nome, setNome] = useState('')
+    const [email, setEmail] = useState('')
+
+    useEffect(
+        () => {
+            async function fetchData() {
+                try {
+                    const retornoApi = await api.get('usuarios/buscar_por_token', { headers:{auth: localStorage.userToken}, validateStatus: status => status < 500 })
+                    setNome(retornoApi.data.st_nome)
+                    setEmail(retornoApi.data.st_email)
+                    
+                } catch (error) {
+                    AlertCatch('Ocorreu algum erro ao buscar os dados do usuario no banco de dados. Tente novamente mais tarde!')
+                }
+            }
+            fetchData()
+        },
+        []
+    )
+
+    const handleAtualizarPerfil = useCallback(
+        e => {
+            e.preventDefault()
+            async function atualizarPerfil() {
+                const data ={
+                    st_nome: nome,
+                    st_email: email
+                }
+                console.log(data)
+            } 
+            atualizarPerfil()
+        },
+        [nome, email]
+    )
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <FaUserEdit size={25} />
+                    <FaUserEdit size={45} />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Maiquel Leites
+                    {localStorage.userNameDebus}
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -67,6 +92,8 @@ export default function Perfil() {
                                 fullWidth
                                 id="nome"
                                 label="Nome"
+                                value={nome}
+                                onChange={ e => setNome(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -77,6 +104,8 @@ export default function Perfil() {
                                 label="Email"
                                 name="email"
                                 autoComplete="email"
+                                value={email}
+                                onChange={ e => setEmail(e.target.value)}
                             />
                         </Grid>
                     </Grid>
@@ -86,14 +115,12 @@ export default function Perfil() {
                         color="primary"
                         variant="contained"
                         className={classes.submit}
+                        onClick={handleAtualizarPerfil}
                     >
                         Salvar
                     </Button>
                 </form>
             </div>
-            <Box mt={5}>
-                <Copyright />
-            </Box>
         </Container>
     );
     }
