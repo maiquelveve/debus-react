@@ -6,7 +6,7 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export const AlertSuccess = ({setOpen, open, messages}) => {
+export const AlertSuccess = ({setOpen, open, messages, messageShowPosition}) => {
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -15,7 +15,7 @@ export const AlertSuccess = ({setOpen, open, messages}) => {
     };
 
     return(
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={messageShowPosition}>
             <Alert onClose={handleClose} severity="success">
                 {messages}
             </Alert>
@@ -23,7 +23,7 @@ export const AlertSuccess = ({setOpen, open, messages}) => {
     )
 }
 
-export const AlertError = ({setOpen, open, messages}) => {
+export const AlertError = ({setOpen, open, messages, messageShowPosition}) => {
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -43,7 +43,7 @@ export const AlertError = ({setOpen, open, messages}) => {
     }
     
     return(
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={messageShowPosition}>
             <Alert onClose={handleClose} severity="error">
                 <ul>
                     { erros.map( erro =>  (
