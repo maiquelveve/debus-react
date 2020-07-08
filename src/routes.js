@@ -15,6 +15,7 @@ import EditarViagens from './pages/Viagens/editar';
 import MinhasViagens from './pages/Viagens/minhas_viagens';
 import CadastrarEmpresas from './pages/Empresas/cadastrar';
 import EditarEmpresas from './pages/Empresas/editar';
+import PesquisarEmpresas from './pages/Empresas/pesquisar';
 import ListarEmpresas from './pages/Empresas/listar';
 import CadastrarVeiculos from './pages/Veiculos/cadastrar';
 import EditarVeiculos from './pages/Veiculos/editar';
@@ -45,6 +46,7 @@ function Routes() {
             <PrivateRoute exact path="/viagens/reservar/:id" component={ReservarViagens} />
             <PrivateRoute exact path="/viagens/minhas_viagens" component={MinhasViagens} />
             
+            <ControleAcessoRoute exact path="/empresas/pesquisar" perfilAutorizado='A' component={PesquisarEmpresas} />
             <ControleAcessoRoute exact path="/empresas/listar" perfilAutorizado='E' component={ListarEmpresas} />
             <ControleAcessoRoute exact path="/empresas/editar/:id" perfilAutorizado='E' component={EditarEmpresas} />
             <ControleAcessoRoute exact path="/empresas/cadastrar" perfilAutorizado='E' component={CadastrarEmpresas} />
