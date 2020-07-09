@@ -24,7 +24,7 @@ function Pesquisar() {
                 async function renovarPesquisar() {
                     try {
                         const params = {st_nome: nome, st_recefi: recefi, ch_ativo: ativa}
-                        const retornoApi = await api.get('/empresas', { params, headers:{'auth': localStorage.userToken}},{validateStatus: status => status < 500});    
+                        const retornoApi = await api.get('/empresas/pesquisar', { params, headers:{'auth': localStorage.userToken}, validateStatus: status => status < 500});    
                         setEmpresas(retornoApi.data)    
         
                     } catch (error) {

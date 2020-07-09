@@ -21,9 +21,6 @@ function MenusLiberados({handleSair}) {
                 <Link className="nav-link active" to="/viagens/pesquisar">Viagens</Link>
             </li>
             <li className="nav-item">
-                <Link className="nav-link active" to="/locaisReferencias/pesquisar">Locais</Link>
-            </li>
-            <li className="nav-item">
                 <div className="dropdown">
                     <a className="nav-link active dropdown-toggle" href="/" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {localStorage.userNameDebus}

@@ -19,6 +19,7 @@ import PesquisarEmpresas from './pages/Empresas/pesquisar';
 import ListarEmpresas from './pages/Empresas/listar';
 import CadastrarVeiculos from './pages/Veiculos/cadastrar';
 import EditarVeiculos from './pages/Veiculos/editar';
+import PesquisarVeiculos from './pages/Veiculos/pesqusiar';
 import ListarVeiculos from './pages/Veiculos/listar';
 import CadastrarLocaisRefrencias from './pages/LocaisReferencias/cadastrar';
 import EditarLocaisRefrencias from './pages/LocaisReferencias/editar';
@@ -51,9 +52,10 @@ function Routes() {
             <ControleAcessoRoute exact path="/empresas/editar/:id" perfilAutorizado='E' component={EditarEmpresas} />
             <ControleAcessoRoute exact path="/empresas/cadastrar" perfilAutorizado='E' component={CadastrarEmpresas} />
             
+            <ControleAcessoRoute exact path="/veiculos/pesquisar" perfilAutorizado='E' component={PesquisarVeiculos} />
+            <ControleAcessoRoute exact path="/veiculos/listar" perfilAutorizado='E' component={ListarVeiculos} />
             <ControleAcessoRoute exact path="/veiculos/cadastrar" perfilAutorizado='E' component={CadastrarVeiculos} />
             <ControleAcessoRoute exact path="/veiculos/editar/:id" perfilAutorizado='E' component={EditarVeiculos} />
-            <ControleAcessoRoute exact path="/veiculos/listar" perfilAutorizado='E' component={ListarVeiculos} />
             
             <Route exact path="/usuarios/login" component={Login} />
             <Route exact path="/usuarios/cadastrar" component={CadastrarUsuarios} />

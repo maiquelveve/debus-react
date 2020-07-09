@@ -18,7 +18,6 @@ function EmpresaVisualizar({id}) {
                     setCelular(retornoApi.data.st_cel)
 
                 } catch (error) {
-                    console.log(error)
                     AlertCatch('Hovem algum problema ao buscar a empresa tente novamente mais tarde. Servidor com Erro 500')
                 }
             }
