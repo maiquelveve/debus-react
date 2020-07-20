@@ -13,6 +13,7 @@ import ListarViagens from './pages/Viagens/listar';
 import CadastrarViagens from './pages/Viagens/cadastrar';
 import EditarViagens from './pages/Viagens/editar';
 import MinhasViagens from './pages/Viagens/minhas_viagens';
+import PesquisarViagens from './pages/Viagens/pesquisar';
 import CadastrarEmpresas from './pages/Empresas/cadastrar';
 import EditarEmpresas from './pages/Empresas/editar';
 import PesquisarEmpresas from './pages/Empresas/pesquisar';
@@ -41,6 +42,7 @@ function Routes() {
             <ControleAcessoRoute exact path="/locaisReferencias/listar" perfilAutorizado='E' component={ListarLocaisReferencias} />
             <ControleAcessoRoute exact path="/locaisReferencias/editar/:id" perfilAutorizado='E' component={EditarLocaisRefrencias} />
             
+            <ControleAcessoRoute exact path="/viagens/pesquisar" perfilAutorizado='A' component={PesquisarViagens} />
             <ControleAcessoRoute exact path="/viagens/listar" perfilAutorizado='E' component={ListarViagens} />
             <ControleAcessoRoute exact path="/viagens/cadastrar" perfilAutorizado='E' component={CadastrarViagens} />
             <ControleAcessoRoute exact path="/viagens/editar/:id" perfilAutorizado='E' component={EditarViagens} />
