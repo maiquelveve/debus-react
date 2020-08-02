@@ -18,15 +18,12 @@ function ViagemVisualizada({id}) {
             async function fetchData() {
                 try {
                     const retornoApi = await api.get(`/viagens/visualizar/${id}`)
-
-                    const params = { id_viagem: id }
-                    const retornoApiPassageiros = await api.get('passageiros', { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
                     
-                    //Para poder calcular o numero de vagas disponivel, pq GET passageiros busca so os passageiros do usuario logado
-                    const retornoApiTodosPassageiros = await api.get('/passageiros/buscarTodos', { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
-
+                    const params = { id_viagem: id }
+                    const retornoApiPassageiros = await api.get('/passageiros/buscarTodos', { params, headers:{ auth: localStorage.userToken }, validateStatus: status => status < 500 })
+                    
                     //Add o numero de vagas disponivel na viagem
-                    retornoApi.data[0].vagas_disponiveis = retornoApi.data[0].vagas - retornoApiTodosPassageiros.data.length
+                    retornoApi.data[0].vagas_disponiveis = retornoApi.data[0].vagas - retornoApiPassageiros.data.length
 
                     setPassageiros(retornoApiPassageiros.data)
                     setViagem(retornoApi.data)

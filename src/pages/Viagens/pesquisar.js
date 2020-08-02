@@ -6,7 +6,7 @@ import { validaToken }  from '../../services/auth';
 import { AlertCatch } from '../../components/AlertasDefaultSistema';
 import api from '../../services/api';
 
-import ListagemMinhasViagens from './component/ListagemViagens/listagemMinhasViagens';
+import ListagemViagensAdm from './component/ListagemViagensAdm';
 import DestinosViagens from './component/DestinoProcurarViagem';
 
 function Pesquisar() {
@@ -18,7 +18,9 @@ function Pesquisar() {
     const [idPaisOrigem, setIdPaisOrigem] = useState(0)
     const [idEstadoOrigem, setIdEstadoOrigem] = useState(0)
     const [idCidadeOrigem, setIdCidadeOrigem] = useState(0)
-    const [idReferenciaOrigem, setIdReferenciaOrigem] = useState(0)
+    const [idPaisDestino, setIdPaisDestino] = useState(0)
+    const [idEstadoDestino, setIdEstadoDestino] = useState(0)
+    const [idCidadeDestino, setIdCidadeDestino] = useState(0)
     
     useEffect(
         () => {
@@ -43,50 +45,26 @@ function Pesquisar() {
                     const params = {
                         en_situacao: situacao, 
                         dt_data: data.split('/').reverse().join('-'),
-                        nr_id_local_referencia_origem: idReferenciaOrigem
+                        st_nome: empresa,
+                        id_cidade_origem: idCidadeOrigem,
+                        id_cidade_destino: idCidadeDestino
+                        
                     }
-                    const retornoApi = await api.get('/viagens/minhas_viagens', {params, headers:{'auth': localStorage.userToken}, validateStatus: status => status < 500})
+                    const retornoApi = await api.get('/viagens/pesquisar', {params, headers:{'auth': localStorage.userToken}, validateStatus: status => status < 500})
                     setViagens(retornoApi.data)
 
                     //Faz scroll até o inicio do resultado da pesquisa
-                    window.scroll(0,265)
+                    window.scroll(0,1317)
                     
                 } catch (error) {
-                    await AlertCatch('Houveram problemas ao listar as Viagens. Tente novamente.')                
+                    await AlertCatch('Houveram problemas ao pesquisar as Viagens. Tente novamente.')                
                 }
              }
              pesquisarViagens()
         },
-        [data, situacao, idReferenciaOrigem]
+        [data, situacao, empresa, idCidadeOrigem, idCidadeDestino]
     )
 
-    const reafazerPesquisa = useCallback(
-        () => {
-            setViagens([])
-
-            async function reafazerPesquisa() {
-                try {
-                    const params = {
-                        en_situacao: situacao, 
-                        dt_data: data.split('/').reverse().join('-'),
-                        nr_id_local_referencia_origem: idReferenciaOrigem
-                    }
-                    const retornoApi = await api.get('/viagens/minhas_viagens', {params, headers:{'auth': localStorage.userToken}, validateStatus: status => status < 500})
-                    setViagens(retornoApi.data)
-
-                    //Faz scroll até o inicio do resultado da pesquisa
-                    window.scroll(0,265)
-                    
-                } catch (error) {
-                    await AlertCatch('Houveram problemas ao listar as Viagens. Tente novamente.')                
-                }
-             }
-             reafazerPesquisa()
-        },
-        [data, situacao, idReferenciaOrigem]
-    )
-    const handleCallbackDeletar = useCallback( () => { reafazerPesquisa() }, [reafazerPesquisa])
-        
     return (        
         <div className="container-fluid mt-5">
             <div className="row">
@@ -141,11 +119,19 @@ function Pesquisar() {
                                     idEstado = {idEstadoOrigem}
                                     setIdCidade = {setIdCidadeOrigem}   
                                     idCidade = {idCidadeOrigem} 
-                                    idReferencia = {idReferenciaOrigem}
-                                    setIdReferencia = {setIdReferenciaOrigem}     
                                     deslocamento = "Origem"                                                  
                                 />
-                                
+
+                                <DestinosViagens 
+                                    handleLimparMsg = {() => {}}
+                                    setIdPais = {setIdPaisDestino}
+                                    idPais = {idPaisDestino}
+                                    setIdEstado = {setIdEstadoDestino}
+                                    idEstado = {idEstadoDestino}
+                                    setIdCidade = {setIdCidadeDestino}   
+                                    idCidade = {idCidadeDestino} 
+                                    deslocamento = "Destino"                                                  
+                                />
                                 <div className="form-row text-center">
                                     <div className="form-group col-sm-2 text-center">
                                         <button type="submit" className="mt-2 form-control btn btn-success">
@@ -159,7 +145,7 @@ function Pesquisar() {
                 </div> 
             </div>    
             {viagens.length !== 0 ?
-                <ListagemMinhasViagens viagens={viagens} handleCallbackDeletar={handleCallbackDeletar} />
+                <ListagemViagensAdm viagens={viagens} />
             :
                 <p className="mt-5" align="center">Não encotramos nenhuma Viagem.</p>
             }  

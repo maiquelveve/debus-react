@@ -34,7 +34,7 @@ function MenusLiberados({handleSair}) {
                         <MdMoreVert size={20} />                        
                     </a>
                     <div className="dropdown-menu dropdown-menu-right text-center" aria-labelledby="dropdownMenuButton">
-                        <h6 class="dropdown-header">{NomeUsusario}</h6>
+                        <h6 className="dropdown-header">{NomeUsusario}</h6>
                         <div className="dropdown-divider"></div>
                         <Link className="dropdown-item" to="/viagens/minhas_viagens">Minhas Viagens</Link>
                         <Link className="dropdown-item" to="/usuarios/perfil" >Meu Perfil</Link> 
@@ -66,7 +66,7 @@ function MenusLiberados({handleSair}) {
                         <MdMoreVert size={20} />
                     </a>
                     <div className="dropdown-menu dropdown-menu-right text-center" aria-labelledby="dropdownMenuButton">
-                        <h6 class="dropdown-header">{NomeUsusario}</h6>
+                        <h6 className="dropdown-header">{NomeUsusario}</h6>
                         <div className="dropdown-divider"></div>
                         <Link className="dropdown-item" to="/viagens/minhas_viagens">Minhas Viagens</Link>
                         <Link className="dropdown-item" to="/usuarios/perfil" >Meu Perfil</Link> 
@@ -89,7 +89,7 @@ function MenusLiberados({handleSair}) {
                         <MdMoreVert size={20} />
                     </a>
                     <div className="dropdown-menu dropdown-menu-right text-center" aria-labelledby="dropdownMenuButton">
-                        <h6 class="dropdown-header">{NomeUsusario}</h6>
+                        <h6 className="dropdown-header">{NomeUsusario}</h6>
                         <div className="dropdown-divider"></div>
                         <Link className="dropdown-item" to="/usuarios/perfil" >Meu Perfil</Link> 
                         <Link className="dropdown-item" to="/usuarios/trocar_senha" >Trocar Senha</Link> 
